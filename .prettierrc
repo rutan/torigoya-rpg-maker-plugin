@@ -1,0 +1,15 @@
+{
+  "parser": "babel",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "singleQuote": true,
+  "arrowParens": "always",
+  "overrides": [
+    {
+      "files": "*.yml",
+      "options": {
+        "parser": "yaml"
+      }
+    }
+  ]
+}
