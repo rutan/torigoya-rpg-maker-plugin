@@ -35,7 +35,7 @@ export default function applyTemplate(options = {}) {
                 const name = path.basename(chunk.facadeModuleId, '.js');
                 const date = process.env.NODE_ENV === 'production' ? (await getLatestDate(chunk)) : new Date();
                 const help = fs.readFileSync(path.resolve(chunk.facadeModuleId, '..', '_build', `${name}_header.js`), 'utf-8');
-                const config = YAML.parse(fs.readFileSync(path.resolve(chunk.facadeModuleId, '..', `${name}.yml`), 'utf-8'));
+                const config = YAML.parse(fs.readFileSync(path.resolve(chunk.facadeModuleId, '..', 'config.yml'), 'utf-8'))[name];
 
                 if (chunk.fileName && config.version) {
                     chunk.fileName = `${chunk.fileName.replace(/\.js$/, '')}_v${config.version.replace(/\./g, '_')}.js`;
