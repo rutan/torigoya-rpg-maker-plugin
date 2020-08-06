@@ -3,6 +3,7 @@ const prettier = require('prettier');
 
 const prettierConfig = path.resolve(__dirname, '..', '..', '.prettierrc');
 function generateParameterReader(config) {
+  console.log(1);
   const state = { paramMap: new Map(), useFunctions: new Set() };
   config.parameter.forEach((param) => {
     tracePickerFromParameter(config, param, 'parameter', state);

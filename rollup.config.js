@@ -7,25 +7,27 @@ import replace from '@rollup/plugin-replace';
 import applyTemplate from './extensions/rollup/rollup-apply-template';
 
 const config = glob.sync(path.join(__dirname, 'src', 'entries', '*', '*', 'Torigoya*.js')).map((input) => {
-    return {
-        input,
-        output: {
-            file: `_dist/${path.basename(input)}`,
-            format: 'iife'
-        },
-        plugins: [
-            resolve(),
-            commonjs(),
-            babel(),
-            replace({
-                globalThis: 'window',
-                __entryFileName: JSON.stringify(path.basename(input).replace(/\.[^\.]+$/, ''))
-            }),
-            applyTemplate({
-                template: path.resolve(__dirname, 'src', 'templates', 'plugin.ejs')
-            })
-        ]
-    };
+  return {
+    input,
+    output: {
+      file: `_dist/${path.basename(input)}`,
+      format: 'iife',
+    },
+    plugins: [
+      resolve(),
+      commonjs(),
+      babel({
+        babelHelpers: 'bundled',
+      }),
+      replace({
+        globalThis: 'window',
+        __entryFileName: JSON.stringify(path.basename(input).replace(/\.[^\.]+$/, '')),
+      }),
+      applyTemplate({
+        template: path.resolve(__dirname, 'src', 'templates', 'plugin.ejs'),
+      }),
+    ],
+  };
 });
 
 export default config;
