@@ -1,19 +1,17 @@
 const fs = require('fs');
 const path = require('path');
-const YAML = require('yaml');
 const mkdirp = require('mkdirp');
+const { loadConfig } = require('../utils/loadConfig');
 
 const { generateHeader } = require('./generateHeader');
 const { generateParameterReader } = require('./generateParameterReader');
 
 async function generateFromConfig(file) {
-  const config = YAML.parse(fs.readFileSync(file, 'utf-8'));
+  const config = loadConfig(file);
   const distDir = path.resolve(file, '..', '_build');
   mkdirp.sync(distDir);
 
-  for (let key in Object.keys(config)) {
-    if (!key.match(/^[A-Z]/)) continue;
-
+  for (let key of Object.keys(config)) {
     const currentConfig = config[key];
     fs.writeFileSync(path.resolve(distDir, `${key}_header.js`), generateHeader(currentConfig));
 
@@ -22,6 +20,7 @@ async function generateFromConfig(file) {
   }
 
   console.log(`build config: ${file}`);
+  console.log('');
 }
 
 module.exports = {

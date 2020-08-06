@@ -15,17 +15,19 @@ function generateHeader(config) {
       const lines = [];
 
       // info
+      if (config.target) lines.push(`@target ${config.target}`);
       lines.push(`@plugindesc ${config.title[lang]}${config.version ? ` (v.${config.version})` : ''}`);
       lines.push(`@author ${(config.author || defaultConfig.author)[lang]}`);
       lines.push(`@license ${config.license || defaultConfig.license}`);
       if (config.version) lines.push(`@version ${config.version}`);
+      if (config.url) lines.push(`@url ${config.url}`);
       lines.push('@help');
       config.body[lang]
         .trim()
         .split(/\r?\n/)
         .forEach((l) => lines.push(l));
 
-      if (config.parameter && config.parameter.length > 0) {
+      if (config.parameter && Object.keys(config.parameter).length > 0) {
         lines.push('');
         lines.push(generateProperties(config.parameter, lang));
       }
@@ -37,24 +39,24 @@ function generateHeader(config) {
     .join('\n\n');
 
   // struct
-  const structures =
-    config.structure && config.structure.length > 0
-      ? locales
-          .map((lang, i) => {
-            return config.structure
-              .map((structure) => {
-                const lines = [];
+  const structures = config.structures
+    ? locales
+        .map((lang, i) => {
+          return Object.keys(config.structures)
+            .map((structureKey) => {
+              const structure = config.structures[structureKey];
+              const lines = [];
 
-                lines.push(generateProperties(structure.properties, lang));
+              lines.push(generateProperties(structure, lang));
 
-                return `/*~struct~${structure.name}:${i === 0 ? '' : lang}
+              return `/*~struct~${structureKey}:${i === 0 ? '' : lang}
  * ${lines.join('\n * ')}
  */`;
-              })
-              .join('\n\n');
-          })
-          .join('\n\n')
-      : '';
+            })
+            .join('\n\n');
+        })
+        .join('\n\n')
+    : '';
 
   return `${descriptions}${structures ? `\n\n${structures}` : ''}`;
 }
@@ -62,11 +64,13 @@ function generateHeader(config) {
 function generateProperties(properties, lang) {
   const lines = [];
 
-  properties.forEach(({ name, dummy, key, desc, type, array, ...others }, i) => {
+  Object.keys(properties).forEach((key, i) => {
+    const { name, dummy, desc, type, array, ...others } = properties[key];
+
     if (i > 0) lines.push('');
 
     if (dummy) {
-      lines.push(`@param _${i}`);
+      lines.push(`@param ${key}`);
       if (typeof dummy === 'object') {
         lines.push(`@text ${dummy[lang]}`);
       } else {
@@ -77,15 +81,21 @@ function generateProperties(properties, lang) {
 
     lines.push(`@param ${key}`);
     if (name) lines.push(generateProp('text', lang, name));
-    if (desc) lines.push(generateProp('desc', lang, desc));
+    if (desc) {
+      generateMultilineProp('desc', lang, desc).forEach((line) => lines.push(line));
+    }
 
     if (type) {
-      lines.push(`@type ${type}${array ? '[]' : ''}`);
-      switch (type) {
-        case 'file':
-        case 'animation':
-          lines.push('@require true');
-          break;
+      if (type.match(/^[A-Z]/)) {
+        lines.push(`@type struct<${type}>${array ? '[]' : ''}`);
+      } else {
+        lines.push(`@type ${type}${array ? '[]' : ''}`);
+        switch (type) {
+          case 'file':
+          case 'animation':
+            lines.push('@require true');
+            break;
+        }
       }
     } else {
       lines.push('@type string');
@@ -95,7 +105,7 @@ function generateProperties(properties, lang) {
       const item = others[key];
       if (key === 'default' && array) {
         lines.push(generateProp(key, lang, JSON.stringify(item)));
-      } else if (key === 'items' && Array.isArray(item)) {
+      } else if (key === 'option' && Array.isArray(item)) {
         item.forEach((subItem) => {
           Object.keys(subItem).forEach((subKey) => {
             const subValue = subItem[subKey];
@@ -115,14 +125,28 @@ function generateProperties(properties, lang) {
 
 function generateProp(propName, lang, value, defaultValue = null) {
   if (typeof value === 'object') {
-    return `@${propName} ${value[lang]}`;
-  } else if (value) {
-    return `@${propName} ${value}`;
-  } else if (defaultValue) {
-    return `@${propName} ${defaultValue}`;
+    return `@${propName} ${value[lang].toString().replace(/\r?\n/g, '')}`;
+  } else if (value !== undefined) {
+    return `@${propName} ${value.toString().replace(/\r?\n/g, '')}`;
+  } else if (defaultValue !== undefined) {
+    return `@${propName} ${defaultValue.toString().replace(/\r?\n/g, '')}`;
   } else {
     return '';
   }
+}
+
+function generateMultilineProp(propName, lang, value, defaultValue = null) {
+  const valueResult = (() => {
+    if (typeof value === 'object') return value[lang];
+    else if (value !== undefined) return value;
+    else if (defaultValue !== undefined) return defaultValue;
+    else return '';
+  })()
+    .toString()
+    .trim()
+    .split(/\r?\n/);
+
+  return [`@${propName} ${valueResult.shift()}`, ...valueResult];
 }
 
 module.exports = {

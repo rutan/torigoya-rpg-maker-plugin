@@ -17,7 +17,7 @@ base: &base
 
       <MaxSlipDamage: 50> のように設定すると、
       毒で50ダメージまでしか受けなくなります。
-  parameter: []
+  parameter: {}
 
 Torigoya_MaxSlipDamageSetting:
   <<: *base

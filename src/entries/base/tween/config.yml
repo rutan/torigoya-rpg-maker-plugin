@@ -9,7 +9,8 @@ base: &base
       このプラグインはベースプラグインです。
       このプラグインを導入しただけでは特に何も起きません。
       Tweenアニメーション用の処理を追加します。
-  parameter: []
+  parameter: {}
 
 Torigoya_FrameTween:
   <<: *base
+  target: 'MV'

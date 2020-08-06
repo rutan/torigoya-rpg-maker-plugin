@@ -3,13 +3,18 @@ const prettier = require('prettier');
 
 const prettierConfig = path.resolve(__dirname, '..', '..', '.prettierrc');
 function generateParameterReader(config) {
-  console.log(1);
   const state = { paramMap: new Map(), useFunctions: new Set() };
-  config.parameter.forEach((param) => {
-    tracePickerFromParameter(config, param, 'parameter', state);
-  });
+
+  if (config.parameter) {
+    Object.keys(config.parameter).forEach((key) => {
+      const param = config.parameter[key];
+      tracePickerFromParameter(config, key, param, 'parameter', state);
+    });
+  }
 
   return prettier.resolveConfig(prettierConfig).then((options) => {
+    options.parser = 'babel';
+
     const code = `
 import { getPluginName } from '../../../../common/getPluginName';
 ${Array.from(state.useFunctions)
@@ -32,7 +37,6 @@ export function readParameter() {
 }
 
 const detectFuncFromType = (type) => {
-  if (!type) return;
   switch (type) {
     case 'boolean':
       return 'pickBooleanValueFromParameter';
@@ -57,6 +61,7 @@ const detectFuncFromType = (type) => {
     case 'select':
     case 'combo':
     case 'string':
+    case 'multiline_string':
     case 'note':
     case 'file':
     case '':
@@ -68,35 +73,54 @@ const detectFuncFromType = (type) => {
   }
 };
 
-function tracePickerFromParameter(config, param, paramName, state) {
+function tracePickerFromParameter(config, key, param, paramName, state) {
   if (!param.dummy) {
     let funcName = detectFuncFromType(param.type);
+
     if (funcName) {
       if (param.array) funcName += 'List';
 
       state.useFunctions.add(funcName);
-      state.paramMap.set(param.key, `${funcName}(${paramName}, ${JSON.stringify(param.key)})`);
+      state.paramMap.set(key, `${funcName}(${paramName}, ${JSON.stringify(key)})`);
     } else {
-      const structure = config.structure.find((structure) => structure.name === param.type);
+      const type = param.type;
+
+      const structure = config.structures[type];
       if (!structure) throw `unknown structure: ${param.type}`;
 
       const subState = { useFunctions: state.useFunctions, paramMap: new Map() };
-      structure.properties.forEach((subParam) => {
-        tracePickerFromParameter(config, subParam, `${paramName}.${param.key}`, subState);
+      Object.keys(structure).forEach((subKey) => {
+        const subParam = structure[subKey];
+        tracePickerFromParameter(config, subKey, subParam, `${paramName}.${key}`, subState);
       });
 
-      const code = `((parameter) => {
-                ${
-                  paramName.includes('.')
-                    ? ''
-                    : `if (typeof parameter === 'string') parameter = JSON.parse(parameter);\n`
-                }return {
-                    ${Array.from(subState.paramMap)
-                      .map(([k, v]) => `${k}: ${v}`)
-                      .join(',\n')}
-                };
-            })(${paramName}.${param.key})`;
-      state.paramMap.set(param.key, code);
+      if (param.array) {
+        const code = `((parameters) => {
+                  ${
+                    paramName.includes('.')
+                      ? ''
+                      : `if (typeof parameters === 'string') parameters = JSON.parse(parameters);\n`
+                  }return parameters.map((parameter) => ({
+                      ${Array.from(subState.paramMap)
+                        .map(([k, v]) => `${k}: ${v}`)
+                        .join(',\n')}
+                  }));
+              })(${paramName}.${key})`;
+        state.paramMap.set(key, code);
+      } else {
+        const code = `((parameter) => {
+                  ${
+                    paramName.includes('.')
+                      ? ''
+                      : `if (typeof parameter === 'string') parameter = JSON.parse(parameter);\n`
+                  }return {
+                      ${Array.from(subState.paramMap)
+                        .map(([k, v]) => `${k}: ${v}`)
+                        .join(',\n')}
+                  };
+              })(${paramName}.${key})`;
+        state.paramMap.set(key, code);
+      }
     }
   }
 

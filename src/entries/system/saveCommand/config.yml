@@ -75,7 +75,7 @@ base: &base
       SaveCommand remove last
 
       ※ ロード/セーブしていない場合はスロット1になります。
-  parameter: []
+  parameter: {}
 
 Torigoya_SaveCommand:
   <<: *base
