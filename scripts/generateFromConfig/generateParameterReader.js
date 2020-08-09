@@ -18,7 +18,7 @@ function generateParameterReader(config) {
     const code = `
 import { getPluginName } from '../../../../common/getPluginName';
 ${Array.from(state.useFunctions)
-  .map((n) => `import {${n}} from '../../../common/pickFromParameter/${n}'`)
+  .map((n) => `import {${n}} from '../../../../common/pickFromParameter/${n}'`)
   .join('\n')}
 
 export function readParameter() {

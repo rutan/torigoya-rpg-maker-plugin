@@ -14,3 +14,7 @@ base: &base
 Torigoya_FrameTween:
   <<: *base
   target: 'MV'
+
+TorigoyaMZ_FrameTween:
+  <<: *base
+  target: 'MZ'
