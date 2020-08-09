@@ -17,7 +17,7 @@ glob.sync(path.join(__dirname, '..', '_dist', '*.js')).forEach((file) => {
   }
 
   const name = path.basename(file);
-  const version = match[0].replace(/\./g, '_');
+  const version = match[0].replace(/\./g, '_').replace('v_', 'v');
   const nameWithVersion = `${name.replace(/\.[^\.]+$/, '')}_${version}.js`;
 
   const targetWithVersion = path.join(targetDir, nameWithVersion);
