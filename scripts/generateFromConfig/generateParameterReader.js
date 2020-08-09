@@ -91,29 +91,26 @@ function tracePickerFromParameter(config, key, param, paramName, state) {
       const subState = { useFunctions: state.useFunctions, paramMap: new Map() };
       Object.keys(structure).forEach((subKey) => {
         const subParam = structure[subKey];
-        tracePickerFromParameter(config, subKey, subParam, `${paramName}.${key}`, subState);
+        tracePickerFromParameter(config, subKey, subParam, `${paramName}`, subState);
       });
 
       if (param.array) {
         const code = `((parameters) => {
-                  ${
-                    paramName.includes('.')
-                      ? ''
-                      : `if (typeof parameters === 'string') parameters = JSON.parse(parameters);\n`
-                  }return parameters.map((parameter) => ({
-                      ${Array.from(subState.paramMap)
-                        .map(([k, v]) => `${k}: ${v}`)
-                        .join(',\n')}
-                  }));
+                  if (typeof parameters === 'string') parameters = JSON.parse(parameters);
+                  return parameters.map((parameter) => {
+                      if (typeof parameter === 'string') parameter = JSON.parse(parameter);
+                      return {
+                        ${Array.from(subState.paramMap)
+                          .map(([k, v]) => `${k}: ${v}`)
+                          .join(',\n')}
+                      };
+                  });
               })(${paramName}.${key})`;
         state.paramMap.set(key, code);
       } else {
         const code = `((parameter) => {
-                  ${
-                    paramName.includes('.')
-                      ? ''
-                      : `if (typeof parameter === 'string') parameter = JSON.parse(parameter);\n`
-                  }return {
+                  if (typeof parameter === 'string') parameter = JSON.parse(parameter);
+                  return {
                       ${Array.from(subState.paramMap)
                         .map(([k, v]) => `${k}: ${v}`)
                         .join(',\n')}

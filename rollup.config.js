@@ -17,6 +17,7 @@ const config = glob.sync(path.join(__dirname, 'src', 'entries', '*', '*', 'Torig
       resolve(),
       commonjs(),
       babel({
+        retainLines: true,
         babelHelpers: 'bundled',
       }),
       replace({
