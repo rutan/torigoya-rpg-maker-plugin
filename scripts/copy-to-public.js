@@ -10,14 +10,21 @@ if (!fs.statSync(targetDir).isDirectory()) {
 }
 
 glob.sync(path.join(__dirname, '..', '_dist', '*.js')).forEach((file) => {
-  console.log(file);
+  const content = fs.readFileSync(file, 'utf-8');
+  const match = content.match(/v\.\d+\.\d+\.\d+/);
+  if (!match || !match[0]) {
+    throw `cannot read 'version' : ${file}`;
+  }
+
   const name = path.basename(file);
+  const version = match[0].replace(/\./g, '_');
+  const nameWithVersion = `${name.replace(/\.[^\.]+$/, '')}_${version}.js`;
 
-  const targetCurrent = path.join(targetDir, name);
-  if (fs.existsSync(targetCurrent)) return;
+  const targetWithVersion = path.join(targetDir, nameWithVersion);
+  if (fs.existsSync(targetWithVersion)) return;
 
-  fs.copyFileSync(file, targetCurrent);
+  console.log(file);
 
-  const latestName = name.replace(/_v\d+_\d+_\d+\.js$/, '.js');
-  fs.copyFileSync(file, path.join(targetDir, latestName));
+  fs.copyFileSync(file, targetWithVersion);
+  fs.copyFileSync(file, path.join(targetDir, name));
 });
