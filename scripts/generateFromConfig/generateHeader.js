@@ -13,15 +13,30 @@ function generateHeader(config) {
   const descriptions = locales
     .map((lang, i) => {
       const lines = [];
+      const pluginName = `${config.title[lang]}${config.version ? ` (v.${config.version})` : ''}`;
 
       // info
       if (config.target) lines.push(`@target ${config.target}`);
-      lines.push(`@plugindesc ${config.title[lang]}${config.version ? ` (v.${config.version})` : ''}`);
+      lines.push(`@plugindesc ${pluginName}`);
       lines.push(`@author ${(config.author || defaultConfig.author)[lang]}`);
       lines.push(`@license ${config.license || defaultConfig.license}`);
       if (config.version) lines.push(`@version ${config.version}`);
       if (config.url) lines.push(`@url ${config.url}`);
+      ['base', 'orderAfter', 'orderBefore'].forEach((key) => {
+        const items = config[key];
+        if (!items) return;
+        if (Array.isArray(items)) {
+          items.forEach((item) => {
+            lines.push(`@${key} ${item}`);
+          });
+        } else {
+          lines.push(`@${key} ${items}`);
+        }
+      });
+
       lines.push('@help');
+      lines.push(pluginName);
+      lines.push('');
       config.body[lang]
         .trim()
         .split(/\r?\n/)
@@ -30,6 +45,25 @@ function generateHeader(config) {
       if (config.parameter && Object.keys(config.parameter).length > 0) {
         lines.push('');
         lines.push(generateProperties(config.parameter, lang));
+      }
+
+      // commands
+      if (config.commands) {
+        Object.keys(config.commands)
+          .map((commandKey) => {
+            const command = config.commands[commandKey];
+            lines.push('');
+            lines.push(`@command ${commandKey}`);
+            lines.push(generateProp('text', lang, command['name']));
+            lines.push(generateProp('desc', lang, command['desc']));
+
+            if (command.parameter) {
+              lines.push('');
+              // :(
+              lines.push(generateProperties(command.parameter, lang).replace('@param ', '@arg '));
+            }
+          })
+          .join('\n\n');
       }
 
       return `/*:${i === 0 ? '' : lang}
@@ -58,7 +92,7 @@ function generateHeader(config) {
         .join('\n\n')
     : '';
 
-  return `${descriptions}${structures ? `\n\n${structures}` : ''}`;
+  return [descriptions, structures].filter(Boolean).join('\n\n');
 }
 
 function generateProperties(properties, lang) {
