@@ -313,6 +313,15 @@ Torigoya.Achievement2.Scene_Achievement = Scene_Achievement;
   }
 
   // -------------------------------------------------------------------------
+  // シーン管理
+
+  const upstream_Scene_Boot_onSceneTerminate = SceneManager.onSceneTerminate;
+  SceneManager.onSceneTerminate = function () {
+    Torigoya.Achievement2.PopupManager.reset();
+    upstream_Scene_Boot_onSceneTerminate.apply(this);
+  };
+
+  // -------------------------------------------------------------------------
   // 起動処理
 
   const upstream_Scene_Boot_create = Scene_Boot.prototype.create;

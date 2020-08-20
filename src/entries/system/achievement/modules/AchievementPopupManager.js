@@ -14,6 +14,7 @@ export class AchievementPopupManager {
     this._manager = manager;
     this._options = options;
     this._stacks = [];
+    this._stackAnimations = [];
     this._soundAnimator = null;
   }
 
@@ -28,7 +29,13 @@ export class AchievementPopupManager {
    * リセット処理
    */
   reset() {
+    this._stackAnimations.forEach((tween) => {
+      tween.abort();
+    });
+    this._stacks.forEach(this.destroyPopupWindow.bind(this));
+
     this._stacks.length = 0;
+    this._stackAnimations.length = 0;
   }
 
   /**
@@ -70,7 +77,7 @@ export class AchievementPopupManager {
 
     const Easing = (Torigoya.FrameTween || Torigoya.Tween).Easing;
 
-    (Torigoya.FrameTween || Torigoya.Tween)
+    const tween = (Torigoya.FrameTween || Torigoya.Tween)
       .create(popupWindow, {
         x: x + popupWindow.width * (isLeftUp ? -1 : 1),
         y,
@@ -101,15 +108,13 @@ export class AchievementPopupManager {
       )
       .call(() => {
         this._stacks = this._stacks.filter((stack) => popupWindow !== stack);
-        if (popupWindow.parent) {
-          popupWindow.parent.removeChild(popupWindow);
-          if (typeof popupWindow.destroy === 'function') popupWindow.destroy();
-        }
-      })
-      .start();
+        this.destroyPopupWindow(popupWindow);
+      });
+    tween.start();
 
     this._stacks.push(popupWindow);
     this._stacks.sort((a, b) => a.y - b.y);
+    this._stackAnimations.push(tween);
 
     if (this._soundAnimator) {
       this._soundAnimator.abort();
@@ -165,5 +170,14 @@ export class AchievementPopupManager {
    */
   rightX() {
     return Graphics.width - 10;
+  }
+
+  /**
+   * ポップアップウィンドウの廃棄処理
+   * @param popupWindow
+   */
+  destroyPopupWindow(popupWindow) {
+    if (popupWindow.parent) popupWindow.parent.removeChild(popupWindow);
+    if (typeof popupWindow.destroy === 'function') popupWindow.destroy();
   }
 }
