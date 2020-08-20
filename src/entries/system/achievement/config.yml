@@ -255,7 +255,7 @@ base: &base
     ja: |
       実績・トロフィー的なシステムを定義します。
       使用方法の詳細は以下の記事をご確認ください。
-      https://torigoya-plugin.rutan.dev/system/achievement/
+      https://torigoya-plugin.rutan.dev/system/achievement2/
   parameter:
     <<: *parameterBase
   structures:
