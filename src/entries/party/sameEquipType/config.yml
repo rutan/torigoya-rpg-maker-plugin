@@ -25,3 +25,8 @@ base: &base
 
 Torigoya_SameEquipType:
   <<: *base
+  target: 'MV'
+
+TorigoyaMZ_SameEquipType:
+  <<: *base
+  target: 'MZ'

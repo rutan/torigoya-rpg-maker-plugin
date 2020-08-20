@@ -1,6 +1,6 @@
 import { Torigoya } from '../../../common/Torigoya';
 import { getPluginName } from '../../../common/getPluginName';
-import { readParameter } from './_build/Torigoya_SameEquipType_parameter';
+import { readParameter } from './_build/TorigoyaMZ_SameEquipType_parameter';
 
 Torigoya.SameEquipType = {
   name: getPluginName(),

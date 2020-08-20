@@ -260,6 +260,12 @@ base: &base
     <<: *parameterBase
   structures:
     <<: *structureBase
+
+Torigoya_Achievement2:
+  <<: *base
+  target: 'MV'
+  parameter:
+    <<: *parameterBase
     achievementMenuCancelMessage:
       parent: 'achievementMenu'
       name: '閉じるボタンのテキスト'
@@ -267,12 +273,6 @@ base: &base
         実績画面を閉じるボタンのテキスト
         空欄の場合は閉じるボタンを表示しません
       default: '閉じる'
-
-Torigoya_Achievement2:
-  <<: *base
-  target: 'MV'
-  parameter:
-    <<: *parameterBase
 
 TorigoyaMZ_Achievement2:
   <<: *base
