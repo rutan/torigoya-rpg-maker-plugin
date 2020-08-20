@@ -21,3 +21,8 @@ base: &base
 
 Torigoya_MaxSlipDamageSetting:
   <<: *base
+  target: 'MV'
+
+TorigoyaMZ_MaxSlipDamageSetting:
+  <<: *base
+  target: 'MZ'

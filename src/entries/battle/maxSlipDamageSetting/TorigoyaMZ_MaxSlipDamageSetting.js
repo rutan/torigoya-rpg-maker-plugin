@@ -1,6 +1,6 @@
 import { Torigoya } from '../../../common/Torigoya';
 import { getPluginName } from '../../../common/getPluginName';
-import { readParameter } from './_build/Torigoya_MaxSlipDamageSetting_parameter';
+import { readParameter } from './_build/TorigoyaMZ_MaxSlipDamageSetting_parameter';
 
 Torigoya.MaxSlipDamageSetting = {
   name: getPluginName(),
