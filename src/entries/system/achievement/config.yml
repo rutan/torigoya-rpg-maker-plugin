@@ -248,7 +248,7 @@ structureBase: &structureBase
       default: false
 
 base: &base
-  version: '0.0.0'
+  version: '1.0.0'
   title:
     ja: '実績プラグイン'
   body:
