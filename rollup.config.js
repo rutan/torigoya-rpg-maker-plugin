@@ -28,6 +28,10 @@ const config = glob.sync(path.join(__dirname, 'src', 'entries', '*', '*', 'Torig
         template: path.resolve(__dirname, 'src', 'templates', 'plugin.ejs'),
       }),
     ],
+    onwarn(warning, warn) {
+      if (warning.code === 'EVAL') return;
+      warn(warning);
+    },
   };
 });
 
