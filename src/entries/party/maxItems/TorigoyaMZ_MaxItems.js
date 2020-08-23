@@ -8,6 +8,9 @@ Torigoya.MaxItems = {
 };
 
 (() => {
+  // -------------------------------------------------------------------------
+  // Game_Party
+
   const upstream_Game_Party_maxItems = Game_Party.prototype.maxItems;
   Game_Party.prototype.maxItems = function (item) {
     const meta = item.meta['MaxItems'] || item.meta['最大所持数'];
@@ -22,4 +25,28 @@ Torigoya.MaxItems = {
       return upstream_Game_Party_maxItems.apply(this, arguments);
     }
   };
+
+  // アイテム全体の個数が上限に収まるように調整
+  Game_Party.prototype.torigoyaAdjustAllItemSize = function () {
+    this.items().forEach((item) => {
+      this._items[item.id] = this.numItems(item).clamp(0, this.maxItems(item));
+    });
+
+    this.weapons().forEach((item) => {
+      this._weapons[item.id] = this.numItems(item).clamp(0, this.maxItems(item));
+    });
+
+    this.armors().forEach((item) => {
+      this._armors[item.id] = this.numItems(item).clamp(0, this.maxItems(item));
+    });
+  };
+
+  // -------------------------------------------------------------------------
+  // プラグインコマンド
+
+  function commandAdjustItems() {
+    $gameParty.torigoyaAdjustAllItemSize();
+  }
+
+  PluginManager.registerCommand(Torigoya.MaxItems.name, 'adjustItems', commandAdjustItems);
 })();

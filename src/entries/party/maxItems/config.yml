@@ -1,5 +1,5 @@
 base: &base
-  version: '1.1.0'
+  version: '1.2.0'
   title:
     ja: 'アイテム上限数個別指定プラグイン'
   body:
@@ -37,3 +37,9 @@ Torigoya_MaxItems:
 TorigoyaMZ_MaxItems:
   <<: *base
   target: 'MZ'
+  commands:
+    adjustItems:
+      name: 'アイテム所持数の調整'
+      desc: |
+        最大所持数を超えたアイテムがある場合に
+        上限を超えないようにアイテムを自動で減らします
