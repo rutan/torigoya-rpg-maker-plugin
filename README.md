@@ -1,8 +1,11 @@
 # Torigoya RPG Maker Plugins
 
-> RPGツクール用のJavaScriptプラグイン
+> RPG ツクール用の JavaScript プラグイン
 
-- https://torigoya-plugin.rutan.dev
+- website
+  - https://torigoya-plugin.rutan.dev
+- release files
+  - https://github.com/rutan/torigoya-rpg-maker-plugin/tree/gh-pages
 
 ## How to build
 
