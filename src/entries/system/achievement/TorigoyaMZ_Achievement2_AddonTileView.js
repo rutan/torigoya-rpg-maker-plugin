@@ -14,24 +14,26 @@ Torigoya.Achievement2.Addons.TileView = {
 (() => {
   const Window_AchievementList = Torigoya.Achievement2.Window_AchievementList;
   const parameter = Torigoya.Achievement2.Addons.TileView.parameter;
-  const useCancelMessage = !!Torigoya.Achievement2.parameter.achievementMenuCancelMessage;
 
   const upstream_Window_AchievementList_initialize = Window_AchievementList.prototype.initialize;
   Window_AchievementList.prototype.initialize = function (rect) {
+    this._areaRect = rect;
     upstream_Window_AchievementList_initialize.apply(this, arguments);
+    this.resizeFittingItems();
+    this.refresh();
+  };
 
-    const { x, y, width, height } = rect;
+  Window_AchievementList.prototype.resizeFittingItems = function () {
+    const { x, y, width, height } = this._areaRect;
 
-    const h = useCancelMessage
-      ? Math.ceil((this.maxItems() - 1) / this.maxCols()) + 1
-      : Math.ceil(this.maxItems() / this.maxCols());
-
+    const h = Math.ceil(this.maxItems() / this.maxCols());
     this.width = Math.min(this.maxCols() * this.itemWidth() + this.padding * 2, width);
-    this.height = Math.min(h * this.itemHeight() + (h - 1) * this.rowSpacing() + this.padding * 2, height);
+    this.height = Math.max(
+      Math.min(h * this.itemHeight() + (h - 1) * this.rowSpacing() + this.padding * 2, height),
+      this.fittingHeight(1)
+    );
     this.x = x + (width - this.width) / 2;
     this.y = y + (height - this.height) / 2;
-
-    this.refresh();
   };
 
   Window_AchievementList.prototype.itemPadding = function () {
@@ -52,6 +54,12 @@ Torigoya.Achievement2.Addons.TileView = {
 
   Window_AchievementList.prototype.lineHeight = function () {
     return this.itemHeight();
+  };
+
+  const upstream_Window_AchievementList_drawAllItems = Window_AchievementList.prototype.drawAllItems;
+  Window_AchievementList.prototype.drawAllItems = function () {
+    this.resizeFittingItems();
+    upstream_Window_AchievementList_drawAllItems.apply(this);
   };
 
   Window_AchievementList.prototype.drawItem = function (index) {

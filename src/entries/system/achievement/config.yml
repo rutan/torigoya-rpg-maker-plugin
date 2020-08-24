@@ -1,3 +1,13 @@
+base: &base
+  version: '1.1.0'
+  title:
+    ja: '実績プラグイン'
+  body:
+    ja: |
+      実績・トロフィー的なシステムを定義します。
+      使用方法の詳細は以下の記事をご確認ください。
+      https://torigoya-plugin.rutan.dev/system/achievement2/
+
 parameterBase: &parameterBase
   base:
     dummy: '■ 基本設定'
@@ -246,20 +256,13 @@ structureBase: &structureBase
       on: '秘密にする'
       off: '秘密にしない'
       default: false
-
-base: &base
-  version: '1.0.1'
-  title:
-    ja: '実績プラグイン'
-  body:
-    ja: |
-      実績・トロフィー的なシステムを定義します。
-      使用方法の詳細は以下の記事をご確認ください。
-      https://torigoya-plugin.rutan.dev/system/achievement2/
-  parameter:
-    <<: *parameterBase
-  structures:
-    <<: *structureBase
+    note:
+      name: 'メモ'
+      desc: |
+        メモ欄です。
+        ツクールのメモ欄同様に使えます。
+      type: 'multiline_string'
+      default: ''
 
 Torigoya_Achievement2:
   <<: *base
@@ -273,10 +276,16 @@ Torigoya_Achievement2:
         実績画面を閉じるボタンのテキスト
         空欄の場合は閉じるボタンを表示しません
       default: '閉じる'
+  structures:
+    <<: *structureBase
 
 TorigoyaMZ_Achievement2:
   <<: *base
   target: 'MZ'
+  parameter:
+    <<: *parameterBase
+  structures:
+    <<: *structureBase
   commands:
     gainAchievement:
       name: '実績の獲得'
@@ -307,7 +316,7 @@ TorigoyaMZ_Achievement2:
         気をつけて使おう！
 
 addonTileViewBase: &addonTileViewBase
-  version: '0.0.0'
+  version: '1.1.0'
   title:
     ja: '実績プラグインアドオン: タイル表示'
   body:
@@ -343,6 +352,80 @@ Torigoya_Achievement2_AddonTileView:
 
 TorigoyaMZ_Achievement2_AddonTileView:
   <<: *addonTileViewBase
+  target: 'MZ'
+  base:
+    - 'TorigoyaMZ_Achievement2'
+  orderAfter:
+    - 'TorigoyaMZ_Achievement2'
+
+addonCategory: &addonCategoryBase
+  version: '1.1.0'
+  title:
+    ja: '実績プラグインアドオン: カテゴリ設定'
+  body:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      獲得した実績をカテゴリ別に表示するようにします。
+      カテゴリの分類はこのプラグインの設定で行ってください。
+  parameter:
+    base:
+      dummy: '■ 基本設定'
+    categories:
+      parent: 'base'
+      name: 'カテゴリ設定'
+      type: 'Category'
+      array: true
+      desc: |
+        カテゴリを設定します。
+        必要な個数追加してください。
+      default: []
+    position:
+      parent: 'base'
+      name: 'カテゴリ位置'
+      type: 'select'
+      option:
+        - name: '左（縦向き）'
+          value: 'left'
+        - name: '上（横向き）'
+          value: 'top'
+        - name: '右（縦向き）'
+          value: 'right'
+      desc: |
+        カテゴリリストの表示位置を設定します。
+      default: 'top'
+    maxCols:
+      parent: 'base'
+      name: '最大列数'
+      type: 'number'
+      desc: |
+        一度に表示するカテゴリの最大数
+        ※カテゴリ位置が「上」のときだけ有効
+      default: 4
+  structures:
+    Category:
+      name:
+        name: 'カテゴリ名'
+        desc: |
+          カテゴリの名前。
+          ここで設定した名前をメモ欄で指定してください。
+        type: 'string'
+        default: ''
+      prefix:
+        name: '自動割当のID命名規則'
+        desc: |
+          ここに設定した文字列で始まるIDの実績を
+          このカテゴリに自動割当します（空欄の場合は無し）
+        type: 'string'
+        default: ''
+
+Torigoya_Achievement2_AddonCategory:
+  <<: *addonCategoryBase
+  target: 'MV'
+
+TorigoyaMZ_Achievement2_AddonCategory:
+  <<: *addonCategoryBase
   target: 'MZ'
   base:
     - 'TorigoyaMZ_Achievement2'

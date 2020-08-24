@@ -205,7 +205,7 @@ class Window_AchievementList extends Window_Selectable {
 
   refresh() {
     this.makeItemList();
-    this.drawAllItems();
+    this.paint();
   }
 
   updateHelp() {

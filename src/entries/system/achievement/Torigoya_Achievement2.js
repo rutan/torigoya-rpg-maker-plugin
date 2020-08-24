@@ -150,10 +150,12 @@ class Window_AchievementList extends Window_Selectable {
     this.refresh();
   }
 
+  isRequireCancel() {
+    return !!Torigoya.Achievement2.parameter.achievementMenuCancelMessage;
+  }
+
   maxItems() {
-    return (
-      (this._data ? this._data.length : 0) + (Torigoya.Achievement2.parameter.achievementMenuCancelMessage ? 1 : 0)
-    );
+    return (this._data ? this._data.length : 0) + (this.isRequireCancel() ? 1 : 0);
   }
 
   item() {
@@ -203,6 +205,7 @@ class Window_AchievementList extends Window_Selectable {
 
   refresh() {
     this.makeItemList();
+    this.createContents();
     this.drawAllItems();
   }
 
@@ -234,13 +237,20 @@ class Scene_Achievement extends Scene_MenuBase {
     super.create();
     this.createHelpWindow();
 
-    const wy = this._helpWindow.y + this._helpWindow.height;
-    const wh = Graphics.boxHeight - wy;
-    this._listWindow = new Window_AchievementList(0, wy, Graphics.boxWidth, wh);
+    const rect = this.listWindowRect();
+    this._listWindow = new Window_AchievementList(rect.x, rect.y, rect.width, rect.height);
     this._listWindow.setHandler('ok', this.onListOk.bind(this));
     this._listWindow.setHandler('cancel', this.onListCancel.bind(this));
     this._listWindow.setHelpWindow(this._helpWindow);
     this.addWindow(this._listWindow);
+  }
+
+  listWindowRect() {
+    const wx = 0;
+    const wy = this._helpWindow.y + this._helpWindow.height;
+    const ww = Graphics.boxWidth;
+    const wh = Graphics.boxHeight - wy;
+    return new Rectangle(wx, wy, ww, wh);
   }
 
   start() {

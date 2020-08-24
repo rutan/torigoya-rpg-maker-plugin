@@ -53,7 +53,14 @@ export class AchievementManager {
    * 実績マスター情報の登録
    */
   setAchievements(achievements) {
-    this._achievements = achievements;
+    this._achievements = achievements.map((achievement) => {
+      if (achievement.note) {
+        DataManager.extractMetadata(achievement);
+      } else {
+        achievement.meta = {};
+      }
+      return achievement;
+    });
   }
 
   /**

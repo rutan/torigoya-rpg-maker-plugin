@@ -18,9 +18,16 @@ Torigoya.Achievement2.Addons.TileView = {
 
   const upstream_Window_AchievementList_initialize = Window_AchievementList.prototype.initialize;
   Window_AchievementList.prototype.initialize = function (x, y, width, height) {
+    this._areaRect = new Rectangle(x, y, width, height);
     upstream_Window_AchievementList_initialize.apply(this, arguments);
+    this.resizeFittingItems();
+    this.refresh();
+  };
 
-    const h = useCancelMessage
+  Window_AchievementList.prototype.resizeFittingItems = function () {
+    const { x, y, width, height } = this._areaRect;
+
+    const h = this.isRequireCancel()
       ? Math.ceil((this.maxItems() - 1) / this.maxCols()) + 1
       : Math.ceil(this.maxItems() / this.maxCols());
 
@@ -28,11 +35,9 @@ Torigoya.Achievement2.Addons.TileView = {
       this.maxCols() * this.itemWidth() + (this.maxCols() - 1) * this.spacing() + this.padding * 2,
       width
     );
-    this.height = Math.min(h * this.itemHeight() + this.padding * 2, height);
+    this.height = Math.max(Math.min(h * this.itemHeight() + this.padding * 2, height), this.fittingHeight(1));
     this.x = x + (width - this.width) / 2;
     this.y = y + (height - this.height) / 2;
-
-    this.refresh();
   };
 
   Window_AchievementList.prototype.maxCols = function () {
@@ -49,6 +54,12 @@ Torigoya.Achievement2.Addons.TileView = {
 
   Window_AchievementList.prototype.lineHeight = function () {
     return this.itemHeight();
+  };
+
+  const upstream_Window_AchievementList_drawAllItems = Window_AchievementList.prototype.drawAllItems;
+  Window_AchievementList.prototype.drawAllItems = function () {
+    this.resizeFittingItems();
+    upstream_Window_AchievementList_drawAllItems.apply(this);
   };
 
   Window_AchievementList.prototype.drawItem = function (index) {
@@ -74,41 +85,50 @@ Torigoya.Achievement2.Addons.TileView = {
     }
   };
 
-  // キャンセルボタン描画用の処理
-  if (useCancelMessage) {
-    const upstream_Window_AchievementList_itemRect = Window_AchievementList.prototype.itemRect;
-    Window_AchievementList.prototype.itemRect = function (index) {
-      const item = this._data[index];
-      if (item) return upstream_Window_AchievementList_itemRect.apply(this, arguments);
+  const upstream_Window_AchievementList_itemRect = Window_AchievementList.prototype.itemRect;
+  Window_AchievementList.prototype.itemRect = function (index) {
+    const item = this._data[index];
+    if (item || !this.isRequireCancel()) return upstream_Window_AchievementList_itemRect.apply(this, arguments);
 
-      const rect = new Rectangle();
-      rect.width = this.width - this.padding * 2;
-      rect.height = this.itemHeight();
-      rect.x = -this._scrollX;
-      rect.y = Math.ceil((this.maxItems() - 1) / this.maxCols()) * rect.height - this._scrollY;
-      return rect;
-    };
+    const rect = new Rectangle();
+    rect.width = this.width - this.padding * 2;
+    rect.height = this.itemHeight();
+    rect.x = -this._scrollX;
+    rect.y = Math.ceil((this.maxItems() - 1) / this.maxCols()) * rect.height - this._scrollY;
+    return rect;
+  };
 
-    Window_AchievementList.prototype.cursorUp = function (wrap) {
-      const index = this.index();
-      const maxItems = this.maxItems();
-      const maxCols = this.maxCols();
-      if (index === maxItems - 1) {
-        this.select(index - 1);
-      } else if (index >= maxCols || (wrap && maxCols === 1)) {
-        this.select((index - maxCols + maxItems) % maxItems);
-      }
-    };
+  const upstream_Window_AchievementList_cursorUp = Window_AchievementList.prototype.cursorUp;
+  Window_AchievementList.prototype.cursorUp = function (wrap) {
+    if (!this.isRequireCancel()) {
+      upstream_Window_AchievementList_cursorUp.apply(this, arguments);
+      return;
+    }
 
-    Window_AchievementList.prototype.cursorDown = function (wrap) {
-      const index = this.index();
-      const maxItems = this.maxItems();
-      const maxCols = this.maxCols();
-      if (index < maxItems - maxCols || (wrap && maxCols === 1)) {
-        this.select((index + maxCols) % maxItems);
-      } else {
-        this.select(maxItems - 1);
-      }
-    };
-  }
+    const index = this.index();
+    const maxItems = this.maxItems();
+    const maxCols = this.maxCols();
+    if (index === maxItems - 1) {
+      this.select(index - 1);
+    } else if (index >= maxCols || (wrap && maxCols === 1)) {
+      this.select((index - maxCols + maxItems) % maxItems);
+    }
+  };
+
+  const upstream_Window_AchievementList_cursorDown = Window_AchievementList.prototype.cursorDown;
+  Window_AchievementList.prototype.cursorDown = function (wrap) {
+    if (!this.isRequireCancel()) {
+      upstream_Window_AchievementList_cursorDown.apply(this, arguments);
+      return;
+    }
+
+    const index = this.index();
+    const maxItems = this.maxItems();
+    const maxCols = this.maxCols();
+    if (index < maxItems - maxCols || (wrap && maxCols === 1)) {
+      this.select((index + maxCols) % maxItems);
+    } else {
+      this.select(maxItems - 1);
+    }
+  };
 })();
