@@ -12,6 +12,11 @@ function loadConfig(configPath) {
     }
 
     const currentConfig = config[key];
+
+    if (!currentConfig.url) {
+      currentConfig.url = `https://raw.githubusercontent.com/rutan/torigoya-rpg-maker-plugin/gh-pages/${key}.js`;
+    }
+
     switch (currentConfig.target || 'MV') {
       case 'MV':
         convertConfigForMV(currentConfig);
