@@ -89,6 +89,27 @@ Torigoya.DisplayAnimationInFrontView = {
   };
 
   // -------------------------------------------------------------------------
+  // Sprite_AnimationMV
+
+  const upstream_Sprite_AnimationMV_updatePosition = Sprite_AnimationMV.prototype.updatePosition;
+  Sprite_AnimationMV.prototype.updatePosition = function () {
+    upstream_Sprite_AnimationMV_updatePosition.apply(this);
+
+    if (!$gameSystem.isSideView()) {
+      if (this._animation.position === 3) {
+        this.x = Graphics.width / 2;
+
+        const target = this._targets[0];
+        if (target && target instanceof Sprite_Actor) {
+          this.y = target.y;
+        } else {
+          this.y = Graphics.height / 2;
+        }
+      }
+    }
+  };
+
+  // -------------------------------------------------------------------------
   // Spriteset_Battle
 
   const upstream_Spriteset_Battle_createActors = Spriteset_Battle.prototype.createActors;

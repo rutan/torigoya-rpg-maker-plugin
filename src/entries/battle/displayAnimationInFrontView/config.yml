@@ -1,6 +1,6 @@
 TorigoyaMZ_DisplayAnimationInFrontView:
   target: 'MZ'
-  version: '1.0.0'
+  version: '1.0.1'
   title:
     ja: 'フロントビューで味方側にも戦闘アニメを表示プラグイン'
   body:
