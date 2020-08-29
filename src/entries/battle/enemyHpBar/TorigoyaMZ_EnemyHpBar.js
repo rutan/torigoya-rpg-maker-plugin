@@ -88,7 +88,7 @@ class Sprite_EnemyHpGauge extends Sprite_Gauge {
 
     super.updateTargetValue(value, maxValue);
 
-    if (oldDuration !== this._duration) {
+    if (oldDuration !== this._duration && BattleManager._phase !== '') {
       this._durationWait = this.durationWait();
     }
   }
