@@ -1,0 +1,138 @@
+base: &base
+  version: '1.0.0'
+  title:
+    ja: '敵にHPバーを表示プラグイン'
+  body:
+    ja: |
+      敵キャラにHPバーを表示します
+
+      ------------------------------------------------------------
+      ■ 使い方
+      ------------------------------------------------------------
+      このプラグインを入れるだけでOK！
+      細かい表示はプラグイン設定で変更できます。
+
+      ------------------------------------------------------------
+      ■ 敵キャラ個別にいろいろ設定したい！
+      ------------------------------------------------------------
+      いくつかの設定は、敵キャラのメモ欄に指定を書くことで変更できます。
+
+      ▼ 特定の敵キャラにはHPを表示したくない場合
+      <HPバー非表示>
+
+      ▼ 特定の敵キャラのHPゲージを横にずらしたい場合
+      <HPバーX: 100>
+
+      ※100の部分をずらす量に変えよう。マイナスだと左にいくよ
+
+      ▼ 特定の敵キャラのHPゲージを上下にずらしたい場合
+      <HPバーY: 100>
+
+      ※100の部分をずらす量に変えよう。マイナスだと上にいくよ
+
+      ▼ 特定の敵キャラのHPゲージの幅を変えたい場合
+      <HPバー幅: 320>
+
+      ▼ 特定の敵キャラのHPゲージの太さを変えたい場合
+      <HPバー高さ: 30>
+
+parameterBase: &parameterBase
+  base:
+    dummy: '■ 基本設定'
+  basePosition:
+    parent: 'base'
+    name: '表示場所'
+    type: 'select'
+    desc: |
+      ゲージを表示する場所を選択します
+    option:
+      - name: '敵画像の上'
+        value: 'top'
+      - name: '敵画像の下'
+        value: 'bottom'
+    default: 'top'
+  basePosX:
+    parent: 'base'
+    name: '位置:X'
+    type: 'number'
+    desc: |
+      ゲージの横方向の位置を調整します
+      マイナスだと左、プラスだと右にずれます
+    default: 0
+  basePosY:
+    parent: 'base'
+    name: '位置:Y'
+    type: 'number'
+    desc: |
+      ゲージの縦方向の位置を調整します
+      マイナスだと上、プラスだと下にずれます
+    default: 0
+  customize:
+    dummy: '■ 表示カスタマイズ'
+  customizeCondition:
+    parent: 'customize'
+    name: '表示条件'
+    type: 'select'
+    desc: |
+      いつゲージを表示するかを選択します
+    option:
+      - name: '常に表示'
+        value: 'always'
+      - name: '選択中・ダメージ中のみ'
+        value: 'selectOrDamage'
+    default: 'always'
+  customizeGaugeWidth:
+    parent: 'customize'
+    name: 'バーの幅'
+    type: 'number'
+    desc: |
+      HPバーの幅
+    min: 1
+    default: 100
+  customizeGaugeHeight:
+    parent: 'customize'
+    name: 'バーの高さ'
+    type: 'number'
+    desc: |
+      HPバーの高さ
+    min: 1
+    default: 10
+  customizeDrawLabel:
+    parent: 'customize'
+    name: 'HP数値'
+    type: 'boolean'
+    desc: |
+      HP数値を表示するか？
+    on: '表示する'
+    off: '表示しない'
+    default: 'true'
+  customizeLabelWidth:
+    parent: 'customize'
+    name: 'HPラベルの横幅'
+    type: 'number'
+    desc: |
+      HPのラベルエリアの横幅
+    min: 0
+    default: 20
+  customizeLabelFontSize:
+    parent: 'customize'
+    name: 'HPラベルの文字サイズ'
+    type: 'number'
+    desc: |
+      HPのラベルの文字サイズ
+    min: 1
+    default: 16
+  customizeValueFontSize:
+    parent: 'customize'
+    name: 'HP数値の文字サイズ'
+    type: 'number'
+    desc: |
+      HPの値の文字サイズ
+    min: 1
+    default: 20
+
+TorigoyaMZ_EnemyHpBar:
+  <<: *base
+  target: 'MZ'
+  parameter:
+    <<: *parameterBase
