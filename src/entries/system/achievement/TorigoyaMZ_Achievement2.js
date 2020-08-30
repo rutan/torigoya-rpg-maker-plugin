@@ -351,7 +351,7 @@ Torigoya.Achievement2.Scene_Achievement = Scene_Achievement;
     Torigoya.Achievement2.Manager.unlock(`${key}`.trim());
   }
 
-  function commandRemoveAchievement() {
+  function commandRemoveAchievement({ key }) {
     Torigoya.Achievement2.Manager.remove(`${key}`.trim());
   }
 
