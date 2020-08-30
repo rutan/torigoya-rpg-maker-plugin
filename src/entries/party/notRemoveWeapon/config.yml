@@ -1,0 +1,16 @@
+base: &base
+  version: '1.0.0'
+  title:
+    ja: '装備画面で武器は外せないようにするプラグイン'
+  body:
+    ja: |
+      武器を付け替えはできても、武器無しにはできないようにします
+  parameter: {}
+
+Torigoya_NotRemoveWeapon:
+  <<: *base
+  target: 'MV'
+
+TorigoyaMZ_NotRemoveWeapon:
+  <<: *base
+  target: 'MZ'
