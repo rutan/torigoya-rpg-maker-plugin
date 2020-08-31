@@ -179,6 +179,7 @@ const isQuickSkill = (item) => {
       }
 
       Torigoya.QuickSkill.originalSubject = null;
+      this._subject = null;
     }
   };
 
@@ -222,7 +223,6 @@ const isQuickSkill = (item) => {
 
         result = true;
         this._currentActor = member;
-        this._subject = member;
       } else {
         member.setActionState('waiting');
       }
