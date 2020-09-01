@@ -1,5 +1,5 @@
 base: &base
-  version: '1.0.0'
+  version: '1.0.1'
   title:
     ja: 'スキルコスト表示拡張プラグイン'
   body:
@@ -41,3 +41,5 @@ TorigoyaMZ_DrawSkillCost:
   target: 'MZ'
   parameter:
     <<: *parameterBase
+  orderAfter:
+    - 'HPConsumeSkill'
