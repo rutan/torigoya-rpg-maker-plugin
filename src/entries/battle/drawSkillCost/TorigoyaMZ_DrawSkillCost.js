@@ -51,7 +51,7 @@ Torigoya.DrawSkillCost = {
 
   Window_SkillList.prototype.torigoyaDrawSkillCost_costItems = function (skill) {
     const hpCost = typeof this._actor.skillHpCost === 'function' ? this._actor.skillHpCost(skill) : 0;
-    const mpCost = this._actor.skillMpCost(skill) * 1000;
+    const mpCost = this._actor.skillMpCost(skill);
     const tpCost = this._actor.skillTpCost(skill);
     return [
       tpCost ? { value: tpCost, label: TextManager.tpA, color: ColorManager.tpCostColor() } : false,
