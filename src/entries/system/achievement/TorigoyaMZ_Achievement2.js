@@ -324,9 +324,9 @@ Torigoya.Achievement2.Scene_Achievement = Scene_Achievement;
   // -------------------------------------------------------------------------
   // 起動処理
 
-  const upstream_Scene_Boot_create = Scene_Boot.prototype.create;
-  Scene_Boot.prototype.create = function () {
-    upstream_Scene_Boot_create.apply(this);
+  const upstream_Scene_Boot_onDatabaseLoaded = Scene_Boot.prototype.onDatabaseLoaded;
+  Scene_Boot.prototype.onDatabaseLoaded = function () {
+    upstream_Scene_Boot_onDatabaseLoaded.apply(this);
     ImageManager.loadSystem(Torigoya.Achievement2.parameter.popupWindowImage);
     Torigoya.Achievement2.Manager.init();
   };

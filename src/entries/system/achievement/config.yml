@@ -1,5 +1,5 @@
 base: &base
-  version: '1.1.2'
+  version: '1.2.0'
   title:
     ja: '実績プラグイン'
 
@@ -15,7 +15,7 @@ parameterBase: &parameterBase
   baseSaveSlot:
     parent: 'base'
     name: 'セーブデータのスロット名'
-    default: ''
+    default: 'achievement'
   popup:
     dummy: '■ ポップアップ設定'
   popupEnable:
