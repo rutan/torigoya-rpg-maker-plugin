@@ -12,6 +12,10 @@ export class Window_BattleBalloon extends Window_Base {
     this.close();
   }
 
+  loadWindowskin() {
+    this.windowskin = ImageManager.loadSystem(Torigoya.BalloonInBattle.parameter.balloonImage);
+  }
+
   resetFontSettings() {
     this.contents.fontFace = $gameSystem.mainFontFace();
     this.contents.fontSize = Torigoya.BalloonInBattle.parameter.balloonFontSize;

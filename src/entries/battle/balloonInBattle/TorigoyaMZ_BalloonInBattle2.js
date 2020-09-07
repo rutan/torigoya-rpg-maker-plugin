@@ -433,6 +433,15 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   };
 
   // --------------------------------------------------------------------------
+  // Scene_Boot
+
+  const upstream_Scene_Boot_loadSystemImages = Scene_Boot.prototype.loadSystemImages;
+  Scene_Boot.prototype.loadSystemImages = function () {
+    upstream_Scene_Boot_loadSystemImages.apply(this);
+    ImageManager.loadSystem(Torigoya.BalloonInBattle.parameter.balloonImage);
+  };
+
+  // --------------------------------------------------------------------------
   // DataManager
 
   const SAVE_KEY = 'torigoyaBalloonInBattle_actorTalkSetId';
