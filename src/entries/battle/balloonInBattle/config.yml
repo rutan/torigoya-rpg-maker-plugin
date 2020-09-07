@@ -1,0 +1,611 @@
+base: &base
+  version: '1.0.0'
+  title:
+    ja: '戦闘中セリフ表示プラグイン'
+  body:
+    ja: |
+      戦闘中にセリフを吹き出しでキャラクターの上に表示します。
+
+      ------------------------------------------------------------
+      ■ 使い方
+      ------------------------------------------------------------
+
+      (1) セリフセットを登録する
+
+      プラグイン設定からセリフセットを登録します。
+      「セリフセットの登録」を選択し、必要な分だけ登録してください。
+
+      ここで設定したセリフセットIDを後で使うため、
+      わかりやすい名前にすると良いです（例: プリシア用　など）
+
+      (2) アクターやエネミーにセリフセットを反映する
+
+      アクターやエネミーのメモ欄に、
+      以下のような書き方で使いたいセリフセットのIDを設定します。
+
+      <セリフセット: プリシア用>
+
+      これで設定は完了です。
+
+      ------------------------------------------------------------
+      ■ よくある質問
+      ------------------------------------------------------------
+      Q. フロントビューで味方のセリフが出ない…！
+
+      残念ながら、デフォルトでは出ません(´・ω・｀)
+      バトラーの位置にあわせて吹き出しが表示されているため、
+      いわゆる「XP風バトル」のようなプラグインの力が必要です。
+
+      例えば、以下のプラグインを一緒に使うことで、
+      フロントビューでも味方のセリフを表示できます・
+
+      フロントビューで味方側にも戦闘アニメを表示プラグイン
+      https://torigoya-plugin.rutan.dev/battle/displayAnimationInFrontView/
+
+      ----------
+
+      Q. セリフ全部登録しないとだめ？
+
+      使う分だけ登録すれば大丈夫です。
+      例えば「勝利時のセリフはいらないなぁ」と思ったら
+      勝利セリフは空っぽにしていても大丈夫です。
+
+      ----------
+
+      Q. スキルのセリフ入れたら防御のときにもしゃべって困る…
+
+      そのスキル専用のセリフを登録し、セリフの欄を空っぽにしてください。
+      例えば「防御（スキルID:2）」の場合は、
+      スキルのセリフ登録で「スキルのID： 2」にして、
+      セリフの欄は空っぽにすることで、
+      防御のときはしゃべらなくなります。
+
+      ----------
+
+      Q. スキルやアイテムのセリフにスキル名やアイテム名を入れたいです！
+
+      \skill や \item のように記入した部分が
+      自動的に使ったスキルやアイテムの名前になります。
+
+      ----------
+
+      Q. セリフの途中で色変えたりとかできますか？
+
+      できます！
+      普通の文章表示イベントと同様に \c[2] などを使うことができます。
+
+      ----------
+
+      Q. 拡張データって何？
+
+      このプラグインだけ使う場合は特に必要ないから無視して大丈夫だよ。
+      他のプラグインから、このプラグインの機能を拡張するために使う欄です。
+
+      ------------------------------------------------------------
+      ■ プロ向け
+      ------------------------------------------------------------
+
+      ● セリフの中に使える秘密の記法
+
+      いくつか秘密の記法があります。
+      が、状況によっては使えないこともあるためご注意ください。
+
+      \target
+      　スキルやアイテムを使う相手の名前が入ります
+      　全体スキルなどの場合は先頭の人の名前が入ります
+
+      \from
+      　スキルやアイテムを使ってきた相手の名前が入ります
+      　相手が特定できない場合は空欄になります
+      　※バトルイベントによるものなど
+
+      ----------
+
+      ● 吹き出しの位置(高さ)を調整する
+      アクターやエネミーのメモ欄に以下のように記述することで
+      吹き出しの位置を変えることができます。
+
+      <セリフ位置Y: -50>
+
+      マイナスの値を指定すると上方向に動きます。
+      なお、画面外にはみ出す場合は自動的に調整されます。
+
+      ----------
+
+      ● ゲーム中にセリフセットを切り替える
+
+      ゲーム中に特定のキャラが劇的な変貌を遂げるなど
+      セリフセットを切り替えたくなることもありますよね。
+
+      プラグインコマンドを使うことで、
+      ゲーム中にキャラに設定されている
+      セリフセットを別のものに切り替えることができます。
+      （この変更はセーブデータに反映されます）
+
+parameterBase: &parameterBase
+  base:
+    dummy: '■ 基本設定'
+  talkConfig:
+    parent: 'base'
+    name: 'セリフセットの登録'
+    type: 'TalkSet'
+    array: true
+    default: []
+  balloon:
+    dummy: '■ 表示設定'
+  balloonImage:
+    parent: 'balloon'
+    name: '吹き出し用の画像'
+    type: 'file'
+    dir: 'img/system'
+    desc: |
+      吹き出しに使用するウィンドウ画像を指定します
+    default: 'Window'
+  balloonFontSize:
+    parent: 'balloon'
+    name: '文字サイズ'
+    type: 'integer'
+    min: 1
+    desc: |
+      セリフの文字のサイズの標準値を指定します
+    default: 22
+  balloonPadding:
+    parent: 'balloon'
+    name: 'ウィンドウの余白'
+    type: 'integer'
+    min: 0
+    desc: |
+      吹き出しの余白の大きさを指定します
+    default: 8
+  balloonTail:
+    parent: 'balloon'
+    name: 'ウィンドウのしっぽ'
+    type: 'boolean'
+    on: '表示する'
+    off: '表示しない'
+    desc: |
+      しっぽ部分を表示するかどうか
+    default: true
+  balloonTailY:
+    parent: 'balloon'
+    name: 'しっぽの位置調整'
+    type: 'integer'
+    desc: |
+      しっぽ用の表示位置(高さ)を調整します
+      マイナスにすると上に移動します
+    default: 4
+  balloonActorY:
+    parent: 'balloon'
+    name: '味方吹き出しの位置調整'
+    type: 'integer'
+    desc: |
+      味方側の吹き出しの表示位置(高さ)を調整します
+      マイナスにすると上に移動します
+    default: 0
+  balloonEnemyY:
+    parent: 'balloon'
+    name: '敵の吹き出しの位置調整'
+    type: 'integer'
+    desc: |
+      敵側の吹き出しの表示位置(高さ)を調整します
+      マイナスにすると上に移動します
+    default: 0
+  advanced:
+    dummy: '■ 上級者設定'
+  advancedLifeTime:
+    parent: 'advanced'
+    name: '表示時間：通常'
+    type: 'integer'
+    min: -1
+    desc: |
+      通常のセリフの表示時間（ウェイト）を指定します
+      60＝1秒です
+    default: 90
+  advancedDamageLifeTime:
+    parent: 'advanced'
+    name: '表示時間：被ダメ'
+    type: 'integer'
+    min: -1
+    desc: |
+      被ダメージ系セリフの表示時間（ウェイト）を指定します
+      60＝1秒です
+    default: 30
+  advancedInputLifeTime:
+    parent: 'advanced'
+    name: '表示時間：行動選択'
+    type: 'integer'
+    min: -1
+    desc: |
+      行動選択セリフの表示時間（ウェイト）を指定します
+      60＝1秒です。-1の場合は別のセリフが出るまで消えません。
+    default: -1
+  advancedVictoryLifeTime:
+    parent: 'advanced'
+    name: '表示時間：勝利'
+    type: 'integer'
+    min: -1
+    desc: |
+      行動選択セリフの表示時間（ウェイト）を指定します
+      60＝1秒です。-1の場合は別のセリフが出るまで消えません。
+    default: -1
+
+structureBase: &structureBase
+  TalkSet:
+    id:
+      name: 'セリフセットID'
+      type: 'string'
+      desc: |
+        このセリフセットのIDを設定します(重複×)
+        このIDをアクターのメモ欄で使用します
+      default: ''
+    talk:
+      dummy: '■ セリフ'
+    talkBattleStart:
+      parent: 'talk'
+      name: '[セリフ] 戦闘開始'
+      type: 'TalkItemWithTroop'
+      array: true
+      desc: |
+        戦闘開始時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkVictory:
+      parent: 'talk'
+      name: '[セリフ] 勝利'
+      type: 'TalkItemWithTroop'
+      array: true
+      desc: |
+        戦闘勝利時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkInput:
+      parent: 'talk'
+      name: '[セリフ] 行動選択中'
+      type: 'TalkItemWithTroop'
+      array: true
+      desc: |
+        行動選択時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkUseSkill:
+      parent: 'talk'
+      name: '[セリフ] スキル'
+      type: 'TalkItemForSkill'
+      array: true
+      desc: |
+        スキル使用時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkUseItem:
+      parent: 'talk'
+      name: '[セリフ] アイテム'
+      type: 'TalkItemForItem'
+      array: true
+      desc: |
+        アイテム使用時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkDamage:
+      parent: 'talk'
+      name: '[セリフ] ダメージ'
+      type: 'TalkItemWithFrom'
+      array: true
+      desc: |
+        ダメージを受けた時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkDead:
+      parent: 'talk'
+      name: '[セリフ] 戦闘不能'
+      type: 'TalkItemWithTroop'
+      array: true
+      desc: |
+        戦闘不能時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkSubstitute:
+      parent: 'talk'
+      name: '[セリフ] 身代わりした'
+      type: 'TalkItemWithFrom'
+      array: true
+      desc: |
+        味方を身代わりした時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkProtected:
+      parent: 'talk'
+      name: '[セリフ] 身代わりされた'
+      type: 'TalkItemWithFrom'
+      array: true
+      desc: |
+        味方に身代わりされた時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkRecovery:
+      parent: 'talk'
+      name: '[セリフ] 回復'
+      type: 'TalkItemWithFrom'
+      array: true
+      desc: |
+        味方に回復された時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkRemoveState:
+      parent: 'talk'
+      name: '[セリフ] ステート回復'
+      type: 'TalkItemForState'
+      array: true
+      desc: |
+        味方にステートを回復された時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkMissed:
+      parent: 'talk'
+      name: '[セリフ] 敵攻撃がミス'
+      type: 'TalkItemWithFrom'
+      array: true
+      desc: |
+        敵の攻撃がミス時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkEvasion:
+      parent: 'talk'
+      name: '[セリフ] 敵攻撃を回避'
+      type: 'TalkItemWithFrom'
+      array: true
+      desc: |
+        敵の攻撃回避時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    talkCounter:
+      parent: 'talk'
+      name: '[セリフ] カウンター'
+      type: 'TalkItemWithFrom'
+      array: true
+      desc: |
+        敵にカウンター時に表示するセリフを登録します
+        複数登録時はどれか1つがランダムに表示されます
+    advanced:
+      dummy: '■ 拡張用'
+    talkAdvanced:
+      parent: 'advanced'
+      name: '拡張データ'
+      type: 'TalkItemAdvanced'
+      array: true
+      desc: |
+        拡張用データです。通常利用では設定は不要です。
+        アドオンプラグイン等から利用されます。
+    note:
+      name: 'メモ欄'
+      type: 'multiline_string'
+      desc: |
+        メモ欄です。
+        ツクールのメモ欄同様に使えます。
+      default: ''
+  TalkItemWithTroop:
+    message:
+      name: 'セリフ'
+      type: 'string'
+      desc: |
+        表示するセリフを入力してください
+        \n で改行ができます
+      default: ''
+    optional:
+      dummy: '■ オプション'
+    troopId:
+      parent: 'optional'
+      name: '対象のトループ'
+      type: 'troop'
+      desc: |
+        この戦闘でしか使用したくない！
+        という場合は指定してください
+      default: 0
+    note:
+      name: 'メモ欄'
+      type: 'multiline_string'
+      desc: |
+        メモ欄です。
+        ツクールのメモ欄同様に使えます。
+      default: ''
+  TalkItemWithFrom:
+    message:
+      name: 'セリフ'
+      type: 'string'
+      desc: |
+        表示するセリフを入力してください
+        \n で改行ができます
+      default: ''
+    optional:
+      dummy: '■ オプション'
+    actorId:
+      parent: 'optional'
+      name: '対象の相手(味方)'
+      type: 'actor'
+      desc: |
+        この味方からの時にしか使いたくない！
+        という場合は指定してください
+      default: 0
+    enemyId:
+      parent: 'optional'
+      name: '対象の相手(敵)'
+      type: 'enemy'
+      desc: |
+        この敵から時にしか使いたくない！
+        という場合は指定してください
+      default: 0
+    note:
+      name: 'メモ欄'
+      type: 'multiline_string'
+      desc: |
+        メモ欄です。
+        ツクールのメモ欄同様に使えます。
+      default: ''
+  TalkItemForSkill:
+    skillId:
+      name: 'スキルのID'
+      type: 'skill'
+      desc: |
+        このセリフを出すスキルを選択します。
+        なしの場合は未設定のスキルで使用します。
+      default: 0
+    message:
+      name: 'セリフ'
+      type: 'string'
+      desc: |
+        表示するセリフを入力してください
+        \n : 改行   \skill : スキル名
+      default: ''
+    optional:
+      dummy: '■ オプション'
+    actorId:
+      parent: 'optional'
+      name: '対象の相手(味方)'
+      type: 'actor'
+      desc: |
+        この味方がターゲットの時にしか使いたくない！
+        という場合は指定してください
+      default: 0
+    enemyId:
+      parent: 'optional'
+      name: '対象の相手(敵)'
+      type: 'enemy'
+      desc: |
+        この敵がターゲットの時にしか使いたくない！
+        という場合は指定してください
+      default: 0
+    note:
+      name: 'メモ欄'
+      type: 'multiline_string'
+      desc: |
+        メモ欄です。
+        ツクールのメモ欄同様に使えます。
+      default: ''
+  TalkItemForItem:
+    itemId:
+      name: 'アイテムのID'
+      type: 'item'
+      desc: |
+        このセリフを出すアイテムを選択します。
+        なしの場合は未設定のアイテムで使用します。
+      default: 0
+    message:
+      name: 'セリフ'
+      type: 'string'
+      desc: |
+        表示するセリフを入力してください
+        \n : 改行   \item : アイテム名
+      default: ''
+    optional:
+      dummy: '■ オプション'
+    actorId:
+      parent: 'optional'
+      name: '対象の相手(味方)'
+      type: 'actor'
+      desc: |
+        この味方がターゲットの時にしか使いたくない！
+        という場合は指定してください
+      default: 0
+    enemyId:
+      parent: 'optional'
+      name: '対象の相手(敵)'
+      type: 'enemy'
+      desc: |
+        この敵がターゲットの時にしか使いたくない！
+        という場合は指定してください
+      default: 0
+    note:
+      name: 'メモ欄'
+      type: 'multiline_string'
+      desc: |
+        メモ欄です。
+        ツクールのメモ欄同様に使えます。
+      default: ''
+  TalkItemForState:
+    stateId:
+      name: 'ステートのID'
+      type: 'state'
+      desc: |
+        このセリフを出すステートを選択します。
+        なしの場合は未設定のアイテムで使用します。
+      default: 0
+    message:
+      name: 'セリフ'
+      type: 'string'
+      desc: |
+        表示するセリフを入力してください
+        \n で改行ができます
+      default: ''
+    optional:
+      dummy: '■ オプション'
+    actorId:
+      parent: 'optional'
+      name: '対象の相手(味方)'
+      type: 'actor'
+      desc: |
+        この味方からの時にしか使いたくない！
+        という場合は指定してください
+      default: 0
+    enemyId:
+      parent: 'optional'
+      name: '対象の相手(敵)'
+      type: 'enemy'
+      desc: |
+        この敵から時にしか使いたくない！
+        という場合は指定してください
+      default: 0
+    note:
+      name: 'メモ欄'
+      type: 'multiline_string'
+      desc: |
+        メモ欄です。
+        ツクールのメモ欄同様に使えます。
+      default: ''
+  TalkItemAdvanced:
+    type:
+      name: '拡張タイプ'
+      type: 'string'
+      desc: |
+        このセリフの拡張タイプIDを指定します
+      default: ''
+    message:
+      name: 'セリフ'
+      type: 'string'
+      desc: |
+        表示するセリフを入力してください
+        \n で改行ができます
+      default: ''
+    note:
+      name: 'メモ欄'
+      type: 'multiline_string'
+      desc: |
+        メモ欄です。
+        ツクールのメモ欄同様に使えます。
+      default: ''
+
+TorigoyaMZ_BalloonInBattle2:
+  <<: *base
+  target: 'MZ'
+  parameter:
+    <<: *parameterBase
+  structures:
+    <<: *structureBase
+  commands:
+    changeTalkSet:
+      name: 'セリフセットの変更'
+      desc: |
+        セリフセットを別のものに変更します
+        変更内容はセーブデータに反映されます
+      parameter:
+        actorId:
+          type: 'actor'
+          name: 'アクター'
+          desc: |
+            セリフセットを変更するアクター
+          default: 0
+        talkSetId:
+          type: 'string'
+          name: 'セリフセットID'
+          desc: |
+            変更後のセリフセットのID
+            プラグイン設定で登録したものを指定してください
+          default: ''
+    resetTalkSet:
+      name: 'セリフセットの初期化'
+      desc: |
+        セリフセットをメモ欄で指定しているものに戻します
+      parameter:
+        actorId:
+          type: 'actor'
+          name: 'アクター'
+          desc: |
+            セリフセットをもとに戻すアクター
+          default: 0
+  orderBefore:
+    - 'TorigoyaMZ_DisplayAnimationInFrontView'

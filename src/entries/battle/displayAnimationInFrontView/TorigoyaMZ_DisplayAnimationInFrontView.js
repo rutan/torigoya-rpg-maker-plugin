@@ -149,6 +149,11 @@ Torigoya.DisplayAnimationInFrontView = {
         this.addChild(sprite);
       });
       this.addChild(this._spriteset._effectsContainer);
+
+      // for TorigoyaMZ_BalloonInBattle2
+      if (this._torigoyaBalloonInBattle_actorBalloonLayer) {
+        this.addChild(this._torigoyaBalloonInBattle_actorBalloonLayer);
+      }
     }
   };
 
@@ -165,6 +170,12 @@ Torigoya.DisplayAnimationInFrontView = {
     // タイムプログレス(アクティブ)の場合、
     // コマンド選択中にアクターの表示状態をあわせる
     this._spriteset._actorSprites.forEach((sprite) => (sprite.visible = this._statusWindow.visible));
+
+    // for TorigoyaMZ_BalloonInBattle2
+    if (this._torigoyaBalloonInBattle_actorBalloonLayer) {
+      this._torigoyaBalloonInBattle_actorBalloonLayer.visible =
+        this._statusWindow.visible && !this._statusWindow.isClosed();
+    }
   };
 
   // 独自処理

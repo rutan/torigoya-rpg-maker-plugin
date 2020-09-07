@@ -1,13 +1,14 @@
 TorigoyaMZ_DisplayAnimationInFrontView:
   target: 'MZ'
-  version: '1.0.1'
+  version: '1.1.0'
   title:
     ja: 'フロントビューで味方側にも戦闘アニメを表示プラグイン'
   body:
     ja: |
       RPGツクールMZのフロントビューにおいて、
       敵から味方への攻撃等では戦闘アニメが表示されません。
-      このプラグインはサイドビューの処理の一部をフロントビューでも動作させることで、
+      このプラグインはサイドビューの処理の一部を
+      フロントビューでも動作させることで、
       戦闘アニメが表示されるようにします。
 
       ------------------------------------------------------------
@@ -26,3 +27,5 @@ TorigoyaMZ_DisplayAnimationInFrontView:
       戦闘アニメの表示レイヤーを変更しているため、
       イベントコマンド「画面の色調変更」の影響を受けません。
   parameter: {}
+  orderAfter:
+    - 'TorigoyaMZ_BalloonInBattle2'

@@ -36,6 +36,7 @@ function generateHeader(config) {
 
       lines.push('@help');
       lines.push(pluginName);
+      lines.push('https://torigoya-plugin.rutan.dev');
       lines.push('');
       config.body[lang]
         .trim()
