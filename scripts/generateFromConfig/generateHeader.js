@@ -60,7 +60,7 @@ function generateHeader(config) {
             if (command.parameter) {
               lines.push('');
               // :(
-              lines.push(generateProperties(command.parameter, lang).replace('@param ', '@arg '));
+              lines.push(generateProperties(command.parameter, lang).replace(/@param\s+/g, '@arg '));
             }
           })
           .join('\n\n');

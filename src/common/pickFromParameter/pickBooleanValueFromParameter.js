@@ -1,3 +1,3 @@
-export function pickBooleanValueFromParameter(parameter, key) {
-  return `${parameter[key]}` === 'true';
+export function pickBooleanValueFromParameter(parameter, key, defaultValue = 'false') {
+  return `${parameter[key] || defaultValue}` === 'true';
 }

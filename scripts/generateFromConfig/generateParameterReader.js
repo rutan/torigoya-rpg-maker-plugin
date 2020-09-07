@@ -3,7 +3,14 @@ const prettier = require('prettier');
 
 const prettierConfig = path.resolve(__dirname, '..', '..', '.prettierrc');
 function generateParameterReader(config) {
-  const state = { paramMap: new Map(), useFunctions: new Set() };
+  const state = { paramMap: new Map(), useFunctions: new Set(), customPicker: [] };
+
+  if (config.structures) {
+    Object.keys(config.structures).forEach((key) => {
+      const structure = config.structures[key];
+      traceCustomPickerFromStructure(config, key, structure, state);
+    });
+  }
 
   if (config.parameter) {
     Object.keys(config.parameter).forEach((key) => {
@@ -20,6 +27,12 @@ import { getPluginName } from '../../../../common/getPluginName';
 ${Array.from(state.useFunctions)
   .map((n) => `import {${n}} from '../../../../common/pickFromParameter/${n}'`)
   .join('\n')}
+
+${state.customPicker
+  .map((code) => {
+    return code;
+  })
+  .join('\n\n')}
 
 export function readParameter() {
   const parameter = PluginManager.parameters(getPluginName());
@@ -82,40 +95,30 @@ function tracePickerFromParameter(config, key, param, paramName, state) {
       if (param.array) funcName += 'List';
 
       state.useFunctions.add(funcName);
-      state.paramMap.set(key, `${funcName}(${paramName}, ${JSON.stringify(key)})`);
+      state.paramMap.set(
+        key,
+        `${funcName}(${paramName}, ${JSON.stringify(key)}, ${
+          param.default === undefined ? undefined : JSON.stringify(param.default)
+        })`
+      );
     } else {
       const type = param.type;
 
       const structure = config.structures[type];
       if (!structure) throw `unknown structure: ${param.type}`;
 
-      const subState = { useFunctions: state.useFunctions, paramMap: new Map() };
-      Object.keys(structure).forEach((subKey) => {
-        const subParam = structure[subKey];
-        tracePickerFromParameter(config, subKey, subParam, `${paramName}`, subState);
-      });
-
       if (param.array) {
         const code = `((parameters) => {
+                  parameters = parameters || [];
                   if (typeof parameters === 'string') parameters = JSON.parse(parameters);
                   return parameters.map((parameter) => {
-                      if (typeof parameter === 'string') parameter = JSON.parse(parameter);
-                      return {
-                        ${Array.from(subState.paramMap)
-                          .map(([k, v]) => `${k}: ${v}`)
-                          .join(',\n')}
-                      };
+                      return pickStruct${type}(parameter);
                   });
               })(${paramName}.${key})`;
         state.paramMap.set(key, code);
       } else {
         const code = `((parameter) => {
-                  if (typeof parameter === 'string') parameter = JSON.parse(parameter);
-                  return {
-                      ${Array.from(subState.paramMap)
-                        .map(([k, v]) => `${k}: ${v}`)
-                        .join(',\n')}
-                  };
+                  return pickStruct${type}(parameter);
               })(${paramName}.${key})`;
         state.paramMap.set(key, code);
       }
@@ -123,6 +126,28 @@ function tracePickerFromParameter(config, key, param, paramName, state) {
   }
 
   return state;
+}
+
+function traceCustomPickerFromStructure(config, key, structure, state) {
+  const subState = { useFunctions: state.useFunctions, paramMap: new Map(), customPicker: state.customPicker };
+  Object.keys(structure).forEach((subKey) => {
+    const subParam = structure[subKey];
+    tracePickerFromParameter(config, subKey, subParam, 'parameter', subState);
+  });
+
+  const code = `
+    function pickStruct${key}(parameter) {
+      parameter = parameter || {};
+      if (typeof parameter === 'string') parameter = JSON.parse(parameter);
+      return {
+        ${Array.from(subState.paramMap)
+          .map(([k, v]) => `${k}: ${v}`)
+          .join(',\n')}
+      };
+    };
+  `;
+
+  state.customPicker.push(code);
 }
 
 module.exports = {
