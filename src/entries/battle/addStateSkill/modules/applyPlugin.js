@@ -29,9 +29,13 @@ export function applyPlugin() {
 
     if (forUnit) {
       const [addStates, removeStates] = forUnit;
-      addStates.forEach((id) => friends.forEach((battler) => battler.addState(id)));
-      removeStates.forEach((id) => friends.forEach((battler) => battler.removeState(id)));
-      friends.forEach((battler) => targets.add(battler));
+      friends.forEach((battler) => {
+        if (battler.isDead()) return;
+
+        addStates.forEach((id) => battler.addState(id));
+        removeStates.forEach((id) => battler.removeState(id));
+        targets.add(battler);
+      });
     }
 
     friends.forEach((battler) => {
