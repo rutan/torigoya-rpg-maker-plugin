@@ -17,8 +17,12 @@ function isMvProject(projectDir) {
 }
 
 function isMzProject(projectDir) {
-  // FIXME
-  return true;
+  try {
+    const projectType = fs.readFileSync(path.join(projectDir, 'Game.rmmzproject'), 'utf-8');
+    return projectType.startsWith('RPGMZ');
+  } catch (_) {
+    return false;
+  }
 }
 
 glob.sync(path.join(__dirname, '..', 'projects', '*')).forEach((projectDir) => {
