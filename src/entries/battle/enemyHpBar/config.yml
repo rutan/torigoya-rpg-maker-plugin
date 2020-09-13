@@ -1,5 +1,5 @@
 base: &base
-  version: '1.0.1'
+  version: '1.0.2'
   title:
     ja: '敵にHPバーを表示プラグイン'
   body:
@@ -54,7 +54,9 @@ parameterBase: &parameterBase
   basePosX:
     parent: 'base'
     name: '位置:X'
-    type: 'number'
+    type: 'integer'
+    min: -10000
+    max: 10000
     desc: |
       ゲージの横方向の位置を調整します
       マイナスだと左、プラスだと右にずれます
@@ -62,7 +64,9 @@ parameterBase: &parameterBase
   basePosY:
     parent: 'base'
     name: '位置:Y'
-    type: 'number'
+    type: 'integer'
+    min: -10000
+    max: 10000
     desc: |
       ゲージの縦方向の位置を調整します
       マイナスだと上、プラスだと下にずれます

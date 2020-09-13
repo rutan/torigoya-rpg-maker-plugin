@@ -124,7 +124,8 @@ function generateProperties(properties, lang) {
       if (type.match(/^[A-Z]/)) {
         lines.push(`@type struct<${type}>${array ? '[]' : ''}`);
       } else {
-        lines.push(`@type ${type}${array ? '[]' : ''}`);
+        const realType = convertType(type);
+        lines.push(`@type ${realType}${array ? '[]' : ''}`);
         switch (type) {
           case 'file':
           case 'animation':
@@ -156,6 +157,15 @@ function generateProperties(properties, lang) {
   });
 
   return lines.join('\n * ');
+}
+
+function convertType(type) {
+  switch (type) {
+    case 'integer':
+      return 'number';
+    default:
+      return type;
+  }
 }
 
 function generateProp(propName, lang, value, defaultValue = null) {

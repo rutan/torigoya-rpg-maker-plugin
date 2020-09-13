@@ -1,5 +1,5 @@
 base: &base
-  version: '1.0.0'
+  version: '1.0.1'
   title:
     ja: 'スキル発動前カットイン表示プラグイン'
   body:
@@ -102,6 +102,20 @@ base: &base
 
       こうすると、アイテムID:7のアイテムを使ったときに
       カットインが表示されるようになります。
+
+      ● マップでカットインを表示する
+
+      プラグインコマンドで呼び出すことができます。
+      なお、呼び出すカットインには
+      事前に呼び出し名を付けておく必要があります。
+      呼び出し名は、カットイン設定のメモ欄に以下のように記述してください。
+
+      <呼び出し名: myCutIn>
+
+      「myCutIn」の部分は好きな名前にしてください。
+      この名前をプラグインコマンドで指定することで、
+      マップでもカットインを表示できます。
+      呼び出し方法の詳細は解説ページをご覧ください。
 
 parameterBase: &parameterBase
   base:
@@ -256,6 +270,8 @@ structureCutInSetBase: &structureCutInSetBase
     parent: 'render'
     name: 'キャラ画像位置:X'
     type: 'integer'
+    min: -10000
+    max: 10000
     desc: |
       キャラ画像の表示位置（横方向）を調整します
       マイナスだと左、プラスだと右にずらします
@@ -264,6 +280,8 @@ structureCutInSetBase: &structureCutInSetBase
     parent: 'render'
     name: 'キャラ画像位置:Y'
     type: 'integer'
+    min: -10000
+    max: 10000
     desc: |
       キャラ画像の表示位置（縦方向）を調整します
       マイナスだと上、プラスだと下にずらします
