@@ -1,5 +1,5 @@
 base: &base
-  version: '1.0.2'
+  version: '1.1.0'
   title:
     ja: '敵にHPバーを表示プラグイン'
   body:
@@ -35,6 +35,19 @@ base: &base
 
       ▼ 特定の敵キャラのHPゲージの太さを変えたい場合
       <HPバー高さ: 30>
+
+      ▼ 敵キャラのHPの数値を「????」にしたい場合
+
+      <HP表示条件: false>
+
+      ▼ いや、HPが半分切ったら「????」じゃなくしたいな
+
+      <HP表示条件: a.hp < a.mhp * 0.5>
+
+      ダメージ計算式のような形式で条件を書くことができます。
+      （a には敵の情報が入ります。ただし b はありません）
+      条件が真になるとHPが数値で表示され、
+      偽の場合はプラグイン設定で指定したマスク文字（?????等）で表示されます。
 
 parameterBase: &parameterBase
   base:
@@ -88,7 +101,7 @@ parameterBase: &parameterBase
   customizeGaugeWidth:
     parent: 'customize'
     name: 'バーの幅'
-    type: 'number'
+    type: 'integer'
     desc: |
       HPバーの幅
     min: 1
@@ -96,7 +109,7 @@ parameterBase: &parameterBase
   customizeGaugeHeight:
     parent: 'customize'
     name: 'バーの高さ'
-    type: 'number'
+    type: 'integer'
     desc: |
       HPバーの高さ
     min: 1
@@ -113,7 +126,7 @@ parameterBase: &parameterBase
   customizeLabelWidth:
     parent: 'customize'
     name: 'HPラベルの横幅'
-    type: 'number'
+    type: 'integer'
     desc: |
       HPのラベルエリアの横幅
     min: 0
@@ -121,7 +134,7 @@ parameterBase: &parameterBase
   customizeLabelFontSize:
     parent: 'customize'
     name: 'HPラベルの文字サイズ'
-    type: 'number'
+    type: 'integer'
     desc: |
       HPのラベルの文字サイズ
     min: 1
@@ -129,11 +142,18 @@ parameterBase: &parameterBase
   customizeValueFontSize:
     parent: 'customize'
     name: 'HP数値の文字サイズ'
-    type: 'number'
+    type: 'integer'
     desc: |
       HPの値の文字サイズ
     min: 1
     default: 20
+  customizeMaskHpValue:
+    parent: 'customize'
+    name: 'HPのマスク表記'
+    type: 'string'
+    desc: |
+      HP数値を秘密にする場合の表示
+    default: '?????'
 
 TorigoyaMZ_EnemyHpBar:
   <<: *base

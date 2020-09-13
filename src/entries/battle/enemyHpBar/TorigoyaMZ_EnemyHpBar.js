@@ -1,6 +1,7 @@
 import { Torigoya } from '../../../common/Torigoya';
 import { getPluginName } from '../../../common/getPluginName';
 import { readParameter } from './_build/TorigoyaMZ_EnemyHpBar_parameter';
+import { unescapeMetaString } from '../../../common/utils/unescapeMetaString';
 
 Torigoya.EnemyHpBar = {
   name: getPluginName(),
@@ -25,6 +26,19 @@ function hpBarWidth(enemy) {
 
 function hpBarHeight(enemy) {
   return parseInt((enemy && (enemy.meta['hpBarHeight'] || enemy.meta['HPバー高さ'])) || 0, 10);
+}
+
+function isShowHpValueOfBattler(a) {
+  if (!a) return true;
+  const enemy = a.enemy();
+  const code = enemy.meta['hpShowCondition'] || enemy.meta['HP表示条件'] || '';
+  if (!code) return true;
+  try {
+    return !!eval(unescapeMetaString(code));
+  } catch (e) {
+    if ($gameTemp.isPlaytest()) console.error(e);
+    return false;
+  }
 }
 
 class Sprite_EnemyHpGauge extends Sprite_Gauge {
@@ -107,7 +121,18 @@ class Sprite_EnemyHpGauge extends Sprite_Gauge {
 
   drawValue() {
     if (!Torigoya.EnemyHpBar.parameter.customizeDrawLabel) return;
-    super.drawValue();
+    if (isShowHpValueOfBattler(this._battler)) {
+      super.drawValue();
+    } else {
+      this.drawMaskValue();
+    }
+  }
+
+  drawMaskValue() {
+    const width = this.bitmapWidth();
+    const height = this.bitmapHeight();
+    this.setupValueFont();
+    this.bitmap.drawText(Torigoya.EnemyHpBar.parameter.customizeMaskHpValue, 0, 0, width, height, 'right');
   }
 
   durationWait() {
