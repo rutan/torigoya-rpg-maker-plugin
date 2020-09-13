@@ -1,0 +1,546 @@
+base: &base
+  version: '1.0.0'
+  title:
+    ja: 'スキル発動前カットイン表示プラグイン'
+  body:
+    ja: |
+      このプラグインは「Tweenアニメーションプラグイン」が必要です。
+      Tweenアニメーションプラグインより下に入れてください。
+
+      指定スキルの発動前にカットインを表示する機能を追加します。
+
+      ------------------------------------------------------------
+      ■ 基本的な使い方
+      ------------------------------------------------------------
+
+      (1) カットイン用の共通画像を用意する
+
+      ・カットイン用の背景画像1
+      ・カットイン用の背景画像2
+      ・カットイン用の境界線画像
+
+      上記3種類の画像を用意して
+      ピクチャー用のフォルダ（img/pictures）に入れる必要があります。
+      以下のページで自由に使える画像素材を配布しています。
+
+      https://torigoya-plugin.rutan.dev/battle/skillCutIn
+
+      (2) カットイン用のキャラの画像を用意する
+
+      カットインを表示したいキャラの画像を好きなだけ用意します。
+      キャラの画像もピクチャー用のフォルダ（img/pictures）に入れてください。
+
+      (3) カットインの設定をする
+
+      プラグイン設定から「味方のカットイン設定」を開き、
+      設定したい分だけ項目を追加してください。
+
+      ■ 対象設定
+
+      「どのキャラが」「何のスキルを使った」を設定します。
+      例えば「ハロルド」が「スターライトⅡ」を使った、のような設定をします。
+
+      ここで設定した条件を満たしたときにカットインが表示されます。
+
+      ■ キャラ画像
+
+      表示するキャラクターの画像ファイルの選択や
+      表示位置・サイズの調整ができます
+
+      ■ 個別設定（省略可）
+
+      このカットインだけ色を変えたい！みたいな場合は設定してください。
+      不要な場合は省略して大丈夫です。
+
+      ■ メモ欄
+
+      メモ欄です。自由にメモをすることができます。
+      また、一部の特殊な設定を記述できます。
+
+      -----
+
+      これで基本的な設定は完了です。
+      対象のキャラでスキルを使うとカットインが表示されます。
+
+      ------------------------------------------------------------
+      ■ プロ向けの使い方
+      ------------------------------------------------------------
+
+      各カットイン設定の中にあるメモ欄に
+      特殊な記載をすることで、少し複雑な使い方ができます。
+
+      ● カットインの角度を変える
+
+      デフォルトでは斜め下からキャラカットインが表示されますが、
+      メモ欄に以下のように書くことで角度を変えることができます。
+
+      <角度: 45>
+
+      角度は0～360で指定してください。
+      角度が0の場合は左から、90の場合は上から、
+      180の場合は右から、270の場合は下から
+      それぞれキャラカットインが表示されます。
+
+      ● カットインの表示条件を複雑にする
+
+      例えば、HPが50%以下のときだけカットインを表示したい場合は
+      メモ欄に以下のように記述します。
+
+      <条件: a.hp <= a.mhp * 0.5>
+
+      条件として書かれた内容が真のときのみ、
+      該当のカットインが表示されます。
+      ダメージ計算式と同じように a に自分自身が入ります。
+      ただし b （相手）はありません。
+
+      ● スキルではなくアイテム使用時にカットインを出す
+
+      まず、カットインの設定でスキルIDを「なし」にします。
+      そして、カットイン設定のメモ欄に以下のように記述してください。
+
+      <アイテム: 7>
+
+      こうすると、アイテムID:7のアイテムを使ったときに
+      カットインが表示されるようになります。
+
+parameterBase: &parameterBase
+  base:
+    dummy: '■ カットイン設定'
+  actorConfig:
+    parent: 'base'
+    name: '味方のカットイン設定'
+    type: 'ActorCutinSet'
+    desc: |
+      アクター用のカットイン設定です。
+      上にあるものから優先されます。
+    array: true
+    default: []
+  enemyConfig:
+    parent: 'base'
+    name: '敵のカットイン設定'
+    type: 'EnemyCutinSet'
+    desc: |
+      敵用のカットイン設定です。
+      上にあるものから優先されます。
+    array: true
+    default: []
+  common:
+    dummy: '■ 共通設定'
+  commonBackImage1:
+    parent: 'common'
+    name: '背景画像1'
+    type: 'file'
+    dir: 'img/pictures'
+    desc: |
+      背景全体に表示される画像を指定します
+    default: 'CutIn_back1'
+  commonBackImage2:
+    parent: 'common'
+    name: '背景画像2'
+    type: 'file'
+    dir: 'img/pictures'
+    desc: |
+      キャラクターの背景部分に表示される画像を指定します
+    default: 'CutIn_back2'
+  commonBorderImage:
+    parent: 'common'
+    name: '境界線画像'
+    type: 'file'
+    dir: 'img/pictures'
+    desc: |
+      カットインの境界線部分に表示される画像を指定します
+    default: 'CutIn_border'
+  commonBorderBlendMode:
+    parent: 'common'
+    name: '境界線画像のブレンド'
+    type: 'select'
+    option:
+      - name: '通常'
+        value: 'normal'
+      - name: '加算'
+        value: 'add'
+    desc: |
+      境界線画像のブレンドモードを指定します
+      ※RPGツクールMZのみ有効
+    default: 'add'
+  commonSound:
+    parent: 'common'
+    name: '効果音'
+    type: 'Sound'
+    desc: |
+      カットイン表示時の効果音を設定します
+      各カットイン内で指定がある場合は、そちらを優先します
+    default: '{"name":"Skill2","volume":"90","pitch":"100","pan":"0"}'
+  commonActor:
+    dummy: '■ 味方用の共通設定'
+  actorBackColor1:
+    parent: 'commonActor'
+    name: '味方: 背景色1'
+    type: 'string'
+    desc: |
+      味方のカットイン表示領域の背景色を設定します。
+    default: '#000033'
+  actorBackColor2:
+    parent: 'commonActor'
+    name: '味方: 背景色2'
+    type: 'string'
+    desc: |
+      味方のカットイン表示領域の背景色を設定します
+      空欄の場合は背景色1と一緒になります
+    default: '#6666ff'
+  actorBackTone:
+    parent: 'commonActor'
+    name: '味方: エフェクト色調1'
+    type: Color
+    desc: |
+      味方の背景エフェクトの色調を設定します
+      ※RPGツクールMZのみ有効
+    default: '{"red":"-128","green":"-128","blue":"128"}'
+  actorBorderTone:
+    parent: 'commonActor'
+    name: '味方: エフェクト色調2'
+    type: Color
+    desc: |
+      味方の境界線エフェクトの色調を設定します
+      ※RPGツクールMZのみ有効
+    default: '{"red":"0","green":"0","blue":"0"}'
+  commonEnemy:
+    dummy: '■ 敵用の共通設定'
+  enemyBackColor1:
+    parent: 'commonEnemy'
+    name: '敵: 背景色1'
+    type: 'string'
+    desc: |
+      敵のカットイン表示領域の背景色を設定します。
+    default: '#330000'
+  enemyBackColor2:
+    parent: 'commonEnemy'
+    name: '敵: 背景色2'
+    type: 'string'
+    desc: |
+      敵のカットイン表示領域の背景色を設定します
+      空欄の場合は背景色1と一緒になります
+    default: '#ff6666'
+  enemyBackTone:
+    parent: 'commonEnemy'
+    name: '敵: エフェクト色調1'
+    type: Color
+    desc: |
+      敵の背景エフェクトの色調を設定します
+      ※RPGツクールMZのみ有効
+    default: '{"red":"128","green":"-128","blue":"-128"}'
+  enemyBorderTone:
+    parent: 'commonEnemy'
+    name: '敵: エフェクト色調2'
+    type: Color
+    desc: |
+      敵の境界線エフェクトの色調を設定します
+      ※RPGツクールMZのみ有効
+    default: '{"red":"0","green":"0","blue":"0"}'
+
+structureCutInSetBase: &structureCutInSetBase
+  target:
+    dummy: '■ 対象設定'
+  render:
+    dummy: '■ キャラ画像設定'
+  picture:
+    parent: 'render'
+    name: 'キャラ画像'
+    type: 'file'
+    dir: 'img/pictures'
+    desc: |
+      カットインで表示するキャラクターの画像を設定します
+      画像はピクチャー用のフォルダに入れてください
+    default: ''
+  pictureX:
+    parent: 'render'
+    name: 'キャラ画像位置:X'
+    type: 'integer'
+    desc: |
+      キャラ画像の表示位置（横方向）を調整します
+      マイナスだと左、プラスだと右にずらします
+    default: 0
+  pictureY:
+    parent: 'render'
+    name: 'キャラ画像位置:Y'
+    type: 'integer'
+    desc: |
+      キャラ画像の表示位置（縦方向）を調整します
+      マイナスだと上、プラスだと下にずらします
+    default: 0
+  pictureScale:
+    parent: 'render'
+    name: 'キャラ画像:拡大率'
+    type: 'number'
+    decimals: 2
+    min: 0.01
+    desc: |
+      キャラ画像の拡大率を指定します
+      1を指定した場合は1倍なのでそのまま表示されます
+    default: 1.00
+  advanced:
+    dummy: '■ 個別設定（省略可）'
+  backColor1:
+    parent: 'advanced'
+    name: '背景色1'
+    type: 'string'
+    desc: |
+      カットイン表示領域の背景色を設定します。
+      省略した場合は共通設定が使用されます
+    default: ''
+  backColor2:
+    parent: 'advanced'
+    name: '背景色2'
+    type: 'string'
+    desc: |
+      カットイン表示領域の背景色を設定します
+      空欄の場合は背景色1と一緒になります
+    default: ''
+  backTone:
+    parent: 'advanced'
+    name: 'エフェクト色調1'
+    type: ColorCustomize
+    desc: |
+      背景エフェクトの色調を設定します
+      ※RPGツクールMZのみ有効
+    default: '{"isUse": false, "red":"-128","green":"-128","blue":"128"}'
+  borderTone:
+    parent: 'advanced'
+    name: 'エフェクト色調2'
+    type: ColorCustomize
+    desc: |
+      境界線エフェクトの色調を設定します
+      ※RPGツクールMZのみ有効
+    default: '{"isUse": false, "red":"0","green":"0","blue":"0"}'
+  backImage1:
+    parent: 'advanced'
+    name: '背景画像1'
+    type: 'file'
+    dir: 'img/pictures'
+    desc: |
+      背景全体に表示される画像を指定します
+      空欄の場合は共通設定を使用します
+    default: ''
+  backImage2:
+    parent: 'advanced'
+    name: '背景画像2'
+    type: 'file'
+    dir: 'img/pictures'
+    desc: |
+      キャラクターの背景部分に表示される画像を指定します
+      空欄の場合は共通設定を使用します
+    default: ''
+  borderImage:
+    parent: 'advanced'
+    name: '境界線画像'
+    type: 'file'
+    dir: 'img/pictures'
+    desc: |
+      カットインの境界線部分に表示される画像を指定します
+      空欄の場合は共通設定を使用します
+    default: ''
+  borderBlendMode:
+    parent: 'advanced'
+    name: '境界線画像のブレンド'
+    type: 'select'
+    option:
+      - name: '省略'
+        value: ''
+      - name: '通常'
+        value: 'normal'
+      - name: '加算'
+        value: 'add'
+    desc: |
+      境界線画像のブレンドモードを指定します
+      省略の場合は共通設定を使用します
+    default: ''
+  sound:
+    parent: 'advanced'
+    name: '効果音'
+    type: 'Sound'
+    desc: |
+      カットイン表示時の効果音を指定します
+      指定しない場合はデフォルトの効果音を使用します
+    default: '{"name":"","volume":"90","pitch":"100","pan":"0"}'
+  note:
+    name: 'メモ欄'
+    type: 'multiline_string'
+    desc: |
+      メモ欄です。
+      ツクールのメモ欄同様に使えます。
+    default: ''
+structureBase: &structureBase
+  ActorCutinSet:
+    <<: *structureCutInSetBase
+    actorId:
+      parent: 'target'
+      name: 'アクターのID'
+      type: 'actor'
+      desc: |
+        カットイン対象のアクターを設定します
+      default: 0
+    skillId:
+      parent: 'target'
+      name: 'スキルのID'
+      type: 'skill'
+      desc: |
+        カットイン対象のスキルを設定します
+      default: 0
+  EnemyCutinSet:
+    <<: *structureCutInSetBase
+    enemyId:
+      parent: 'target'
+      name: '敵のID'
+      type: 'enemy'
+      desc: |
+        カットイン対象の敵を設定します
+      default: 0
+    skillId:
+      parent: 'target'
+      name: 'スキルのID'
+      type: 'skill'
+      desc: |
+        カットイン対象のスキルを設定します
+      default: 0
+  Color:
+    red:
+      name: '赤'
+      type: 'integer'
+      desc: |
+        赤色の強さを設定します
+        -255から255の範囲で設定してください
+      min: -255
+      max: 255
+      default: 0
+    green:
+      name: '青'
+      type: 'integer'
+      desc: |
+        青色の強さを設定します
+        -255から255の範囲で設定してください
+      min: -255
+      max: 255
+      default: 0
+    blue:
+      name: '緑'
+      type: 'integer'
+      desc: |
+        緑色の強さを設定します
+        -255から255の範囲で設定してください
+      min: -255
+      max: 255
+      default: 0
+  ColorCustomize:
+    isUse:
+      name: '使用するか？'
+      type: 'boolean'
+      desc: |
+        個別設定を使用するか指定します
+        使用しない場合は共通設定の色になります
+      on: '使用する'
+      off: '使用しない'
+      default: 'false'
+    red:
+      name: '赤'
+      type: 'integer'
+      desc: |
+        赤色の強さを設定します
+        -255から255の範囲で設定してください
+      min: -255
+      max: 255
+      default: 0
+    green:
+      name: '青'
+      type: 'integer'
+      desc: |
+        青色の強さを設定します
+        -255から255の範囲で設定してください
+      min: -255
+      max: 255
+      default: 0
+    blue:
+      name: '緑'
+      type: 'integer'
+      desc: |
+        緑色の強さを設定します
+        -255から255の範囲で設定してください
+      min: -255
+      max: 255
+      default: 0
+  Sound:
+    name:
+      name: '効果音ファイル'
+      type: 'file'
+      dir: 'audio/se'
+      desc: |
+        効果音ファイルを選択します
+      default: ''
+    volume:
+      name: '音量'
+      type: 'integer'
+      dir: |
+        効果音の音量を指定します
+      min: 0
+      max: 100
+      default: 90
+    pitch:
+      name: 'ピッチ'
+      type: 'integer'
+      dir: |
+        効果音のピッチを指定します
+      min: 0
+      max: 200
+      default: 100
+    pan:
+      name: 'パン'
+      type: 'integer'
+      dir: |
+        効果音のパンを指定します
+      min: -100
+      max: 100
+      default: 0
+
+Torigoya_SkillCutIn:
+  <<: *base
+  target: 'MV'
+  parameter:
+    <<: *parameterBase
+  structures:
+    <<: *structureBase
+
+TorigoyaMZ_SkillCutIn:
+  <<: *base
+  target: 'MZ'
+  parameter:
+    <<: *parameterBase
+  structures:
+    <<: *structureBase
+  commands:
+    showActorCutIn:
+      name: '味方カットインの表示'
+      desc: |
+        味方のカットインを表示します
+      parameter:
+        name:
+          type: 'string'
+          name: '使用カットイン名'
+          desc: |
+            カットイン設定のメモ欄で指定した呼び出し名を指定します
+            条件判定はすべてスキップされます
+          default: ''
+    showEnemyCutIn:
+      name: '敵カットインの表示'
+      desc: |
+        敵のカットインを表示します
+      parameter:
+        name:
+          type: 'string'
+          name: '使用カットイン名'
+          desc: |
+            カットイン設定のメモ欄で指定した呼び出し名を指定します
+            条件判定はすべてスキップされます
+          default: ''
+  base:
+    - 'TorigoyaMZ_FrameTween'
+  orderAfter:
+    - 'TorigoyaMZ_FrameTween'
