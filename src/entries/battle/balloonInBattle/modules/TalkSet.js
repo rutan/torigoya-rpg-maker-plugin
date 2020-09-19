@@ -1,3 +1,26 @@
+import { unescapeMetaString } from '../../../../common/utils/unescapeMetaString';
+
+function evalCondition(a, code) {
+  try {
+    return !!eval(code);
+  } catch (e) {
+    if ($gameTemp.isPlaytest()) console.error(e);
+    return false;
+  }
+}
+
+function readPriority(item) {
+  const priority = item.meta['Priority'] || item.meta['優先度'];
+  if (!priority) return 1;
+
+  const value = parseInt(priority, 10);
+  if (isNaN(value)) {
+    if ($gameTemp.isPlaytest()) console.error(`優先度指定が間違っています: ${item}`);
+    return 0;
+  }
+  return value;
+}
+
 export class TalkSet {
   constructor(data) {
     this._data = this._parseMetaObjects(data);
@@ -17,7 +40,9 @@ export class TalkSet {
   }
 
   getTalkItem(type, options = {}) {
-    const items = this._selectEnableItems(type, options);
+    let items = this._selectEnableItems(type, options);
+    items = this._filterForAllItems(items, options);
+
     return items.length > 0 ? items[Math.floor(Math.random() * items.length)] : null;
   }
 
@@ -56,6 +81,13 @@ export class TalkSet {
     }
 
     return [];
+  }
+
+  _filterForAllItems(items, options) {
+    items = this._filterCondition(items, options);
+    items = this._filterPriority(items, options);
+
+    return items;
   }
 
   _selectEnableItemsForWithTroop(key, options) {
@@ -155,5 +187,19 @@ export class TalkSet {
     }
 
     return items.filter((item) => !item.actorId && !item.enemyId);
+  }
+
+  _filterCondition(items, options) {
+    return items.filter((item) => {
+      const str = item.meta['Condition'] || item.meta['条件'];
+      if (!str) return true;
+
+      return evalCondition(options.subject, unescapeMetaString(str));
+    });
+  }
+
+  _filterPriority(items, _options) {
+    const max = Math.max(...items.map((item) => readPriority(item)));
+    return items.filter((item) => readPriority(item) === max);
   }
 }
