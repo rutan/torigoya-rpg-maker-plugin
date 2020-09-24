@@ -28,17 +28,27 @@ function hpBarHeight(enemy) {
   return parseInt((enemy && (enemy.meta['hpBarHeight'] || enemy.meta['HPバー高さ'])) || 0, 10);
 }
 
+const forceShowHpValueCache = new WeakSet();
+
 function isShowHpValueOfBattler(a) {
   if (!a) return true;
+  if (forceShowHpValueCache.has(a)) return true;
+
   const enemy = a.enemy();
   const code = enemy.meta['hpShowCondition'] || enemy.meta['HP表示条件'] || '';
   if (!code) return true;
   try {
-    return !!eval(unescapeMetaString(code));
+    if (eval(unescapeMetaString(code))) {
+      if (enemy.meta['hpShowPermanently'] || enemy.meta['HP表示状態継続']) {
+        forceShowHpValueCache.add(a);
+      }
+      return true;
+    }
   } catch (e) {
     if ($gameTemp.isPlaytest()) console.error(e);
-    return false;
   }
+
+  return false;
 }
 
 class Sprite_EnemyHpGauge extends Sprite_Gauge {
