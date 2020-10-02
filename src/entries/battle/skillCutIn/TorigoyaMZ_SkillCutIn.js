@@ -9,6 +9,7 @@ import { applyPluginToBattleManager } from './modules/applyPluginToBattleManager
 import { applyPluginToGameInterpreter } from './modules/applyPluginToGameInterpreter';
 import { createAndPlayCutInSprite } from './modules/createAndPlayCutInSprite';
 import { commandShowActorCutIn, commandShowEnemyCutIn } from './modules/pluginCommands';
+import { createCutInContainer } from './modules/createCutInContainer';
 
 Torigoya.SkillCutIn = {
   name: getPluginName(),
@@ -49,9 +50,11 @@ applyPluginToGameInterpreter();
     if (!CutInManager.isPlaying()) return;
     if (this._torigoyaSkillCutIn_cutInSprite) return;
 
+    this.torigoyaSkillCutIn_createCutInContainer();
     this.torigoyaSkillCutIn_createAndPlayCutInSprite();
   };
 
+  Scene_Message.prototype.torigoyaSkillCutIn_createCutInContainer = createCutInContainer;
   Scene_Message.prototype.torigoyaSkillCutIn_createAndPlayCutInSprite = createAndPlayCutInSprite;
 
   // -------------------------------------------------------------------------

@@ -1,5 +1,5 @@
 base: &base
-  version: '1.0.1'
+  version: '1.1.0'
   title:
     ja: 'スキル発動前カットイン表示プラグイン'
   body:
@@ -185,6 +185,21 @@ parameterBase: &parameterBase
       カットイン表示時の効果音を設定します
       各カットイン内で指定がある場合は、そちらを優先します
     default: '{"name":"Skill2","volume":"90","pitch":"100","pan":"0"}'
+  cutInLayer:
+    parent: 'common'
+    name: 'カットイン表示レイヤー'
+    type: 'select'
+    option:
+      - name: '常に最前面'
+        value: 'foreground'
+      - name: 'ウィンドウの上'
+        value: 'upperWindow'
+      - name: 'ウィンドウの下'
+        value: 'lowerWindow'
+    desc: |
+      カットインが表示されるレイヤーを指定します
+      省略の場合は共通設定を使用します
+    default: 'foreground'
   commonActor:
     dummy: '■ 味方用の共通設定'
   actorBackColor1:
