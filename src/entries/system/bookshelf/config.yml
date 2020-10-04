@@ -1,0 +1,59 @@
+base: &base
+  version: '1.0.0'
+  title:
+    ja: 'テキスト本棚プラグイン'
+  body:
+    ja: |
+      テキストファイルから本棚シーンを作成します。
+
+parameterBase: &parameterBase
+  base:
+    dummy: '■ 基本設定'
+  bookshelfTitleFontSize:
+    parent: 'base'
+    name: '本棚名の文字サイズ'
+    type: 'integer'
+    desc: |
+      本棚の名前のフォントサイズを指定します
+    min: 1
+    default: 22
+  bookshelfWidth:
+    parent: 'base'
+    name: '本の一覧の横幅'
+    type: 'integer'
+    desc: |
+      本棚画面の本の一覧の横幅を指定します
+    min: 1
+    default: 320
+  bookContentWidth:
+    parent: 'base'
+    name: '本の中身の横幅'
+    type: 'integer'
+    desc: |
+      本の中身ウィンドウの横幅を指定します。
+      0の場合、UI領域をすべて使用します。
+    min: 0
+    default: 0
+
+Torigoya_Bookshelf:
+  <<: *base
+  target: 'MV'
+  parameter:
+    <<: *parameterBase
+
+TorigoyaMZ_Bookshelf:
+  <<: *base
+  target: 'MZ'
+  parameter:
+    <<: *parameterBase
+  commands:
+    openBookshelf:
+      name: '本棚の表示'
+      desc: '指定ファイルを読み込み、本棚を表示します'
+      parameter:
+        fileName:
+          type: 'text'
+          name: 'ファイル名'
+          desc: |
+            読み込むテキストのファイル名を指定してください
+            フォルダ(bookshelf)の名前は含める必要ありません
