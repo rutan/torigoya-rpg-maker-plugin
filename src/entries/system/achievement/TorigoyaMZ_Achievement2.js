@@ -85,6 +85,10 @@ class Window_AchievementPopup extends Window_Base {
     return Torigoya.Achievement2.parameter.popupPadding;
   }
 
+  labelFontFace() {
+    return Torigoya.Achievement2.parameter.advancedFontFace || $gameSystem.mainFontFace();
+  }
+
   titleFontSize() {
     return Torigoya.Achievement2.parameter.popupTitleFontSize;
   }
@@ -99,6 +103,7 @@ class Window_AchievementPopup extends Window_Base {
 
   resetFontSettings() {
     super.resetFontSettings();
+    this.contents.fontFace = this.labelFontFace();
     this.contents.fontSize = this.titleFontSize();
   }
 

@@ -1,5 +1,5 @@
 base: &base
-  version: '1.3.0'
+  version: '1.3.1'
   title:
     ja: '実績プラグイン'
 
@@ -192,6 +192,13 @@ parameterBase: &parameterBase
     default: 0
   advanced:
     dummy: '■ 上級者向け設定'
+  advancedFontFace:
+    parent: 'advanced'
+    name: 'ポップアップのフォント'
+    desc: |
+      実績獲得ポップアップ表示のフォント名を指定します。
+      空欄の場合は他のウィンドウと同じフォントを使用します。
+    default: ''
   advancedOverwritable:
     parent: 'advanced'
     name: '獲得済み実績の再取得'

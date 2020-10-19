@@ -81,6 +81,10 @@ class Window_AchievementPopup extends Window_Base {
     return this.standardFontSize() + this.messageFontSize() + this.standardPadding() * 2 + 5;
   }
 
+  standardFontFace() {
+    return Torigoya.Achievement2.parameter.advancedFontFace || super.standardFontFace();
+  }
+
   standardFontSize() {
     return Torigoya.Achievement2.parameter.popupTitleFontSize;
   }
