@@ -48,6 +48,7 @@ Torigoya.Achievement2.PopupManager = new AchievementPopupManager(Torigoya.Achiev
   popupPosition: Torigoya.Achievement2.parameter.popupPosition,
   popupWait: Torigoya.Achievement2.parameter.popupWait,
   popupAnimationType: Torigoya.Achievement2.parameter.popupAnimationType,
+  topY: Torigoya.Achievement2.parameter.popupTopY,
   createPopupWindow(item) {
     const popupWindow = new Window_AchievementPopup(item);
     SceneManager._scene.addChild(popupWindow); // 行儀悪い

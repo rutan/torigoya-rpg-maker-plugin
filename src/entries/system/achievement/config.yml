@@ -1,5 +1,5 @@
 base: &base
-  version: '1.2.0'
+  version: '1.3.0'
   title:
     ja: '実績プラグイン'
 
@@ -31,7 +31,7 @@ parameterBase: &parameterBase
     parent: 'popup'
     name: '表示位置'
     desc: |
-      実績獲得ポップアップが表示される位置
+      実績獲得ポップアップの表示位置
     type: 'select'
     option:
       - name: '左上'
@@ -39,6 +39,14 @@ parameterBase: &parameterBase
       - name: '右上'
         value: 'rightUp'
     default: 'leftUp'
+  popupTopY:
+    parent: 'popup'
+    name: '表示位置: 上端'
+    desc: |
+      実績獲得ポップアップ表示位置の上端
+    type: 'integer'
+    min: 0
+    default: 10
   popupAnimationType:
     parent: 'popup'
     name: 'アニメーション'

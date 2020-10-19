@@ -47,7 +47,7 @@ export class AchievementPopupManager {
     const isLeftUp = this._options.popupPosition === 'leftUp';
     const x = isLeftUp ? this.leftX() : this.rightX() - popupWindow.width;
     const y = (() => {
-      let y = 10;
+      let y = this.topY();
       for (let i = 0; i < this._stacks.length; ++i) {
         const target = this._stacks[i];
         if (Math.abs(target.y - y) > (target.height + popupWindow.height) / 2) continue;
@@ -170,6 +170,14 @@ export class AchievementPopupManager {
    */
   rightX() {
     return Graphics.width - 10;
+  }
+
+  /**
+   * 表示Y座標:上端
+   * @returns {number}
+   */
+  topY() {
+    return this._options.topY === undefined ? 10 : this._options.topY;
   }
 
   /**
