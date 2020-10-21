@@ -137,6 +137,23 @@ Torigoya.DisplayAnimationInFrontView = {
   };
 
   // -------------------------------------------------------------------------
+  // Window_BattleStatus
+
+  const upstream_Window_BattleStatus_refresh = Window_BattleStatus.prototype.refresh;
+  Window_BattleStatus.prototype.refresh = function () {
+    this._torigoyaDisplayAnimationFrontView_requireSyncPosition = true;
+    upstream_Window_BattleStatus_refresh.apply(this);
+  };
+
+  Window_BattleStatus.prototype.torigoyaDisplayAnimationFrontView_isRequireSyncPosition = function () {
+    return !!this._torigoyaDisplayAnimationFrontView_requireSyncPosition;
+  };
+
+  Window_BattleStatus.prototype.torigoyaDisplayAnimationFrontView_clearRequireSyncPosition = function () {
+    this._torigoyaDisplayAnimationFrontView_requireSyncPosition = false;
+  };
+
+  // -------------------------------------------------------------------------
   // Scene_Battle
 
   const upstream_Scene_Battle_createStatusWindow = Scene_Battle.prototype.createStatusWindow;
@@ -164,8 +181,11 @@ Torigoya.DisplayAnimationInFrontView = {
 
     if ($gameSystem.isSideView()) return;
 
-    // コマンド欄の有無で位置が変化していたら合わせる
-    if (x !== this._statusWindow.x) this.torigoyaSyncActorAndStatusWindowPosition();
+    // ウィンドウが再描画されている or コマンド欄の有無でX座標が変化している場合、位置を合わせる
+    if (this._statusWindow.torigoyaDisplayAnimationFrontView_isRequireSyncPosition() || x !== this._statusWindow.x) {
+      this.torigoyaSyncActorAndStatusWindowPosition();
+      this._statusWindow.torigoyaDisplayAnimationFrontView_clearRequireSyncPosition();
+    }
 
     // タイムプログレス(アクティブ)の場合、
     // コマンド選択中にアクターの表示状態をあわせる
