@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------*
- * TorigoyaMZ_Bookshelf.js v.1.1.0
+ * Torigoya_Bookshelf.js v.1.1.0
  *---------------------------------------------------------------------------*
  * 2020/10/25 14:19 (JST)
  *---------------------------------------------------------------------------*
@@ -8,12 +8,12 @@
  *---------------------------------------------------------------------------*/
 
 /*:
- * @target MZ
+ * @target MV
  * @plugindesc テキスト本棚プラグイン (v.1.1.0)
  * @author Ruたん（ru_shalm）
  * @license public domain
  * @version 1.1.0
- * @url https://raw.githubusercontent.com/rutan/torigoya-rpg-maker-plugin/gh-pages/TorigoyaMZ_Bookshelf.js
+ * @url https://raw.githubusercontent.com/rutan/torigoya-rpg-maker-plugin/gh-pages/Torigoya_Bookshelf.js
  * @help
  * テキスト本棚プラグイン (v.1.1.0)
  * https://torigoya-plugin.rutan.dev
@@ -166,16 +166,6 @@
  * @type struct<MenuItem>[]
  * @parent menu
  * @default []
- *
- * @command openBookshelf
- * @text 本棚の表示
- * @desc 指定ファイルを読み込み、本棚を表示します
- *
- * @arg fileName
- * @text ファイル名
- * @desc 読み込むテキストのファイル名を指定してください
- * フォルダ(bookshelf)の名前は含める必要ありません
- * @type text
  */
 
 /*~struct~MenuItem:
@@ -212,7 +202,7 @@
  * @text メモ
  * @desc メモ欄です。
  * ツクールのメモ欄同様に使えます。
- * @type multiline_string
+ * @type note
  * @default
  */
 
@@ -223,7 +213,7 @@
 
     function getPluginName() {
         const cs = document.currentScript;
-        return cs ? cs.src.split('/').pop().replace(/\.js$/, '') : 'TorigoyaMZ_Bookshelf';
+        return cs ? cs.src.split('/').pop().replace(/\.js$/, '') : 'Torigoya_Bookshelf';
     }
 
     function pickStringValueFromParameter(parameter, key, defaultValue = '') {
@@ -240,6 +230,11 @@
         return ''.concat(parameter[key] || defaultValue) === 'true';
     }
 
+    function pickJsonValueFromParameter(parameter, key) {
+        if (!parameter[key]) return parameter[key];
+        return JsonEx.parse(parameter[key]);
+    }
+
     function pickStructMenuItem(parameter) {
         parameter = parameter || {};
         if (typeof parameter === 'string') parameter = JSON.parse(parameter);
@@ -248,7 +243,7 @@
             fileName: pickStringValueFromParameter(parameter, 'fileName', ''),
             switchId: pickIntegerValueFromParameter(parameter, 'switchId', 0),
             visibility: pickBooleanValueFromParameter(parameter, 'visibility', 'true'),
-            note: pickStringValueFromParameter(parameter, 'note', ''),
+            note: pickJsonValueFromParameter(parameter, 'note'),
         };
     }
 
@@ -385,6 +380,7 @@
         name: getPluginName(),
         parameter: readParameter(),
         TextParser,
+        bookFileName: '',
     };
 
     function evalCondition(code) {
@@ -410,12 +406,12 @@
             this.contents.clear();
             if (!this._title) return;
 
-            this.drawText(this._title, 0, 0, this.innerWidth, 'center');
+            this.resetFontSettings();
+            this.drawText(this._title, 0, 0, this.contents.width, 'center');
         }
 
-        resetFontSettings() {
-            super.resetFontSettings();
-            this.contents.fontSize = Torigoya.Bookshelf.parameter.bookshelfTitleFontSize;
+        standardFontSize() {
+            return Torigoya.Bookshelf.parameter.bookshelfTitleFontSize;
         }
 
         lineHeight() {
@@ -462,7 +458,7 @@
             const item = this.itemAt(index);
             if (!item) return;
 
-            const rect = this.itemLineRect(index);
+            const rect = this.itemRect(index);
             this.drawText(item.title, rect.x, rect.y, rect.width, 'left');
         }
     }
@@ -473,8 +469,8 @@
      * 本の中身を表示するウィンドウ
      */
     class Window_BookContent extends Window_Selectable {
-        constructor(rect) {
-            super(rect);
+        constructor(x, y, width, height) {
+            super(x, y, width, height);
             this._waitLoadBitmaps = [];
             this._allTextHeight = 0;
             this._lastRenderPage = null;
@@ -486,30 +482,25 @@
             this.refresh();
         }
 
-        resetFontSettings() {
-            super.resetFontSettings();
-            this.contents.fontSize = Torigoya.Bookshelf.parameter.bookContentFontSize;
+        standardFontSize() {
+            return Torigoya.Bookshelf.parameter.bookContentFontSize;
         }
 
         _updateCursor() {
-            this._cursorSprite.visible = false;
+            this._windowCursorSprite.visible = false;
         }
 
         itemHeight() {
-            return this.innerHeight;
+            return this.height - this.padding * 2;
         }
 
         maxItems() {
             return this._book ? this._book.pages.length : 0;
         }
 
-        paint() {
+        refresh() {
             this._waitLoadBitmaps.length = 0;
-            super.paint();
-        }
-
-        drawItemBackground() {
-            // nothing to do
+            super.refresh();
         }
 
         drawItem(index) {
@@ -522,7 +513,7 @@
                 this._lastRenderPage = page;
             }
 
-            const rect = this.itemRectWithPadding(index);
+            const rect = this.itemRect(index);
             this.resetTextColor();
             this.drawTextEx(page, rect.x, rect.y, rect.width);
         }
@@ -537,7 +528,9 @@
             if (!this._waitLoadBitmaps.includes(bitmap)) return;
 
             this._waitLoadBitmaps = this._waitLoadBitmaps.filter((b) => b !== bitmap);
-            if (this._waitLoadBitmaps.length === 0) this.paint();
+            if (this._waitLoadBitmaps.length === 0) {
+                this.refresh();
+            }
         }
 
         processEscapeCharacter(code, textState) {
@@ -561,7 +554,7 @@
             const regExp = /^(.+)(\n|$)/; // 行末まで処理対象とする
             const arr = regExp.exec(textState.text.slice(textState.index));
             if (arr) {
-                textState.index += arr[0].length;
+                textState.index += arr[0].length - 1;
                 return arr[1].split(/\s*,\s*/).map((n) => n.trim());
             } else {
                 return [];
@@ -572,21 +565,21 @@
             const bitmap = ImageManager.loadFace(faceName);
 
             if (bitmap.isReady()) {
-                textState.x = textState.startX;
+                textState.x = 0;
 
-                const faceWidth = ImageManager.faceWidth;
+                const faceWidth = Window_Base._faceWidth;
                 const dx =
                     align === 'right'
-                        ? textState.x + textState.width - faceWidth
+                        ? textState.x + this.contents.width - faceWidth
                         : align === 'center'
-                        ? textState.x + (textState.width - faceWidth) / 2
+                        ? textState.x + (this.contents.width - faceWidth) / 2
                         : textState.x;
                 this.drawFace(faceName, faceIndex, dx, textState.y);
             } else {
                 this.addWaitLoadBitmap(bitmap);
             }
 
-            textState.height = Math.max(textState.height, ImageManager.faceHeight);
+            textState.height = Math.max(textState.height, Window_Base._faceHeight);
             this.processNewLine(textState);
         }
 
@@ -594,12 +587,12 @@
             const bitmap = ImageManager.loadPicture(name);
 
             if (bitmap.isReady()) {
-                textState.x = textState.startX;
+                textState.x = 0;
 
                 let rate = 1;
 
                 if (height <= 0) {
-                    rate = Math.min(1, (textState.width - textState.startX) / bitmap.width);
+                    rate = Math.min(1, this.contents.width / bitmap.width);
                     height = bitmap.height * rate;
                 } else {
                     rate = height / bitmap.height;
@@ -609,10 +602,11 @@
                 const dh = bitmap.height * rate;
                 const dx =
                     align === 'right'
-                        ? textState.x + textState.width - dw
+                        ? textState.x + this.contents.width - dw
                         : align === 'center'
-                        ? textState.x + (textState.width - dw) / 2
+                        ? textState.x + (this.contents.width - dw) / 2
                         : textState.x;
+
                 this.contents.blt(bitmap, 0, 0, bitmap.width, bitmap.height, dx, textState.y, dw, dh);
             } else {
                 this.addWaitLoadBitmap(bitmap);
@@ -628,22 +622,19 @@
 
         goPreviousPage() {
             if (this.index() > 0) {
-                this.playCursorSound();
-                this.forceSelect(this.index() - 1);
+                SoundManager.playCursor();
+                this.select(this.index() - 1);
             }
         }
 
         goNextPage() {
             if (this.index() < this.maxItems() - 1) {
-                this.playCursorSound();
-                this.forceSelect(this.index() + 1);
+                SoundManager.playCursor();
+                this.select(this.index() + 1);
             }
         }
 
         processOk() {
-            // タッチスクロールと処理が重複するためフラグを折る
-            this._isRequireCheckDiff = false;
-
             if (this.index() < this.maxItems() - 1) {
                 this.goNextPage();
             } else if (!Input.isTriggered('ok') && Input.isRepeated('ok'));
@@ -660,26 +651,6 @@
         cursorDown(_) {
             super.cursorDown(false);
         }
-
-        onTouchScrollStart() {
-            super.onTouchScrollStart();
-            this._startScrollY = this._scrollY;
-            this._isRequireCheckDiff = true;
-        }
-
-        onTouchScrollEnd() {
-            super.onTouchScrollEnd();
-            this.setScrollAccel(0, 0);
-
-            if (!this._isRequireCheckDiff) return;
-
-            const diff = this._startScrollY - this._scrollY;
-            if (Math.abs(diff) > 64) {
-                this.smoothSelect(this.index() + (diff < 0 ? 1 : -1));
-            } else {
-                this.smoothSelect(this.index());
-            }
-        }
     }
 
     Torigoya.Bookshelf.Window_BookContent = Window_BookContent;
@@ -692,10 +663,7 @@
             super();
             this._fileName = '';
             this._bookshelf = null;
-        }
-
-        prepare(fileName) {
-            this._fileName = fileName;
+            this._fileName = Torigoya.Bookshelf.bookFileName;
         }
 
         create() {
@@ -703,7 +671,6 @@
             this.createTitleWindow();
             this.createBooksListWindow();
             this.createBookContentWindow();
-            this.updatePageButtons();
             this.loadTextFile();
         }
 
@@ -724,11 +691,12 @@
         }
 
         contentWindowHeight() {
-            return Torigoya.Bookshelf.parameter.bookContentHeight || this.mainAreaHeight();
+            return Torigoya.Bookshelf.parameter.bookContentHeight || Graphics.boxHeight;
         }
 
         createTitleWindow() {
-            this._titleWindow = new Window_BookshelfTitle(this.titleWindowRect());
+            const { x, y, width, height } = this.titleWindowRect();
+            this._titleWindow = new Window_BookshelfTitle(x, y, width, height);
             this.addWindow(this._titleWindow);
         }
 
@@ -741,7 +709,8 @@
         }
 
         createBooksListWindow() {
-            this._booksListWindow = new Window_BooksList(this.booksListWindowRect());
+            const { x, y, width, height } = this.booksListWindowRect();
+            this._booksListWindow = new Window_BooksList(x, y, width, height);
             this._booksListWindow.setHandler('ok', this.onBooksOk.bind(this));
             this._booksListWindow.setHandler('cancel', this.popScene.bind(this));
             this.addWindow(this._booksListWindow);
@@ -756,12 +725,13 @@
         maxBooksWindowHeight() {
             return (
                 Torigoya.Bookshelf.parameter.bookshelfMaxHeight ||
-                this.mainAreaHeight() - (this._bookshelf && this._bookshelf.title ? this.titleWindowHeight() : 0) - 1
+                Graphics.boxHeight - (this._bookshelf && this._bookshelf.title ? this.titleWindowHeight() : 0) - 1
             );
         }
 
         createBookContentWindow() {
-            this._bookContentWindow = new Window_BookContent(this.bookContentWindowRect());
+            const { x, y, width, height } = this.bookContentWindowRect();
+            this._bookContentWindow = new Window_BookContent(x, y, width, height);
             this._bookContentWindow.setHandler('cancel', this.onBookContentCancel.bind(this));
             this._bookContentWindow.hide();
             this._bookContentWindow.close();
@@ -772,7 +742,7 @@
             const w = this.contentWindowWidth();
             const h = this.contentWindowHeight();
             const x = (Graphics.boxWidth - w) / 2;
-            const y = this.mainAreaTop() + (this.mainAreaHeight() - h) / 2;
+            const y = (Graphics.boxHeight - h) / 2;
             return new Rectangle(x, y, w, h);
         }
 
@@ -781,6 +751,10 @@
         }
 
         loadTextFile() {
+            if (!this._loader) {
+                this._loader = ResourceHandler.createLoader(this.getFileUrl(), this.loadTextFile.bind(this));
+            }
+
             customFetch(this.getFileUrl())
                 .then((resp) => resp.text())
                 .then((text) => {
@@ -792,10 +766,7 @@
                         this.onParseError(e);
                     }
                 })
-                .catch((e) => {
-                    console.error(e);
-                    this.onLoadError(e);
-                });
+                .catch(this._loader);
         }
 
         onLoadSuccess(bookshelf) {
@@ -812,14 +783,8 @@
             this.adjustWindowPosition();
         }
 
-        onLoadError(e) {
-            SceneManager.catchLoadError([e, this.getFileUrl(), this.loadTextFile.bind(this)]);
-            SceneManager.stop();
-        }
-
         onParseError(e) {
-            this.catchNormalError(e);
-            SceneManager.stop();
+            SceneManager.catchException(e);
         }
 
         adjustWindowPosition() {
@@ -827,12 +792,12 @@
 
             const titleHeight = this._bookshelf.title ? this._titleWindow.height : 0;
             this._booksListWindow.height = Math.min(
-                this.calcWindowHeight(this._booksListWindow.maxItems(), true),
+                Window_Selectable.prototype.fittingHeight(this._booksListWindow.maxItems()),
                 this.maxBooksWindowHeight()
             );
 
             const x = (Graphics.boxWidth - this.listWindowWidth()) / 2;
-            const y = (this.mainAreaHeight() - titleHeight - this._booksListWindow.height) / 2;
+            const y = (Graphics.boxHeight - titleHeight - this._booksListWindow.height) / 2;
             this._titleWindow.x = x;
             this._titleWindow.y = y;
             this._booksListWindow.x = x;
@@ -860,16 +825,6 @@
         onBookContentCancel() {
             this._bookContentWindow.close();
             this._booksListWindow.activate();
-        }
-
-        // タッチUIをコンテンツ内のページ戻しに転用する
-        previousActor() {
-            this._bookContentWindow.goPreviousPage();
-        }
-
-        // タッチUIをコンテンツ内のページ送りに転用する
-        nextActor() {
-            this._bookContentWindow.goNextPage();
         }
     }
 
@@ -902,8 +857,8 @@
                 if (!fileName) return;
 
                 this._commandWindow.setHandler('TorigoyaBookshelf_'.concat(i), () => {
+                    Torigoya.Bookshelf.bookFileName = fileName;
                     SceneManager.push(Scene_Bookshelf);
-                    SceneManager.prepareNextScene(fileName);
                 });
             });
         };
@@ -911,11 +866,17 @@
         // -------------------------------------------------------------------------
         // プラグインコマンド
 
-        function commandOpenBookshelf({ fileName }) {
-            SceneManager.push(Scene_Bookshelf);
-            SceneManager.prepareNextScene(fileName.trim());
-        }
+        const upstream_Game_Interpreter_pluginCommand = Game_Interpreter.prototype.pluginCommand;
+        Game_Interpreter.prototype.pluginCommand = function (command, args) {
+            switch (command) {
+                case 'openBookshelf':
+                case '本棚表示':
+                    Torigoya.Bookshelf.bookFileName = ''.concat(args[0] || '').trim();
+                    SceneManager.push(Scene_Bookshelf);
+                    return;
+            }
 
-        PluginManager.registerCommand(Torigoya.Bookshelf.name, 'openBookshelf', commandOpenBookshelf);
+            upstream_Game_Interpreter_pluginCommand.apply(this, arguments);
+        };
     })();
 })();
