@@ -456,8 +456,14 @@ class Scene_Bookshelf extends Scene_MenuBase {
       this.maxBooksWindowHeight()
     );
 
+    const totalHeight = titleHeight + this._booksListWindow.height;
+    const safeAreaHeight = (Graphics.boxHeight - this.mainAreaHeight()) * 2;
+
     const x = (Graphics.boxWidth - this.listWindowWidth()) / 2;
-    const y = (this.mainAreaHeight() - titleHeight - this._booksListWindow.height) / 2;
+    const y =
+      totalHeight > this.mainAreaHeight() - safeAreaHeight
+        ? this.mainAreaTop()
+        : (Graphics.boxHeight - titleHeight - this._booksListWindow.height) / 2;
     this._titleWindow.x = x;
     this._titleWindow.y = y;
     this._booksListWindow.x = x;
