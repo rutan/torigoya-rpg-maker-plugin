@@ -20,7 +20,7 @@ jobs:
           path: main
 
       - name: Setup Node
-        uses: actions/setup-node@v2.1.0
+        uses: actions/setup-node@v2-beta
         with:
           node-version: '12.x'
 
