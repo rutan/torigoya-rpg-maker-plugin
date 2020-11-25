@@ -1,5 +1,5 @@
 base: &base
-  version: '1.3.1'
+  version: '1.4.0'
   title:
     ja: '実績プラグイン'
 
@@ -517,6 +517,34 @@ Torigoya_Achievement2_AddonCategory:
 
 TorigoyaMZ_Achievement2_AddonCategory:
   <<: *addonCategoryBase
+  target: 'MZ'
+  base:
+    - 'TorigoyaMZ_Achievement2'
+  orderAfter:
+    - 'TorigoyaMZ_Achievement2'
+
+addonUseSaveSlot: &addonUseSaveSlot
+  version: '1.0.0'
+  title:
+    ja: '実績プラグインアドオン: セーブ別実績'
+  body:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      実績をセーブ別に保存するようにします。
+      このプラグインに設定項目はありません。
+
+      【注意】
+      このアドオンを有効にすると、タイトル画面での実績表示は正常に動きません。
+      実績プラグインの設定で、タイトル画面でのメニュー表示をOFFにしてください。
+
+Torigoya_Achievement2_AddonUseSaveSlot:
+  <<: *addonUseSaveSlot
+  target: 'MV'
+
+TorigoyaMZ_Achievement2_AddonUseSaveSlot:
+  <<: *addonUseSaveSlot
   target: 'MZ'
   base:
     - 'TorigoyaMZ_Achievement2'

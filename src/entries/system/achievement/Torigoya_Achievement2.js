@@ -20,23 +20,14 @@ Torigoya.Achievement2.Manager = new AchievementManager({
     manager.setAchievements(Torigoya.Achievement2.parameter.baseAchievementData);
 
     try {
-      manager.unlockInfo.clear();
       const obj = JSON.parse(StorageManager.load(Torigoya.Achievement2.saveSlotID));
-      obj.unlockInfo.forEach(([key, value]) => {
-        if (!manager.getAchievement(key)) return;
-        manager.unlockInfo.set(key, value);
-      });
+      manager.extractSaveContents(obj);
     } catch (_e) {
-      manager.unlockInfo.clear();
+      manager.resetData();
     }
   },
   onSave(manager) {
-    StorageManager.save(
-      Torigoya.Achievement2.saveSlotID,
-      JSON.stringify({
-        unlockInfo: Array.from(manager.unlockInfo.entries()),
-      })
-    );
+    StorageManager.save(Torigoya.Achievement2.saveSlotID, JSON.stringify(manager.createSaveContents()));
   },
   overwritable: Torigoya.Achievement2.parameter.advancedOverwritable,
 });

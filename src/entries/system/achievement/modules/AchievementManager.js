@@ -202,10 +202,18 @@ export class AchievementManager {
 
   /**
    * 全実績を削除する
+   * @note 削除後にセーブ処理を呼び出す
    */
   clear() {
-    this.unlockInfo.clear();
+    this.resetData();
     this.save();
+  }
+
+  /**
+   * 実績データのリセット
+   */
+  resetData() {
+    this.unlockInfo.clear();
   }
 
   /**
@@ -237,5 +245,30 @@ export class AchievementManager {
    */
   normalizeKey(key) {
     return typeof key === 'string' ? key : `${key}`;
+  }
+
+  /**
+   * 保存したいデータの出力
+   */
+  createSaveContents() {
+    return {
+      unlockInfo: Array.from(this.unlockInfo.entries()),
+    };
+  }
+
+  /**
+   * データのインポート
+   * @param data
+   */
+  extractSaveContents(data) {
+    try {
+      this.resetData();
+      data.unlockInfo.forEach(([key, value]) => {
+        if (!this.getAchievement(key)) return;
+        this.unlockInfo.set(key, value);
+      });
+    } catch (e) {
+      console.error(e);
+    }
   }
 }

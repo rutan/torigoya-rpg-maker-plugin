@@ -17,21 +17,14 @@ Torigoya.Achievement2.Manager = new AchievementManager({
     manager.setAchievements(Torigoya.Achievement2.parameter.baseAchievementData);
 
     return StorageManager.loadObject(Torigoya.Achievement2.parameter.baseSaveSlot)
-      .then((obj) => {
-        obj.unlockInfo.forEach(([key, value]) => {
-          if (!manager.getAchievement(key)) return;
-          manager.unlockInfo.set(key, value);
-        });
-      })
+      .then((data) => manager.extractSaveContents(data))
       .catch((e) => {
         console.error(e);
-        manager.unlockInfo.clear();
+        manager.resetData();
       });
   },
   onSave(manager) {
-    return StorageManager.saveObject(Torigoya.Achievement2.parameter.baseSaveSlot, {
-      unlockInfo: Array.from(manager.unlockInfo.entries()),
-    });
+    return StorageManager.saveObject(Torigoya.Achievement2.parameter.baseSaveSlot, manager.createSaveContents());
   },
   overwritable: Torigoya.Achievement2.parameter.advancedOverwritable,
 });
