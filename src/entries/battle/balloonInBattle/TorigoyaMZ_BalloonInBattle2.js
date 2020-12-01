@@ -322,9 +322,9 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   BattleManager.invokeCounterAttack = function (subject, target) {
     upstream_BattleManager_invokeCounterAttack.apply(this, arguments);
 
-    if (subject.canMove()) {
-      subject.torigoyaBalloonInBattle_requestMessage('counter', {
-        targets: [target],
+    if (target.canMove()) {
+      target.torigoyaBalloonInBattle_requestMessage('counter', {
+        targets: [subject],
         priority: 1,
       });
     }
