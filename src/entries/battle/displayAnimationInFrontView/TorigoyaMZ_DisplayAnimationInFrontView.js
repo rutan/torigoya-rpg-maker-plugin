@@ -200,12 +200,14 @@ Torigoya.DisplayAnimationInFrontView = {
 
   // 独自処理
   Scene_Battle.prototype.torigoyaSyncActorAndStatusWindowPosition = function () {
+    const baseX = (Graphics.width - Graphics.boxWidth) / 2;
+    const baseY = (Graphics.height - Graphics.boxHeight) / 2;
     for (let i = 0; i < $gameParty.maxBattleMembers(); i++) {
       const sprite = this._spriteset._actorSprites[i];
       const rect = this._statusWindow.itemRect(i);
       sprite.setHome(
-        this._statusWindow.x + this._statusWindow.padding + rect.x + rect.width / 2,
-        this._statusWindow.y + rect.y + rect.height / 2
+        baseX + this._statusWindow.x + this._statusWindow.padding + rect.x + rect.width / 2,
+        baseY + this._statusWindow.y + rect.y + rect.height / 2
       );
     }
   };
