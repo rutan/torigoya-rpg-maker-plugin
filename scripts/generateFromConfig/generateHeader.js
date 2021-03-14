@@ -56,7 +56,9 @@ function generateHeader(config) {
             lines.push('');
             lines.push(`@command ${commandKey}`);
             lines.push(generateProp('text', lang, command['name']));
-            lines.push(generateProp('desc', lang, command['desc']));
+            if (command['desc']) {
+              generateMultilineProp('desc', lang, command['desc']).forEach((line) => lines.push(line));
+            }
 
             if (command.parameter) {
               lines.push('');
