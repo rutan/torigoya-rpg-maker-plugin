@@ -48,7 +48,7 @@ Torigoya.ActorEnemy = {
     }
 
     originalName() {
-      return this._name;
+      return super.name();
     }
 
     // 強制オート戦闘
