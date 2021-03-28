@@ -1,5 +1,5 @@
 base: &base
-  version: '1.1.1'
+  version: '1.1.2'
   title:
     ja: '戦闘中セリフ表示プラグイン'
   body:
@@ -204,6 +204,8 @@ parameterBase: &parameterBase
     parent: 'balloon'
     name: 'しっぽの位置調整'
     type: 'integer'
+    min: -10000
+    max: 10000
     desc: |
       しっぽ用の表示位置(高さ)を調整します
       マイナスにすると上に移動します
@@ -212,6 +214,8 @@ parameterBase: &parameterBase
     parent: 'balloon'
     name: '味方吹き出しの位置調整'
     type: 'integer'
+    min: -10000
+    max: 10000
     desc: |
       味方側の吹き出しの表示位置(高さ)を調整します
       マイナスにすると上に移動します
@@ -220,6 +224,8 @@ parameterBase: &parameterBase
     parent: 'balloon'
     name: '敵の吹き出しの位置調整'
     type: 'integer'
+    min: -10000
+    max: 10000
     desc: |
       敵側の吹き出しの表示位置(高さ)を調整します
       マイナスにすると上に移動します
