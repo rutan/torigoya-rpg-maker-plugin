@@ -175,14 +175,15 @@ Torigoya.ActorEnemy = {
         const battler = sprite._battler;
         if (battler && battler instanceof Game_ActorEnemy) {
           this._battleField.removeChild(sprite);
-
-          const newSprite = new Sprite_ActorEnemy(battler);
-          this._battleField.addChild(newSprite);
-          return newSprite;
+          return new Sprite_ActorEnemy(battler);
         }
         return sprite;
       })
-      .sort(this.compareEnemySprite.bind(this));
+      .sort(this.compareEnemySprite.bind(this))
+      .map((sprite) => {
+        this._battleField.addChild(sprite);
+        return sprite;
+      });
   };
 
   // --------------------------------------------------------------------------
