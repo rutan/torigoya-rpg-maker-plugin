@@ -29,6 +29,14 @@ Torigoya.Achievement2.Addons.RewardPicture = {
       this._pageIndex = 0;
     }
 
+    maxItems() {
+      return 1;
+    }
+
+    itemHeight() {
+      return this.height - this.padding * 2;
+    }
+
     itemPadding() {
       return 0;
     }
@@ -73,7 +81,7 @@ Torigoya.Achievement2.Addons.RewardPicture = {
     _drawRewardPicture(bitmap) {
       this.contents.clear();
 
-      const r = Math.min(1, this.contents.width / bitmap.width, this.contents.height / bitmap.height);
+      const r = Math.min(1, this.itemWidth() / bitmap.width, this.itemHeight() / bitmap.height);
       const drawWidth = Math.round(bitmap.width * r);
       const drawHeight = Math.round(bitmap.height * r);
       this.contents.blt(
@@ -82,11 +90,15 @@ Torigoya.Achievement2.Addons.RewardPicture = {
         0,
         bitmap.width,
         bitmap.height,
-        (this.contents.width - drawWidth) / 2,
-        (this.contents.height - drawHeight) / 2,
+        (this.itemWidth() - drawWidth) / 2,
+        (this.itemHeight() - drawHeight) / 2,
         drawWidth,
         drawHeight
       );
+    }
+
+    _updateCursor() {
+      this._windowCursorSprite.visible = false;
     }
   }
 

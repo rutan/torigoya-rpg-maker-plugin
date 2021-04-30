@@ -552,7 +552,7 @@ TorigoyaMZ_Achievement2_AddonUseSaveSlot:
     - 'TorigoyaMZ_Achievement2'
 
 addonRewardPicture: &addonRewardPicture
-  version: '1.0.0'
+  version: '1.0.1'
   title:
     ja: '実績プラグインアドオン: ご褒美ピクチャー'
   body:

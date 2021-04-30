@@ -29,13 +29,23 @@ Torigoya.Achievement2.Addons.RewardPicture = {
       this._pageIndex = 0;
     }
 
+    maxItems() {
+      return 1;
+    }
+
     itemPadding() {
       return 0;
+    }
+
+    itemHeight() {
+      return this.innerHeight;
     }
 
     setReward(reward) {
       this._reward = reward;
       this._pageIndex = 0;
+      this.forceSelect(0);
+      this.setCursorFixed(true);
       this.refresh();
     }
 
@@ -73,20 +83,25 @@ Torigoya.Achievement2.Addons.RewardPicture = {
     _drawRewardPicture(bitmap) {
       this.contents.clear();
 
-      const r = Math.min(1, this.contents.width / bitmap.width, this.contents.height / bitmap.height);
+      const r = Math.min(1, this.itemWidth() / bitmap.width, this.itemHeight() / bitmap.height);
       const drawWidth = Math.round(bitmap.width * r);
       const drawHeight = Math.round(bitmap.height * r);
+
       this.contents.blt(
         bitmap,
         0,
         0,
         bitmap.width,
         bitmap.height,
-        (this.contents.width - drawWidth) / 2,
-        (this.contents.height - drawHeight) / 2,
+        (this.itemWidth() - drawWidth) / 2,
+        (this.itemHeight() - drawHeight) / 2,
         drawWidth,
         drawHeight
       );
+    }
+
+    _makeCursorAlpha() {
+      return 0;
     }
   }
 
@@ -121,7 +136,7 @@ Torigoya.Achievement2.Addons.RewardPicture = {
     const wx = 0;
     const wy = this.mainAreaTop();
     const ww = Graphics.boxWidth;
-    const wh = this.mainAreaHeight();
+    const wh = Graphics.boxHeight - wy;
     return new Rectangle(wx, wy, ww, wh);
   };
 
