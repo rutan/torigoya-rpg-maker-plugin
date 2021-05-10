@@ -1,0 +1,213 @@
+TorigoyaMZ_NotifyMessage:
+  version: '1.0.0'
+  title:
+    ja: '通知メッセージプラグイン'
+  target: 'MZ'
+  body:
+    ja: |
+      画面の左下から通知メッセージを表示する機能を追加します。
+      通知メッセージはプラグインコマンドで表示できます。
+  parameter:
+    base:
+      dummy: '■ 基本設定'
+    baseAppearTime:
+      parent: 'base'
+      name: '登場/退場時間'
+      type: 'integer'
+      desc: |
+        通知が画面にスクロールイン/アウトする時間（フレーム数/60＝1秒）を指定します。
+      min: 0
+      default: 15
+    baseViewTime:
+      parent: 'base'
+      name: '表示時間'
+      type: 'integer'
+      desc: |
+        通知の表示時間（フレーム数/60＝1秒）を指定します。0にすると画面外に押し出されるまで消えなくなります。
+      min: 0
+      default: 90
+    baseFontSize:
+      parent: 'base'
+      name: '文字サイズ'
+      type: 'integer'
+      min: 1
+      desc: |
+        通知メッセージの文字サイズを指定します
+      default: 22
+    basePadding:
+      parent: 'base'
+      name: '余白サイズ'
+      type: 'integer'
+      min: 0
+      desc: |
+        通知メッセージの余白サイズを指定します
+      default: 4
+    baseItemPadding:
+      parent: 'base'
+      name: 'アイコンと文章の余白'
+      type: 'integer'
+      min: 0
+      desc: |
+        通知アイコンとメッセージの間の余白サイズを指定します
+      default: 5
+    baseSound:
+      parent: 'base'
+      name: '効果音'
+      type: Sound
+      desc: |
+        通知表示時の効果音を指定します。
+      default: '{"soundName":"Saint5","soundVolume":"90"}'
+    advanced:
+      dummy: '■ 上級設定'
+    advancedVisibleSwitch:
+      parent: 'advanced'
+      name: '有効スイッチ'
+      type: 'switch'
+      desc: |
+        このスイッチがONのときのみ画面に通知を表示するようにします。「なし」の場合は常に表示されます。
+      default: 0
+    advancedBackgroundColor1:
+      parent: 'advanced'
+      name: '背景グラデーション:左端'
+      type: 'string'
+      desc: |
+        背景グラデーションの左端の色を指定します。
+        色はCSSの記法で指定できます。
+      default: 'rgba(0, 0, 64, 0.6)'
+    advancedBackgroundColor2:
+      parent: 'advanced'
+      name: '背景グラデーション:右端'
+      type: 'string'
+      desc: |
+        背景グラデーションの右端の色を指定します。
+        色はCSSの記法で指定できます。
+      default: 'rgba(0, 32, 64, 0)'
+    advancedUiPaddingBottom:
+      parent: 'advanced'
+      name: 'UIエリア余白: 下端'
+      desc: |
+        通知メッセージ表示位置の下側の余白を指定します。
+      type: 'integer'
+      default: 5
+    advancedKeepMessage:
+      parent: 'advanced'
+      name: 'シーン遷移しても表示をキープ'
+      desc: |
+        【危険：環境によってはONにすると不具合の原因となります】シーン遷移してもメッセージを全消ししないようにします。
+      type: 'boolean'
+      on: 'キープする（危険）'
+      off: 'キープしない（安全）'
+      default: false
+
+  structures:
+    Sound:
+      name:
+        name: '効果音ファイル名'
+        desc: |
+          通知表示時に再生する効果音ファイル
+          空っぽの場合は効果音なしになります
+        type: 'file'
+        dir: 'audio/se/'
+        default: 'Item1'
+      volume:
+        name: '効果音の音量'
+        desc: |
+          通知表示時に再生する効果音の音量（%）
+        type: 'number'
+        min: 0
+        max: 100
+        default: 90
+      pitch:
+        name: '効果音のピッチ'
+        desc: |
+          通知表示時に再生する効果音のピッチ（%）
+        type: 'number'
+        min: 0
+        max: 200
+        default: 100
+      pan:
+        name: '効果音の位相'
+        desc: |
+          通知表示時に再生する効果音の位相
+        type: 'number'
+        min: -100
+        max: 100
+        default: 0
+
+  commands:
+    notify:
+      name: '通知の表示'
+      desc: '指定内容の通知を表示します'
+      parameter:
+        message:
+          type: 'string'
+          name: 'メッセージ'
+          desc: |
+            通知に表示する文章を指定します。「文章の表示」のコマンドが一部利用できます。
+        icon:
+          type: 'number'
+          name: 'アイコンID'
+          desc: |
+            通知に表示するアイコンのIDを指定します。
+            0の場合は表示しません。
+
+TorigoyaMZ_NotifyMessage_AddonGetItem:
+  version: '1.0.0'
+  title:
+    ja: '通知メッセージアドオン: アイテム獲得表示'
+  target: 'MZ'
+  body:
+    ja: |
+      以下のイベントコマンド実行時に自動的に通知メッセージを表示します。
+      ※増やす場合のみ表示されます
+
+      ・所持金の増減
+      ・アイテムの増減
+      ・武器の増減
+      ・防具の増減
+
+      ------------------------------------------------------------
+      ■ 表示したくない場合
+      ------------------------------------------------------------
+      例えばお金の入手メッセージはいらない！という場合は、
+      お金の入手メッセージの内容を空欄にしてください。
+  parameter:
+    base:
+      dummy: '■ 基本設定'
+    baseGainSingleMessage:
+      parent: 'base'
+      name: 'アイテム入手メッセージ（1つ）'
+      type: 'string'
+      desc: |
+        アイテムを1つ入手したときのメッセージを設定します。（\name : アイテム名）
+      default: '\c[2]\name\c[0] を手に入れた！'
+    baseGainMultiMessage:
+      parent: 'base'
+      name: 'アイテム入手メッセージ（複数）'
+      type: 'string'
+      desc: |
+        アイテムを複数入手したときのメッセージを設定します。（\name : アイテム名  \count : 個数）
+      default: '\c[2]\name\c[0] ×\count を手に入れた！'
+    baseGainMoneyMessage:
+      parent: 'base'
+      name: 'お金入手メッセージ'
+      type: 'string'
+      desc: |
+        お金を入手したときのメッセージを設定します。（\gold : 獲得金額）
+      default: '\gold\c[4]\G\c[0] を手に入れた！'
+    baseGainMoneyIcon:
+      parent: 'base'
+      name: 'お金入手アイコン'
+      type: 'number'
+      desc: |
+        お金を入手したときのアイコンIDを設定します。0の場合はアイコンを表示しません。
+      default: 0
+    advanced:
+      dummy: '■ 上級設定'
+    advancedSwitch:
+      parent: 'advanced'
+      name: '有効スイッチ'
+      type: 'switch'
+      desc: |
+        このスイッチがONのときのみ画面に通知するようにします。「なし」の場合は常に通知されます。
+      default: 0

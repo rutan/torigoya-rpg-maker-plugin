@@ -44,6 +44,6 @@
     "yaml": "^1.10.0"
   },
   "dependencies": {
-    "@rutan/frame-tween": "^0.2.0"
+    "@rutan/frame-tween": "0.5.0"
   }
 }

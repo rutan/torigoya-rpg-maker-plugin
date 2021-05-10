@@ -893,10 +893,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rutan/frame-tween@^0.2.0":
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/@rutan/frame-tween/-/frame-tween-0.2.0.tgz#7490d968557b5694c302c0fc05303c6748b0e5da"
-  integrity sha512-x+WMsodox4DW5uBqOsrLUHfnekwrlFXwk6FarnWJYLgYS0yRJoX3itGNdQylUD3+WwfaEWTkvzBsBnBHXmXaoQ==
+"@rutan/frame-tween@0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@rutan/frame-tween/-/frame-tween-0.5.0.tgz#96a5c2429a0b80a79c11e9ceb3d46c965424c124"
+  integrity sha512-URMCdxdF3C0VkLIcmBrbT9AI5PKoYmIVfLdYuRFfMslOWR732ldrAODqNyh90xpycXUPYofBGlHSeHtc1DdR+g==
 
 "@types/color-name@^1.1.1":
   version "1.1.1"
