@@ -9,7 +9,7 @@ export class Window_BattleBalloon extends Window_Base {
     this._battlerPosition = new Point();
     this._lifeTimer = 0;
     this.downArrowVisible = this._useTail();
-    this.close();
+    this.openness = 0;
   }
 
   loadWindowskin() {

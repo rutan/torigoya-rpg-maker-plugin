@@ -37,9 +37,9 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
     }
     return talkSetCache.get(talkSetId);
   }
-
   // --------------------------------------------------------------------------
   // Game_Battler
+
   const battlerParameter = new WeakMap();
 
   Game_Battler.prototype.torigoyaBalloonInBattle_getTalkSet = function () {
