@@ -1,5 +1,5 @@
 TorigoyaMZ_NotifyMessage:
-  version: '1.0.0'
+  version: '1.0.1'
   title:
     ja: '通知メッセージプラグイン'
   target: 'MZ'
@@ -7,6 +7,10 @@ TorigoyaMZ_NotifyMessage:
     ja: |
       画面の左下から通知メッセージを表示する機能を追加します。
       通知メッセージはプラグインコマンドで表示できます。
+  base:
+    - 'TorigoyaMZ_FrameTween'
+  orderAfter:
+    - 'TorigoyaMZ_FrameTween'
   parameter:
     base:
       dummy: '■ 基本設定'
@@ -152,7 +156,7 @@ TorigoyaMZ_NotifyMessage:
             0の場合は表示しません。
 
 TorigoyaMZ_NotifyMessage_AddonGetItem:
-  version: '1.0.0'
+  version: '1.0.1'
   title:
     ja: '通知メッセージアドオン: アイテム獲得表示'
   target: 'MZ'
@@ -171,6 +175,10 @@ TorigoyaMZ_NotifyMessage_AddonGetItem:
       ------------------------------------------------------------
       例えばお金の入手メッセージはいらない！という場合は、
       お金の入手メッセージの内容を空欄にしてください。
+  base:
+    - 'TorigoyaMZ_NotifyMessage'
+  orderAfter:
+    - 'TorigoyaMZ_NotifyMessage'
   parameter:
     base:
       dummy: '■ 基本設定'
