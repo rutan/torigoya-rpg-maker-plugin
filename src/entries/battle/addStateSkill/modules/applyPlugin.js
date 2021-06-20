@@ -10,6 +10,10 @@ export function applyPlugin() {
   BattleManager.torigoyaAddStateSkill_check = function () {
     const action = this._action;
     if (!action) return;
+
+    const actionSubject = action.subject();
+    if (this._subject !== actionSubject) return;
+
     const item = this._action.item();
     if (!item) return;
 
