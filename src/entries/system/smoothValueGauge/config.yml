@@ -1,6 +1,6 @@
 TorigoyaMZ_SmoothValueGauge:
   target: 'MZ'
-  version: '1.0.0'
+  version: '1.1.0'
   title:
     ja: 'ゲージ数値アニメーションプラグイン'
   body:
