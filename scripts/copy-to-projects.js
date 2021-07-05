@@ -27,17 +27,14 @@ function isMzProject(projectDir) {
 
 glob.sync(path.join(__dirname, '..', 'projects', '*')).forEach((projectDir) => {
   try {
+    const distDir = path.join(projectDir, 'js', 'plugins');
     if (isMvProject(projectDir)) {
-      const distDir = path.join(projectDir, 'js', 'plugins');
-
       if (isWatch) {
         cpx.watch(srcMvPlugins, distDir);
       } else {
         cpx.copy(srcMvPlugins, distDir);
       }
     } else if (isMzProject(projectDir)) {
-      const distDir = path.join(projectDir, 'js', 'plugins', 'torigoya');
-
       if (isWatch) {
         cpx.watch(srcMzPlugins, distDir);
       } else {

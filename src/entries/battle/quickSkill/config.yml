@@ -1,5 +1,5 @@
 base: &base
-  version: '1.1.0'
+  version: '1.0.1'
   title:
     ja: 'ターン消費なしスキルプラグイン'
   body:
