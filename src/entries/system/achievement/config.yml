@@ -1,5 +1,5 @@
 base: &base
-  version: '1.4.0'
+  version: '1.5.1'
   title:
     ja: '実績プラグイン'
 
@@ -378,7 +378,7 @@ TorigoyaMZ_Achievement2:
         気をつけて使おう！
 
 addonTileViewBase: &addonTileViewBase
-  version: '1.1.0'
+  version: '1.2.1'
   title:
     ja: '実績プラグインアドオン: タイル表示'
   body:
@@ -421,7 +421,7 @@ TorigoyaMZ_Achievement2_AddonTileView:
     - 'TorigoyaMZ_Achievement2'
 
 addonCategory: &addonCategoryBase
-  version: '1.1.1'
+  version: '1.2.1'
   title:
     ja: '実績プラグインアドオン: カテゴリ設定'
   body:
@@ -552,7 +552,7 @@ TorigoyaMZ_Achievement2_AddonUseSaveSlot:
     - 'TorigoyaMZ_Achievement2'
 
 addonRewardPicture: &addonRewardPicture
-  version: '1.0.1'
+  version: '1.1.1'
   title:
     ja: '実績プラグインアドオン: ご褒美ピクチャー'
   body:

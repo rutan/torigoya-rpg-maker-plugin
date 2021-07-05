@@ -1,5 +1,5 @@
 TorigoyaMZ_ActorEnemy:
-  version: '0.1.1'
+  version: '0.2.1'
   target: 'MZ'
   title:
     ja: 'アクター使用エネミープラグイン'

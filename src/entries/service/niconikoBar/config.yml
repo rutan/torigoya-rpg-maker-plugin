@@ -1,5 +1,5 @@
 base: &base
-  version: '1.1.0'
+  version: '1.2.1'
   title:
     ja: 'ニコニ広告通知バー風表示プラグイン'
   body:
