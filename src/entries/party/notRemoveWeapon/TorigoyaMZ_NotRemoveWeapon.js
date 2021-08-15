@@ -12,7 +12,8 @@ Torigoya.NotRemoveWeapon = {
   // Game_Actor
 
   Game_Actor.prototype.torigoyaNotRemoveWeapon_isWeaponSlot = function (slotId) {
-    return this.equipSlots()[slotId] === 1;
+    const id = this.equipSlots()[slotId];
+    return Torigoya.NotRemoveWeapon.parameter.advancedSlotIds.findIndex((n) => id === n) >= 0;
   };
 
   // [再定義] 全部外すで外れないようにする
