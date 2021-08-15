@@ -55,6 +55,23 @@ class Window_AchievementCategory extends Window_Command {
 
 Torigoya.Achievement2.Addons.Category.Window_AchievementCategory = Window_AchievementCategory;
 
+function readCategoryName(achievement) {
+  const category = (
+    achievement.meta['カテゴリー'] ||
+    achievement.meta['カテゴリ'] ||
+    achievement.meta['Category'] ||
+    ''
+  ).trim();
+  if (category) return category;
+
+  const autoCategory = Torigoya.Achievement2.Addons.Category.parameter.categories.find((category) => {
+    return category.prefix && achievement.key.startsWith(category.prefix);
+  });
+  return autoCategory ? autoCategory.name : '';
+}
+
+Torigoya.Achievement2.Addons.Category.readCategoryName = readCategoryName;
+
 (() => {
   const Window_AchievementList = Torigoya.Achievement2.Window_AchievementList;
 
@@ -66,18 +83,7 @@ Torigoya.Achievement2.Addons.Category.Window_AchievementCategory = Window_Achiev
   Window_AchievementList.prototype.makeItemList = function () {
     upstream_Window_AchievementList_makeItemList.apply(this);
     this._data = this._data.filter((item) => {
-      if (!this._category) return false;
-      const itemCategory = (
-        item.achievement.meta['カテゴリー'] ||
-        item.achievement.meta['カテゴリ'] ||
-        item.achievement.meta['Category'] ||
-        ''
-      ).trim();
-
-      return (
-        itemCategory === this._category.name ||
-        (this._category.prefix && item.achievement.key.startsWith(this._category.prefix))
-      );
+      return this._category && this._category.name === readCategoryName(item.achievement);
     });
   };
 
@@ -170,5 +176,34 @@ Torigoya.Achievement2.Addons.Category.Window_AchievementCategory = Window_Achiev
     this._listWindow.deactivate();
     this._categoryWindow.activate();
     this._helpWindow.clear();
+  };
+
+  // -------------------------------------------------------------------------
+  // プラグインコマンド
+
+  const upstream_Game_Interpreter_pluginCommand = Game_Interpreter.prototype.pluginCommand;
+  Game_Interpreter.prototype.pluginCommand = function (command, args) {
+    console.log(command, args);
+    switch (command) {
+      case 'GetAchievementCategory':
+      case 'カテゴリ内実績獲得': {
+        const category = `${args[0]}`.trim();
+        Torigoya.Achievement2.Manager.achievements.forEach((achievement) => {
+          if (readCategoryName(achievement) !== category) return;
+          Torigoya.Achievement2.Manager.unlock(achievement.key);
+        });
+        return;
+      }
+      case 'RemoveAchievementCategory':
+      case 'カテゴリ内実績削除': {
+        const category = `${args[0]}`.trim();
+        Torigoya.Achievement2.Manager.achievements.forEach((achievement) => {
+          if (readCategoryName(achievement) !== category) return;
+          Torigoya.Achievement2.Manager.remove(achievement.key);
+        });
+        return;
+      }
+    }
+    upstream_Game_Interpreter_pluginCommand.apply(this, arguments);
   };
 })();

@@ -421,7 +421,7 @@ TorigoyaMZ_Achievement2_AddonTileView:
     - 'TorigoyaMZ_Achievement2'
 
 addonCategory: &addonCategoryBase
-  version: '1.2.1'
+  version: '1.3.0'
   title:
     ja: '実績プラグインアドオン: カテゴリ設定'
   body:
@@ -522,6 +522,25 @@ TorigoyaMZ_Achievement2_AddonCategory:
     - 'TorigoyaMZ_Achievement2'
   orderAfter:
     - 'TorigoyaMZ_Achievement2'
+  commands:
+    gainAchievementCategory:
+      name: '指定カテゴリの全実績を獲得'
+      desc: '指定カテゴリの実績を獲得します'
+      parameter:
+        category:
+          type: 'string'
+          name: 'カテゴリ名'
+          desc: '獲得したい実績に設定したカテゴリ名を指定'
+    removeAchievementCategory:
+      name: '指定カテゴリの全実績を削除'
+      desc: |
+        指定カテゴリの実績を未獲得状態にします。
+        未獲得だった場合は何もしません。
+      parameter:
+        category:
+          type: 'string'
+          name: 'カテゴリ名'
+          desc: '削除したい実績に設定したカテゴリ名を指定'
 
 addonUseSaveSlot: &addonUseSaveSlot
   version: '1.0.0'
