@@ -497,5 +497,13 @@ Torigoya.NotifyMessage = {
     NotifyManager.notify(item);
   }
 
+  function commandNotifyWithVariableIcon({ message, iconVariable }) {
+    const variableId = parseInt(iconVariable, 10);
+    const icon = Math.max($gameVariables.value(variableId), 0);
+    const item = new NotifyItem({ message, icon });
+    NotifyManager.notify(item);
+  }
+
   PluginManager.registerCommand(Torigoya.NotifyMessage.name, 'notify', commandNotify);
+  PluginManager.registerCommand(Torigoya.NotifyMessage.name, 'notifyWithVariableIcon', commandNotifyWithVariableIcon);
 })();
