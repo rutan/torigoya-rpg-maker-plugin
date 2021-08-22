@@ -138,7 +138,7 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   // Sprite_Actor
 
   Sprite_Actor.prototype.torigoyaBalloonInBattle_balloonY = function () {
-    const bitmapHeight = this._frame.height;
+    const bitmapHeight = this._frame.height * this.scale.y;
     const actor = this._actor ? this._actor.actor() : null;
     const y = actor ? readBalloonYFromMeta(actor) : 0;
     return -bitmapHeight + y + Torigoya.BalloonInBattle.parameter.balloonActorY;
@@ -148,7 +148,7 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   // Sprite_Enemy
 
   Sprite_Enemy.prototype.torigoyaBalloonInBattle_balloonY = function () {
-    const bitmapHeight = this.bitmap ? this.bitmap.height : 0;
+    const bitmapHeight = (this.bitmap ? this.bitmap.height : 0) * this.scale.y;
     const enemy = this._enemy ? this._enemy.enemy() : null;
     const y = enemy ? readBalloonYFromMeta(enemy) : 0;
     return -bitmapHeight + y + Torigoya.BalloonInBattle.parameter.balloonEnemyY;
