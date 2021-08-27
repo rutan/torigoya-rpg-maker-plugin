@@ -80,7 +80,7 @@ export class TalkSet {
         return this._selectEnableItemsForState('talkRemoveState', options);
     }
 
-    return [];
+    return this._data.talkAdvanced.filter((item) => item.type === type);
   }
 
   _filterForAllItems(items, options) {

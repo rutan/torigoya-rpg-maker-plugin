@@ -1,5 +1,5 @@
 base: &base
-  version: '1.2.2'
+  version: '1.3.0'
   title:
     ja: '戦闘中セリフ表示プラグイン'
   body:
@@ -78,8 +78,9 @@ base: &base
 
       Q. 拡張データって何？
 
-      このプラグインだけ使う場合は特に必要ないから無視して大丈夫だよ。
-      他のプラグインから、このプラグインの機能を拡張するために使う欄です。
+      プラグインコマンドや別のプラグインから使うための
+      データを登録できる欄です。
+      基本的な使い方では登録する必要はありません。
 
       ------------------------------------------------------------
       ■ プロ向け
@@ -155,6 +156,13 @@ base: &base
       ゲーム中にキャラに設定されている
       セリフセットを別のものに切り替えることができます。
       （この変更はセーブデータに反映されます）
+
+      ----------
+
+      ● 戦闘中のイベントなどで任意のセリフを表示する
+
+      プラグインコマンドを使用することで、
+      戦闘中のイベント中に任意のセリフを表示することができます。
 
 parameterBase: &parameterBase
   base:
@@ -401,7 +409,7 @@ structureBase: &structureBase
       array: true
       desc: |
         拡張用データです。通常利用では設定は不要です。
-        アドオンプラグイン等から利用されます。
+        プラグインコマンドや別プラグイン等から利用されます。
     note:
       name: 'メモ欄'
       type: 'multiline_string'
@@ -647,6 +655,78 @@ TorigoyaMZ_BalloonInBattle2:
           desc: |
             セリフセットをもとに戻すアクター
           default: 0
+    talkActorByText:
+      name: '[戦闘中のみ] 指定文章の味方セリフを表示'
+      desc: |
+        指定した内容のセリフを表示します
+      parameter:
+        actorId:
+          type: 'actor'
+          name: 'セリフを表示するアクター'
+          desc: |
+            セリフを表示するアクターを選択します。
+            0の場合は現在行動中のアクターに表示します。
+          default: 0
+        text:
+          type: 'string'
+          name: 'セリフ本文'
+          desc: |
+            表示するセリフを入力してください
+            \n : 改行
+    talkEnemyByText:
+      name: '[戦闘中のみ] 指定文章の敵セリフを表示'
+      desc: |
+        指定したタイプのセリフを表示します
+      parameter:
+        enemyIndex:
+          type: 'integer'
+          name: 'セリフを表示する敵'
+          desc: |
+            セリフを表示する敵の番号を指定します。
+            0の場合は現在行動中の敵に表示します。
+          default: 0
+        text:
+          type: 'string'
+          name: 'セリフ本文'
+          desc: |
+            表示するセリフを入力してください
+            \n : 改行
+    talkActorByType:
+      name: '[戦闘中のみ] 指定タイプの味方セリフを表示'
+      desc: |
+        指定したタイプのセリフを表示します。
+        事前に拡張用データを登録する必要があります。
+      parameter:
+        actorId:
+          type: 'actor'
+          name: 'セリフを表示するアクター'
+          desc: |
+            セリフを表示するアクターを選択します。
+            0の場合は現在行動中のアクターに表示します。
+          default: 0
+        type:
+          type: 'string'
+          name: 'メッセージタイプ'
+          desc: |
+            拡張用データに登録した拡張タイプを指定します。
+    talkEnemyByType:
+      name: '[戦闘中のみ] 指定タイプの敵セリフを表示'
+      desc: |
+        指定したタイプのセリフを表示します。
+        事前に拡張用データを登録する必要があります。
+      parameter:
+        enemyIndex:
+          type: 'integer'
+          name: 'セリフを表示する敵'
+          desc: |
+            セリフを表示する敵の番号を指定します。
+            0の場合は現在行動中の敵に表示します。
+          default: 0
+        type:
+          type: 'string'
+          name: 'メッセージタイプ'
+          desc: |
+            拡張用データに登録した拡張タイプを指定します。
   orderBefore:
     - 'TorigoyaMZ_DisplayAnimationInFrontView'
 

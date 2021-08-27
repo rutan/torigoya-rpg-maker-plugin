@@ -400,6 +400,24 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
     }
   };
 
+  const upstream_BattleManager_endAction = BattleManager.endAction;
+  BattleManager.endAction = function () {
+    this.torigoyaBalloonInBattle_lastActionSubject = this._subject;
+    upstream_BattleManager_endAction.apply(this);
+  };
+
+  const upstream_BattleManager_endTurn = BattleManager.endTurn;
+  BattleManager.endTurn = function () {
+    delete this.torigoyaBalloonInBattle_lastActionSubject;
+    upstream_BattleManager_endTurn.apply(this);
+  };
+
+  const upstream_BattleManager_endBattle = BattleManager.endBattle;
+  BattleManager.endBattle = function (result) {
+    delete this.torigoyaBalloonInBattle_lastActionSubject;
+    upstream_BattleManager_endBattle.apply(this, arguments);
+  };
+
   // --------------------------------------------------------------------------
   // Scene_Battle
 
@@ -488,6 +506,61 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
     delete Torigoya.BalloonInBattle.actorTalkSetId[actorId];
   }
 
+  function pickActor(actorId) {
+    if (!$gameParty.inBattle()) return null;
+
+    actorId = parseInt(actorId || '0', 10);
+    const subject =
+      actorId > 0
+        ? $gameParty.battleMembers().find((actor) => actor.actorId() === actorId)
+        : BattleManager._subject || BattleManager.torigoyaBalloonInBattle_lastActionSubject;
+
+    return subject && subject.isActor() ? subject : null;
+  }
+
+  function commandTalkActorByType({ actorId, type }) {
+    const subject = pickActor(actorId);
+    if (!subject) return;
+
+    subject.torigoyaBalloonInBattle_requestMessage(type);
+  }
+
+  function commandTalkActorByText({ actorId, text }) {
+    const subject = pickActor(actorId);
+    if (!subject) return;
+
+    subject.torigoyaBalloonInBattle_setMessageParameter(`manualMessage-${Date.now()}`, text);
+  }
+
+  function pickEnemy(enemyIndex) {
+    if (!$gameParty.inBattle()) return null;
+
+    enemyIndex = parseInt(enemyIndex || '0', 10);
+    const subject =
+      enemyIndex > 0
+        ? $gameTroop.members().find((enemy) => enemy.index() === enemyIndex - 1)
+        : BattleManager._subject || BattleManager.torigoyaBalloonInBattle_lastActionSubject;
+    return subject && subject.isEnemy() ? subject : null;
+  }
+
+  function commandTalkEnemyByType({ enemyIndex, type }) {
+    const subject = pickEnemy(enemyIndex);
+    if (!subject) return;
+
+    subject.torigoyaBalloonInBattle_requestMessage(type);
+  }
+
+  function commandTalkEnemyByText({ enemyIndex, text }) {
+    const subject = pickEnemy(enemyIndex);
+    if (!subject) return;
+
+    subject.torigoyaBalloonInBattle_setMessageParameter(`manualMessage-${Date.now()}`, text);
+  }
+
   PluginManager.registerCommand(Torigoya.BalloonInBattle.name, 'changeTalkSet', commandChangeTalkSetId);
   PluginManager.registerCommand(Torigoya.BalloonInBattle.name, 'resetTalkSet', commandResetTalkSetId);
+  PluginManager.registerCommand(Torigoya.BalloonInBattle.name, 'talkActorByType', commandTalkActorByType);
+  PluginManager.registerCommand(Torigoya.BalloonInBattle.name, 'talkActorByText', commandTalkActorByText);
+  PluginManager.registerCommand(Torigoya.BalloonInBattle.name, 'talkEnemyByType', commandTalkEnemyByType);
+  PluginManager.registerCommand(Torigoya.BalloonInBattle.name, 'talkEnemyByText', commandTalkEnemyByText);
 })();
