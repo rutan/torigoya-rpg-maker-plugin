@@ -200,6 +200,22 @@ parameterBase: &parameterBase
       カットインが表示されるレイヤーを指定します
       省略の場合は共通設定を使用します
     default: 'foreground'
+  cutInOpenAndCloseTime:
+    parent: 'common'
+    name: 'カットイン表示開始/終了アニメーション時間'
+    type: 'integer'
+    desc: |
+      カットインの表示開始/終了アニメーションの再生時間を指定します。
+      60＝1秒です。
+    default: 25
+  cutInStopTime:
+    parent: 'common'
+    name: 'カットイン停止時間'
+    type: 'integer'
+    desc: |
+      カットイン表示が画面にとどまる時間を指定します。
+      60＝1秒です。
+    default: 10
   commonActor:
     dummy: '■ 味方用の共通設定'
   actorBackColor1:

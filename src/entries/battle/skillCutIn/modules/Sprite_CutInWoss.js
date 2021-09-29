@@ -1,5 +1,5 @@
-import { Sprite_CutInBase } from './Sprite_CutInBase';
 import { Torigoya } from '../../../../common/Torigoya';
+import { Sprite_CutInBase } from './Sprite_CutInBase';
 import { callBitmapLoaded } from '../../../../common/utils/callBitmapLoaded';
 import { easingBounce } from './easingBounce';
 
@@ -19,11 +19,11 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
   }
 
   getOpenAndCloseTime() {
-    return 25;
+    return Torigoya.SkillCutIn.parameter.cutInOpenAndCloseTime;
   }
 
   getStopTime() {
-    return 10;
+    return Torigoya.SkillCutIn.parameter.cutInStopTime;
   }
 
   onCreate() {
