@@ -177,6 +177,14 @@ parameterBase: &parameterBase
       境界線画像のブレンドモードを指定します
       ※RPGツクールMZのみ有効
     default: 'add'
+  commonBorderSpeed:
+    parent: 'common'
+    name: '境界線画像の移動速度'
+    type: 'integer'
+    desc: |
+      境界線画像が移動する速度を指定します
+      ※RPGツクールMZのみ有効
+    default: 30
   commonSound:
     parent: 'common'
     name: '効果音'

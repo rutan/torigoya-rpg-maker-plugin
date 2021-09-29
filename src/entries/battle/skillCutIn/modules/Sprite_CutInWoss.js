@@ -18,6 +18,10 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
     return this._mainLargeHeightCache;
   }
 
+  getBorderSpeed() {
+    return Torigoya.SkillCutIn.parameter.commonBorderSpeed;
+  }
+
   getOpenAndCloseTime() {
     return Torigoya.SkillCutIn.parameter.cutInOpenAndCloseTime;
   }
@@ -189,7 +193,6 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
       wrapperSprite.rotation = this.getMainRotation();
       wrapperSprite.scale.y = 0;
       wrapperSprite.setColorTone(colorTone);
-      wrapperSprite.blendMode = this.getCutInBorderBlendMode();
       this.addChild(wrapperSprite);
 
       const sprite = new TilingSprite(borderBitmap);
@@ -198,6 +201,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
         const h = borderBitmap.height;
         sprite.move(-w / 2, -h / 2, w, h);
       });
+      sprite.blendMode = this.getCutInBorderBlendMode();
       wrapperSprite.addChild(sprite);
       return sprite;
     });
@@ -405,7 +409,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
       wrapperSprite.x = Math.cos(r3) * length * (i === 0 ? -1 : 1);
       wrapperSprite.y = Math.sin(r3) * length * (i === 0 ? -1 : 1);
 
-      sprite.origin.x += 30;
+      sprite.origin.x += this.getBorderSpeed();
     });
   }
 
