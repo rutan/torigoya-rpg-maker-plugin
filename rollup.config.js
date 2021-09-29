@@ -23,6 +23,7 @@ const config = glob.sync(path.join(__dirname, 'src', 'entries', '*', '*', 'Torig
       replace({
         globalThis: 'window',
         __entryFileName: JSON.stringify(path.basename(input).replace(/\.[^\.]+$/, '')),
+        preventAssignment: false,
       }),
       applyTemplate({
         template: path.resolve(__dirname, 'src', 'templates', 'plugin.ejs'),
