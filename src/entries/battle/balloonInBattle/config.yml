@@ -1,5 +1,5 @@
 base: &base
-  version: '1.3.0'
+  version: '1.4.0'
   title:
     ja: '戦闘中セリフ表示プラグイン'
   body:
@@ -276,6 +276,18 @@ parameterBase: &parameterBase
       行動選択セリフの表示時間（ウェイト）を指定します
       60＝1秒です。-1の場合は別のセリフが出るまで消えません。
     default: -1
+  advancedLayerPosition:
+    parent: 'advanced'
+    name: '表示レイヤー位置'
+    type: 'select'
+    option:
+      - name: '通常'
+        value: 'normal'
+      - name: 'ウィンドウ類より上'
+        value: 'overlayWindow'
+    desc: |
+      セリフ表示レイヤーの位置を変更します
+    default: 'normal'
 
 structureBase: &structureBase
   TalkSet:

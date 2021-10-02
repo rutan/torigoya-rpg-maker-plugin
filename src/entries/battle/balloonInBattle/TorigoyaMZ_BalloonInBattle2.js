@@ -422,11 +422,24 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   // Scene_Battle
 
   const upstream_Scene_Battle_createWindowLayer = Scene_Battle.prototype.createWindowLayer;
-  Scene_Battle.prototype.createWindowLayer = function () {
-    this.torigoyaBalloonInBattle_createActorBalloons();
-    this.torigoyaBalloonInBattle_createEnemyBalloons();
-    upstream_Scene_Battle_createWindowLayer.apply(this);
-  };
+  switch (Torigoya.BalloonInBattle.parameter.advancedLayerPosition) {
+    case 'overlayWindow': {
+      Scene_Battle.prototype.createWindowLayer = function () {
+        upstream_Scene_Battle_createWindowLayer.apply(this);
+        this.torigoyaBalloonInBattle_createActorBalloons();
+        this.torigoyaBalloonInBattle_createEnemyBalloons();
+      };
+      break;
+    }
+    case 'default':
+    default: {
+      Scene_Battle.prototype.createWindowLayer = function () {
+        this.torigoyaBalloonInBattle_createActorBalloons();
+        this.torigoyaBalloonInBattle_createEnemyBalloons();
+        upstream_Scene_Battle_createWindowLayer.apply(this);
+      };
+    }
+  }
 
   Scene_Battle.prototype.torigoyaBalloonInBattle_createActorBalloons = function () {
     this._torigoyaBalloonInBattle_actorBalloonLayer = new Sprite();
