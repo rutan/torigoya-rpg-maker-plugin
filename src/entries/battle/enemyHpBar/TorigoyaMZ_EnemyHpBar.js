@@ -75,6 +75,16 @@ class Sprite_EnemyHpGauge extends Sprite_Gauge {
   }
 
   bitmapHeight() {
+    // コアスクリプトv.1.3.3 の以下の修正内容を適用
+    // > HP（略）MP（略）TP（略）に一部の英文字を利用すると見切れる問題を修正
+    if (Sprite_Gauge.prototype.textHeight) {
+      return Math.round(this.textHeight() * 1.5);
+    } else {
+      return this.textHeight();
+    }
+  }
+
+  textHeight() {
     if (Torigoya.EnemyHpBar.parameter.customizeDrawLabel) {
       return Math.max(
         this.labelFontSize() + this.labelOutlineWidth(),
@@ -223,7 +233,7 @@ Torigoya.EnemyHpBar.Sprite_EnemyHpGauge = Sprite_EnemyHpGauge;
     if (this.bitmap && this.bitmap.isReady()) {
       switch (Torigoya.EnemyHpBar.parameter.basePosition) {
         case 'top':
-          y -= this.bitmap.height + this._torigoyaEnemyHpBar_gaugeSprite.bitmapHeight();
+          y -= this.bitmap.height + this._torigoyaEnemyHpBar_gaugeSprite.textHeight();
           break;
         case 'bottom':
           // nothing to do

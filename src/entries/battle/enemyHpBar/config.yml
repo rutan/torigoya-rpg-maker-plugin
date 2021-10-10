@@ -1,5 +1,5 @@
 base: &base
-  version: '1.3.1'
+  version: '1.3.2'
   title:
     ja: '敵にHPバーを表示プラグイン'
   body:
