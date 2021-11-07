@@ -542,6 +542,8 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
     const subject = pickActor(actorId);
     if (!subject) return;
 
+    text = text.replace(/\\n/g, '\n');
+
     subject.torigoyaBalloonInBattle_setMessageParameter(`manualMessage-${Date.now()}`, text);
   }
 
@@ -566,6 +568,8 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   function commandTalkEnemyByText({ enemyIndex, text }) {
     const subject = pickEnemy(enemyIndex);
     if (!subject) return;
+
+    text = text.replace(/\\n/g, '\n');
 
     subject.torigoyaBalloonInBattle_setMessageParameter(`manualMessage-${Date.now()}`, text);
   }
