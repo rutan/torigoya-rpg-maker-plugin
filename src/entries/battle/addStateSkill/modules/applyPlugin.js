@@ -1,6 +1,22 @@
 import { readStateIdsFromMeta } from './readStateIdsFromMeta';
 
 export function applyPlugin() {
+  const upstream_BattleManager_initMembers = BattleManager.initMembers;
+  BattleManager.initMembers = function () {
+    upstream_BattleManager_initMembers.apply(this);
+    this._torigoyaAddStateSkill_lastAction = null;
+  };
+
+  const upstream_BattleManager_startAction = BattleManager.startAction;
+  BattleManager.startAction = function () {
+    upstream_BattleManager_startAction.apply(this);
+
+    // 行動不能などで startAction を通っていない行動に対しても
+    // endAction で処理してしまうのを防ぐため、
+    // 確実に startAction が実行されたときの行動を保存しておく
+    this._torigoyaAddStateSkill_lastAction = this._action;
+  };
+
   const upstream_BattleManager_endAction = BattleManager.endAction;
   BattleManager.endAction = function () {
     this.torigoyaAddStateSkill_check();
@@ -8,8 +24,9 @@ export function applyPlugin() {
   };
 
   BattleManager.torigoyaAddStateSkill_check = function () {
-    const action = this._action;
+    const action = this._torigoyaAddStateSkill_lastAction;
     if (!action) return;
+    this._torigoyaAddStateSkill_lastAction = null;
 
     const actionSubject = action.subject();
     if (this._subject !== actionSubject) return;
