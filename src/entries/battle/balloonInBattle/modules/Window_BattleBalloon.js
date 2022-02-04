@@ -30,9 +30,15 @@ export class Window_BattleBalloon extends Window_Base {
     this._battlerSprite = battlerSprite;
   }
 
-  showMessage(message) {
-    if (this._message === message) return;
-    this._message = message;
+  showMessage(params) {
+    if (this._message === params.message) return;
+    this._message = params.message;
+    if (params.options.talkItem && params.options.talkItem.sound) {
+      const sound = params.options.talkItem.sound;
+      if (sound.name && sound.volume > 0) {
+        AudioManager.playSe(sound);
+      }
+    }
     this.refresh();
     this.open();
   }
@@ -103,7 +109,7 @@ export class Window_BattleBalloon extends Window_Base {
           params.options.lifeTime !== undefined
             ? params.options.lifeTime
             : Torigoya.BalloonInBattle.parameter.advancedLifeTime;
-        this.showMessage(params.message);
+        this.showMessage(params);
       } else {
         this.close();
       }
