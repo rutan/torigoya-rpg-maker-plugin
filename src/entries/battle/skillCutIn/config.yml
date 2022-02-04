@@ -1,5 +1,5 @@
 base: &base
-  version: '1.3.0'
+  version: '1.3.1'
   title:
     ja: 'スキル発動前カットイン表示プラグイン'
   body:
@@ -535,24 +535,27 @@ structureBase: &structureBase
     volume:
       name: '音量'
       type: 'integer'
-      dir: |
-        効果音の音量を指定します
+      desc: |
+        効果音の音量を指定します。
+        0～100で指定してください。
       min: 0
       max: 100
       default: 90
     pitch:
       name: 'ピッチ'
       type: 'integer'
-      dir: |
-        効果音のピッチを指定します
+      desc: |
+        効果音のピッチを指定します。
+        100が通常です。
       min: 0
       max: 200
       default: 100
     pan:
       name: 'パン'
       type: 'integer'
-      dir: |
-        効果音のパンを指定します
+      desc: |
+        効果音のパンを指定します。
+        0が通常です。
       min: -100
       max: 100
       default: 0
