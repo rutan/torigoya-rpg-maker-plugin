@@ -1,0 +1,174 @@
+TorigoyaMZ_EasyStaffRoll:
+  version: '1.0.0'
+  title:
+    ja: 'お手軽スタッフロールプラグイン'
+  target: 'MZ'
+  body:
+    ja: |
+      スタッフロールを表示する機能を追加します。
+  parameter:
+    base:
+      dummy: '■ 基本設定'
+    baseStaffRollContent:
+      parent: 'base'
+      name: 'スタッフロールの内容'
+      type: 'Section'
+      array: true
+      desc: |
+        スタッフロールの内容を設定します。
+      default: []
+    design:
+      dummy: '■ 見た目設定'
+    designSectionTitleText:
+      parent: 'design'
+      name: '見出し部分の文字設定'
+      type: 'TextConfig'
+      desc: |
+        スタッフロールの見出し部分の文字設定です。
+      default: '{"fontSize":"28","textColor":"#99ffff","fontBold":"true","fontItalic":"false","outlineColor":"rgba(0, 0, 0, 0.6)","outlineWidth":"5"}'
+    designSectionMargin:
+      parent: 'design'
+      name: '各セクション間の余白'
+      type: 'integer'
+      min: 0
+      max: 10000
+      desc: |
+        各セクション（見出しごとのブロック）の間の余白の大きさを指定します。
+      default: 100
+    designItemTitleText:
+      parent: 'design'
+      name: 'スタッフ名の文字設定'
+      type: 'TextConfig'
+      desc: |
+        スタッフロールのスタッフ名部分の文字設定です。
+      default: '{"fontSize":"24","textColor":"#ffffff","fontBold":"true","fontItalic":"false","outlineColor":"rgba(0, 0, 0, 0.9)","outlineWidth":"3"}'
+    designItemDescriptionText:
+      parent: 'design'
+      name: '補足文章の文字設定'
+      type: 'TextConfig'
+      desc: |
+        スタッフロールの補足文章部分の文字設定です。
+      default: '{"fontSize":"16","textColor":"#ffffff","fontBold":"true","fontItalic":"false","outlineColor":"rgba(0, 0, 0, 0.9)","outlineWidth":"3"}'
+    designItemMargin:
+      parent: 'design'
+      name: '各スタッフ名間の余白'
+      type: 'integer'
+      min: 0
+      max: 10000
+      desc: |
+        各スタッフ名の間の余白の大きさを指定します。
+      default: 30
+
+  structures:
+    Section:
+      title:
+        name: '見出し'
+        type: 'multiline_string'
+        desc: |
+          見出し部分の文字列を指定します。
+        default: ''
+      items:
+        name: 'スタッフ名'
+        type: 'Item'
+        array: true
+        desc: |
+          スタッフロールに表示するスタッフ名を入力します。
+        default: []
+    Item:
+      title:
+        name: 'スタッフ名'
+        type: 'multiline_string'
+        desc: |
+          スタッフロールに表示するスタッフ名を入力します。
+        default: ''
+      description:
+        name: '補足文章'
+        type: 'multiline_string'
+        desc: |
+          スタッフ名の下に表示する補足文章を入力します。
+          URLなどを入力することを想定しています。
+        default: ''
+      icon:
+        name: '画像'
+        type: 'file'
+        dir: 'img/pictures'
+        desc: |
+          スタッフ名の上に表示するピクチャー画像を入力します。
+          省略した場合は画像を表示しません。
+        default: ''
+    TextConfig:
+      fontSize:
+        name: '文字サイズ'
+        type: 'integer'
+        min: 1
+        max: 100
+        desc: |
+          文字サイズを指定します(px)
+        default: 24
+      textColor:
+        name: '文字色'
+        type: 'string'
+        desc: |
+          文字色をCSSの書式で指定します。
+          （例：#ffffff）
+        default: '#ffffff'
+      fontBold:
+        name: '太字'
+        type: 'boolean'
+        on: '太字にする'
+        off: '太字にしない'
+        desc: |
+          文字を太字にするか指定します。
+          （※フォントによっては反映されない場合があります）
+        default: false
+      fontItalic:
+        name: '斜体'
+        type: 'boolean'
+        on: '斜体にする'
+        off: '斜体にしない'
+        desc: |
+          文字を斜体にするか指定します。
+          （※フォントによっては反映されない場合があります）
+        default: false
+      outlineColor:
+        name: '縁取りの色'
+        type: 'string'
+        desc: |
+          文字の縁取りの色をCSSの書式で指定します。
+          （例：#ffffff）
+        default: 'rgba(0, 0, 0, 0.5)'
+      outlineWidth:
+        name: '縁取りのサイズ'
+        type: 'integer'
+        min: 0
+        max: 100
+        desc: |
+          文字の縁取りの太さを指定します。
+        default: 3
+  commands:
+    displayStaffRoll:
+      name: 'スタッフロールの表示'
+      desc: 'スタッフロールを表示します'
+      parameter:
+        displayFrame:
+          type: 'integer'
+          name: '表示フレーム（1/60秒）'
+          min: 1
+          max: 100000
+          desc: |
+            通知に表示する文章を指定します。「文章の表示」のコマンドが一部利用できます。
+          default: 600
+        isWait:
+          type: 'boolean'
+          name: '完了するまでウェイト'
+          on: 'ウェイトする'
+          off: 'ウェイトしない'
+          desc: |
+            スタッフロールの表示が終了するまでイベントを停止するか指定します。
+          default: true
+    removeStaffRoll:
+      name: 'スタッフロールの消去'
+      desc: '現在表示中のスタッフロールを消去します'
+    preloadStaffRoll:
+      name: 'スタッフロールのプリロード'
+      desc: 'スタッフロール内で使用する画像の事前読み込みを実行します'
