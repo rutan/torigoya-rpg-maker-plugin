@@ -189,9 +189,7 @@ Torigoya_EasyStaffRoll:
     <<: *structureBase
 
 TorigoyaMZ_EasyStaffRoll:
-  version: '1.0.0'
-  title:
-    ja: 'お手軽スタッフロールプラグイン'
+  <<: *base
   target: 'MZ'
   body:
     ja: |
