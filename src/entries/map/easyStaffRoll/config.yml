@@ -1,3 +1,193 @@
+base: &base
+  version: '1.0.1'
+  title:
+    ja: 'お手軽スタッフロールプラグイン'
+
+parameterBase: &parameterBase
+  base:
+    dummy: '■ 基本設定'
+  baseStaffRollContent:
+    parent: 'base'
+    name: 'スタッフロールの内容'
+    type: 'Section'
+    array: true
+    desc: |
+      スタッフロールの内容を設定します。
+    default: []
+  design:
+    dummy: '■ 見た目設定'
+  designSectionTitleText:
+    parent: 'design'
+    name: '見出し部分の文字設定'
+    type: 'TextConfig'
+    desc: |
+      スタッフロールの見出し部分の文字設定です。
+    default: '{"fontSize":"28","textColor":"#99ffff","fontBold":"true","fontItalic":"false","outlineColor":"rgba(0, 0, 0, 0.6)","outlineWidth":"5"}'
+  designSectionMargin:
+    parent: 'design'
+    name: '各セクション間の余白'
+    type: 'integer'
+    min: 0
+    max: 10000
+    desc: |
+      各セクション（見出しごとのブロック）の間の余白の大きさを指定します。
+    default: 100
+  designItemTitleText:
+    parent: 'design'
+    name: 'スタッフ名の文字設定'
+    type: 'TextConfig'
+    desc: |
+      スタッフロールのスタッフ名部分の文字設定です。
+    default: '{"fontSize":"24","textColor":"#ffffff","fontBold":"true","fontItalic":"false","outlineColor":"rgba(0, 0, 0, 0.9)","outlineWidth":"3"}'
+  designItemDescriptionText:
+    parent: 'design'
+    name: '補足文章の文字設定'
+    type: 'TextConfig'
+    desc: |
+      スタッフロールの補足文章部分の文字設定です。
+    default: '{"fontSize":"16","textColor":"#ffffff","fontBold":"true","fontItalic":"false","outlineColor":"rgba(0, 0, 0, 0.9)","outlineWidth":"3"}'
+  designItemMargin:
+    parent: 'design'
+    name: '各スタッフ名間の余白'
+    type: 'integer'
+    min: 0
+    max: 10000
+    desc: |
+      各スタッフ名の間の余白の大きさを指定します。
+    default: 30
+
+structureBase: &structureBase
+  Section:
+    title:
+      name: '見出し'
+      type: 'multiline_string'
+      desc: |
+        見出し部分の文字列を指定します。
+      default: ''
+    items:
+      name: 'スタッフ名'
+      type: 'Item'
+      array: true
+      desc: |
+        スタッフロールに表示するスタッフ名を入力します。
+      default: []
+  Item:
+    title:
+      name: 'スタッフ名'
+      type: 'multiline_string'
+      desc: |
+        スタッフロールに表示するスタッフ名を入力します。
+      default: ''
+    description:
+      name: '補足文章'
+      type: 'multiline_string'
+      desc: |
+        スタッフ名の下に表示する補足文章を入力します。
+        URLなどを入力することを想定しています。
+      default: ''
+    icon:
+      name: '画像'
+      type: 'file'
+      dir: 'img/pictures'
+      desc: |
+        スタッフ名の上に表示するピクチャー画像を入力します。
+        省略した場合は画像を表示しません。
+      default: ''
+  TextConfig:
+    fontSize:
+      name: '文字サイズ'
+      type: 'integer'
+      min: 1
+      max: 100
+      desc: |
+        文字サイズを指定します(px)
+      default: 24
+    textColor:
+      name: '文字色'
+      type: 'string'
+      desc: |
+        文字色をCSSの書式で指定します。
+        （例：#ffffff）
+      default: '#ffffff'
+    fontBold:
+      name: '太字'
+      type: 'boolean'
+      on: '太字にする'
+      off: '太字にしない'
+      desc: |
+        文字を太字にするか指定します。
+        （※フォントによっては反映されない場合があります）
+      default: false
+    fontItalic:
+      name: '斜体'
+      type: 'boolean'
+      on: '斜体にする'
+      off: '斜体にしない'
+      desc: |
+        文字を斜体にするか指定します。
+        （※フォントによっては反映されない場合があります）
+      default: false
+    outlineColor:
+      name: '縁取りの色'
+      type: 'string'
+      desc: |
+        文字の縁取りの色をCSSの書式で指定します。
+        （例：#ffffff）
+      default: 'rgba(0, 0, 0, 0.5)'
+    outlineWidth:
+      name: '縁取りのサイズ'
+      type: 'integer'
+      min: 0
+      max: 100
+      desc: |
+        文字の縁取りの太さを指定します。
+      default: 3
+
+Torigoya_EasyStaffRoll:
+  <<: *base
+  target: 'MV'
+  body:
+    ja: |
+      スタッフロールを表示する機能を追加します。
+
+      ------------------------------------------------------------
+      ■ 設定方法
+      ------------------------------------------------------------
+      プラグイン設定の「スタッフロールの内容」に
+      表示する内容を設定してください。
+
+      ------------------------------------------------------------
+      ■ ゲーム中にスタッフロールを表示する
+      ------------------------------------------------------------
+      プラグインコマンドで表示することができます。
+      以下のようなフォーマットで指定します。
+
+      easyStaffRoll show 表示時間 ウェイトONにするか？
+
+      ▼ 例1：スタッフロールを600フレーム(約10秒)かけて表示（ウェイトON）
+      easyStaffRoll show 600 true
+
+      ▼ 例1：スタッフロールを1200フレーム(約20秒)かけて表示（ウェイトOFF）
+      easyStaffRoll show 600 false
+
+      ------------------------------------------------------------
+      ■ その他のプラグインコマンド
+      ------------------------------------------------------------
+      ▼ 現在表示中のスタッフロールを消去
+      easyStaffRoll remove
+
+      主に「ウェイトOFF」で使用したとき向けの機能です。
+
+      ▼ スタッフロールの事前読み込み
+      easyStaffRoll preload
+
+      Web公開の場合など、画像読み込みに時間がかかる環境の場合に、
+      このコマンドを実行すると、そのタイミングで画像類の読み込み＆生成が実行されます。
+  parameter:
+    <<: *parameterBase
+  structures:
+    <<: *structureBase
+
 TorigoyaMZ_EasyStaffRoll:
   version: '1.0.0'
   title:
@@ -6,145 +196,31 @@ TorigoyaMZ_EasyStaffRoll:
   body:
     ja: |
       スタッフロールを表示する機能を追加します。
-  parameter:
-    base:
-      dummy: '■ 基本設定'
-    baseStaffRollContent:
-      parent: 'base'
-      name: 'スタッフロールの内容'
-      type: 'Section'
-      array: true
-      desc: |
-        スタッフロールの内容を設定します。
-      default: []
-    design:
-      dummy: '■ 見た目設定'
-    designSectionTitleText:
-      parent: 'design'
-      name: '見出し部分の文字設定'
-      type: 'TextConfig'
-      desc: |
-        スタッフロールの見出し部分の文字設定です。
-      default: '{"fontSize":"28","textColor":"#99ffff","fontBold":"true","fontItalic":"false","outlineColor":"rgba(0, 0, 0, 0.6)","outlineWidth":"5"}'
-    designSectionMargin:
-      parent: 'design'
-      name: '各セクション間の余白'
-      type: 'integer'
-      min: 0
-      max: 10000
-      desc: |
-        各セクション（見出しごとのブロック）の間の余白の大きさを指定します。
-      default: 100
-    designItemTitleText:
-      parent: 'design'
-      name: 'スタッフ名の文字設定'
-      type: 'TextConfig'
-      desc: |
-        スタッフロールのスタッフ名部分の文字設定です。
-      default: '{"fontSize":"24","textColor":"#ffffff","fontBold":"true","fontItalic":"false","outlineColor":"rgba(0, 0, 0, 0.9)","outlineWidth":"3"}'
-    designItemDescriptionText:
-      parent: 'design'
-      name: '補足文章の文字設定'
-      type: 'TextConfig'
-      desc: |
-        スタッフロールの補足文章部分の文字設定です。
-      default: '{"fontSize":"16","textColor":"#ffffff","fontBold":"true","fontItalic":"false","outlineColor":"rgba(0, 0, 0, 0.9)","outlineWidth":"3"}'
-    designItemMargin:
-      parent: 'design'
-      name: '各スタッフ名間の余白'
-      type: 'integer'
-      min: 0
-      max: 10000
-      desc: |
-        各スタッフ名の間の余白の大きさを指定します。
-      default: 30
 
+      ------------------------------------------------------------
+      ■ 設定方法
+      ------------------------------------------------------------
+      プラグイン設定の「スタッフロールの内容」に
+      表示する内容を設定してください。
+
+      ------------------------------------------------------------
+      ■ ゲーム中にスタッフロールを表示する
+      ------------------------------------------------------------
+      プラグインコマンドの「スタッフロールの表示」表示することができます。
+
+      ------------------------------------------------------------
+      ■ その他のプラグインコマンド
+      ------------------------------------------------------------
+      ▼ スタッフロールの消去
+      主に「ウェイトOFF」で使用したとき向けの機能です。
+
+      ▼ スタッフロールのプリロード
+      Web公開の場合など、画像読み込みに時間がかかる環境の場合に、
+      このコマンドを実行すると、そのタイミングで画像類の読み込み＆生成が実行されます。
+  parameter:
+    <<: *parameterBase
   structures:
-    Section:
-      title:
-        name: '見出し'
-        type: 'multiline_string'
-        desc: |
-          見出し部分の文字列を指定します。
-        default: ''
-      items:
-        name: 'スタッフ名'
-        type: 'Item'
-        array: true
-        desc: |
-          スタッフロールに表示するスタッフ名を入力します。
-        default: []
-    Item:
-      title:
-        name: 'スタッフ名'
-        type: 'multiline_string'
-        desc: |
-          スタッフロールに表示するスタッフ名を入力します。
-        default: ''
-      description:
-        name: '補足文章'
-        type: 'multiline_string'
-        desc: |
-          スタッフ名の下に表示する補足文章を入力します。
-          URLなどを入力することを想定しています。
-        default: ''
-      icon:
-        name: '画像'
-        type: 'file'
-        dir: 'img/pictures'
-        desc: |
-          スタッフ名の上に表示するピクチャー画像を入力します。
-          省略した場合は画像を表示しません。
-        default: ''
-    TextConfig:
-      fontSize:
-        name: '文字サイズ'
-        type: 'integer'
-        min: 1
-        max: 100
-        desc: |
-          文字サイズを指定します(px)
-        default: 24
-      textColor:
-        name: '文字色'
-        type: 'string'
-        desc: |
-          文字色をCSSの書式で指定します。
-          （例：#ffffff）
-        default: '#ffffff'
-      fontBold:
-        name: '太字'
-        type: 'boolean'
-        on: '太字にする'
-        off: '太字にしない'
-        desc: |
-          文字を太字にするか指定します。
-          （※フォントによっては反映されない場合があります）
-        default: false
-      fontItalic:
-        name: '斜体'
-        type: 'boolean'
-        on: '斜体にする'
-        off: '斜体にしない'
-        desc: |
-          文字を斜体にするか指定します。
-          （※フォントによっては反映されない場合があります）
-        default: false
-      outlineColor:
-        name: '縁取りの色'
-        type: 'string'
-        desc: |
-          文字の縁取りの色をCSSの書式で指定します。
-          （例：#ffffff）
-        default: 'rgba(0, 0, 0, 0.5)'
-      outlineWidth:
-        name: '縁取りのサイズ'
-        type: 'integer'
-        min: 0
-        max: 100
-        desc: |
-          文字の縁取りの太さを指定します。
-        default: 3
+    <<: *structureBase
   commands:
     displayStaffRoll:
       name: 'スタッフロールの表示'

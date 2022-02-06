@@ -1,6 +1,6 @@
 import { Torigoya } from '../../../common/Torigoya';
 import { getPluginName } from '../../../common/getPluginName';
-import { readParameter } from './_build/TorigoyaMZ_EasyStaffRoll_parameter';
+import { readParameter } from './_build/Torigoya_EasyStaffRoll_parameter';
 import { StaffRollManager } from './module/StaffRollManager';
 import { Sprite_StaffRoll } from './module/Sprite_StaffRoll';
 
@@ -12,6 +12,17 @@ Torigoya.EasyStaffRoll = {
 (() => {
   Torigoya.EasyStaffRoll.Manager = new StaffRollManager();
   Torigoya.EasyStaffRoll.Sprite_StaffRoll = Sprite_StaffRoll;
+
+  // -------------------------------------------------------------------------
+  // Bitmap
+
+  // MZスタイルの太字機能を有効にする
+  const upstream_Bitmap__makeFontNameText = Bitmap.prototype._makeFontNameText;
+  Bitmap.prototype._makeFontNameText = function () {
+    const fontNameText = upstream_Bitmap__makeFontNameText.apply(this);
+    if (!this.fontBold || fontNameText.includes('bold ')) return fontNameText;
+    return 'Bold ' + fontNameText;
+  };
 
   // -------------------------------------------------------------------------
   // Game_Screen
@@ -125,8 +136,4 @@ Torigoya.EasyStaffRoll = {
 
     return upstream_Game_Interpreter_pluginCommand.apply(this, arguments);
   };
-
-  PluginManager.registerCommand(Torigoya.EasyStaffRoll.name, 'displayStaffRoll', commandDisplayStaffRoll);
-  PluginManager.registerCommand(Torigoya.EasyStaffRoll.name, 'removeStaffRoll', commandRemoveStaffRoll);
-  PluginManager.registerCommand(Torigoya.EasyStaffRoll.name, 'preloadStaffRoll', commandPreloadStaffRoll);
 })();

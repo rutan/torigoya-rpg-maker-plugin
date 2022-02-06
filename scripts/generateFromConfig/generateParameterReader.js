@@ -72,7 +72,6 @@ const detectFuncFromType = (type) => {
     case 'number':
       return 'pickNumberValueFromParameter';
     case 'note':
-      return 'pickJsonValueFromParameter';
     case 'select':
     case 'combo':
     case 'string':
