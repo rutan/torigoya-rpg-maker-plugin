@@ -1,1 +1,1 @@
-export const Torigoya = (globalThis.Torigoya = globalThis.Torigoya || {});
+export const Torigoya = (window.Torigoya = window.Torigoya || {});
