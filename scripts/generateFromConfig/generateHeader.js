@@ -8,6 +8,7 @@ const defaultConfig = {
 
 function generateHeader(config) {
   const locales = Object.keys(config.title);
+  const target = config.target;
 
   // descriptions
   const descriptions = locales
@@ -16,7 +17,7 @@ function generateHeader(config) {
       const pluginName = `${config.title[lang]}${config.version ? ` (v.${config.version})` : ''}`;
 
       // info
-      if (config.target) lines.push(`@target ${config.target}`);
+      if (target) lines.push(`@target ${target}`);
       lines.push(`@plugindesc ${pluginName}`);
       lines.push(`@author ${(config.author || defaultConfig.author)[lang]}`);
       lines.push(`@license ${config.license || defaultConfig.license}`);
@@ -45,7 +46,7 @@ function generateHeader(config) {
 
       if (config.parameter && Object.keys(config.parameter).length > 0) {
         lines.push('');
-        lines.push(generateProperties(config.parameter, lang));
+        lines.push(generateProperties(config.parameter, lang, target));
       }
 
       // commands
@@ -98,7 +99,7 @@ function generateHeader(config) {
   return [descriptions, structures].filter(Boolean).join('\n\n');
 }
 
-function generateProperties(properties, lang) {
+function generateProperties(properties, lang, target = '') {
   const lines = [];
 
   Object.keys(properties).forEach((key, i) => {
@@ -126,7 +127,7 @@ function generateProperties(properties, lang) {
       if (type.match(/^[A-Z]/)) {
         lines.push(`@type struct<${type}>${array ? '[]' : ''}`);
       } else {
-        const realType = convertType(type);
+        const realType = convertType(type, target);
         lines.push(`@type ${realType}${array ? '[]' : ''}`);
         switch (type) {
           case 'file':
@@ -161,10 +162,12 @@ function generateProperties(properties, lang) {
   return lines.join('\n * ');
 }
 
-function convertType(type) {
+function convertType(type, target = '') {
   switch (type) {
     case 'integer':
       return 'number';
+    case 'multiline_string':
+      return target === 'MV' ? 'note' : type;
     default:
       return type;
   }
