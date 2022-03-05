@@ -22,7 +22,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2-beta
         with:
-          node-version: '12.x'
+          node-version: '16.x'
 
       - name: Get yarn cache
         id: yarn-cache
