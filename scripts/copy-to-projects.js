@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const cpx = require('cpx');
+const cpx = require('cpx2');
 const glob = require('glob');
 
 const srcMvPlugins = path.join(__dirname, '..', '_dist', 'Torigoya_*.js');
