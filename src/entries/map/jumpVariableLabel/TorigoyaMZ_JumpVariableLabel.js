@@ -17,7 +17,7 @@ Torigoya.JumpVariableLabel = {
   }
 
   const upstream_Game_Interpreter_command119 = Game_Interpreter.prototype.command119;
-  Game_Interpreter.prototype.command119 = function () {
+  Game_Interpreter.prototype.command119 = function (params) {
     return upstream_Game_Interpreter_command119.call(this, [replace(params[0])]);
   };
 })();
