@@ -151,7 +151,16 @@ class Window_AchievementList extends Window_Selectable {
   initialize(rect) {
     super.initialize(rect);
     this._data = [];
+    this._isLaunchInTitle = false;
     this.refresh();
+  }
+
+  isLaunchInTitle() {
+    return this._isLaunchInTitle;
+  }
+
+  setIsLaunchInTitle(value) {
+    this._isLaunchInTitle = !!value;
   }
 
   maxItems() {
@@ -250,8 +259,13 @@ class Scene_Achievement extends Scene_MenuBase {
     return new Rectangle(wx, wy, ww, wh);
   }
 
+  prepare(params) {
+    this._isLaunchInTitle = !!params.isLaunchInTitle;
+  }
+
   start() {
     super.start();
+    this._listWindow.setIsLaunchInTitle(this._isLaunchInTitle);
     this._listWindow.select(0);
     this._listWindow.activate();
   }
@@ -262,6 +276,10 @@ class Scene_Achievement extends Scene_MenuBase {
 
   onListCancel() {
     this.popScene();
+  }
+
+  isLaunchInTitle() {
+    return this._isLaunchInTitle;
   }
 }
 
@@ -287,6 +305,7 @@ Torigoya.Achievement2.Scene_Achievement = Scene_Achievement;
     Scene_Title.prototype.commandTorigoyaAchievement = function () {
       this._commandWindow.close();
       SceneManager.push(Torigoya.Achievement2.Scene_Achievement);
+      SceneManager.prepareNextScene({ isLaunchInTitle: true });
     };
   }
 

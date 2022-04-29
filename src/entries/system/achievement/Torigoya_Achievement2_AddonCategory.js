@@ -183,7 +183,6 @@ Torigoya.Achievement2.Addons.Category.readCategoryName = readCategoryName;
 
   const upstream_Game_Interpreter_pluginCommand = Game_Interpreter.prototype.pluginCommand;
   Game_Interpreter.prototype.pluginCommand = function (command, args) {
-    console.log(command, args);
     switch (command) {
       case 'GetAchievementCategory':
       case 'カテゴリ内実績獲得': {
