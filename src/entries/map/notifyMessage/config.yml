@@ -44,8 +44,26 @@ TorigoyaMZ_NotifyMessage:
       type: 'integer'
       min: 0
       desc: |
-        通知メッセージの余白サイズを指定します
+        通知メッセージの全体的な余白サイズを指定します
       default: 4
+    baseLeftPadding:
+      parent: 'base'
+      name: '左側の追加余白サイズ'
+      type: 'integer'
+      min: 0
+      desc: |
+        通知メッセージの左側の余白サイズを指定します。
+        全体の余白サイズに加え、この分が余白に追加されます。
+      default: 0
+    baseRightPadding:
+      parent: 'base'
+      name: '右側の追加余白サイズ'
+      type: 'integer'
+      min: 0
+      desc: |
+        通知メッセージの右側の余白サイズを指定します。
+        全体の余白サイズに加え、この分が余白に追加されます。
+      default: 30
     baseItemPadding:
       parent: 'base'
       name: 'アイコンと文章の余白'

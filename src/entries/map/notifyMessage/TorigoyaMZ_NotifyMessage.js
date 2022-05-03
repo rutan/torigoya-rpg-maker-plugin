@@ -59,7 +59,7 @@ Torigoya.NotifyMessage = {
     constructor() {
       const rect = new Rectangle(0, 0, 1, 1);
       super(rect);
-      this._notifyItem = null;
+      this._notifyItem = new NotifyItem({});
       this.opacity = 0;
       this.createBackCoverSprite();
     }
@@ -90,8 +90,11 @@ Torigoya.NotifyMessage = {
       this.refresh();
     }
 
+    /**
+     * 更新
+     */
     update() {
-      if (this._notifyItem) this.contentsOpacity = this._notifyItem.openness;
+      this.contentsOpacity = this._notifyItem.openness;
       super.update();
     }
 
@@ -101,31 +104,85 @@ Torigoya.NotifyMessage = {
     refresh() {
       if (!this._notifyItem) return;
 
-      // サイズ計算
-      const { message, icon } = this._notifyItem;
-      const itemPadding = this.itemPadding();
-      const { width: messageWidth, height: messageHeight } = this.textSizeEx(message);
-      const totalWidth = Math.min(
-        (icon ? ImageManager.iconWidth + itemPadding : 0) + messageWidth + 30,
-        Graphics.width
-      );
-      const totalHeight = Math.max(ImageManager.iconHeight, messageHeight);
+      this.refreshContents();
+      this.drawItem();
+    }
 
-      // ウィンドウのサイズを調整
-      this.width = totalWidth + this.padding * 2;
-      this.height = totalHeight + this.padding * 2;
+    /**
+     * ウィンドウの再生成
+     */
+    refreshContents() {
+      const { width, height } = this.itemSize();
+      this.width = width + this.padding * 2;
+      this.height = height + this.padding * 2;
       this.createContents();
       this._refreshBackCoverSprite();
+    }
 
-      // 描画
+    /**
+     * アイテムの描画
+     */
+    drawItem() {
+      const { message, icon } = this._notifyItem;
+
+      const messageRect = this.messageRect();
+      this.drawTextEx(message, messageRect.x, messageRect.y, messageRect.width);
+      if (icon) this.drawIcon(icon, this.leftPadding(), (this.innerHeight - ImageManager.iconHeight) / 2);
+    }
+
+    /**
+     * アイテムの描画領域サイズ
+     * @returns {{width: number, height: number}}
+     */
+    itemSize() {
+      const { icon } = this._notifyItem;
+      const messageRect = this.messageRect();
+      return {
+        width: Math.min(Graphics.width, messageRect.x + messageRect.width + this.rightPadding()),
+        height: Math.max(messageRect.y + messageRect.height, icon ? ImageManager.iconHeight : 0),
+      };
+    }
+
+    /**
+     * 本文領域
+     * @returns {Rectangle}
+     */
+    messageRect() {
+      const { message, icon } = this._notifyItem;
+      const { width: messageWidth, height: messageHeight } = this.textSizeEx(message);
       const gap = messageHeight - ImageManager.iconHeight;
-      if (icon) {
-        const x = ImageManager.iconWidth + itemPadding;
-        this.drawIcon(icon, 0, gap > 0 ? gap / 2 : 0);
-        this.drawTextEx(message, x, gap < 0 ? -gap / 2 : 0, totalWidth - x);
-      } else {
-        this.drawTextEx(message, 0, gap < 0 ? -gap / 2 : 0, totalWidth);
-      }
+      const x = this.leftPadding() + (icon ? ImageManager.iconWidth + this.itemPadding() : 0);
+      return new Rectangle(
+        x,
+        icon ? (gap < 0 ? -gap / 2 : 0) : 0,
+        Math.min(messageWidth, this.messageMaxWidth()),
+        messageHeight
+      );
+    }
+
+    /**
+     * 本文領域の最大幅
+     * @returns {number}
+     */
+    messageMaxWidth() {
+      const { icon } = this._notifyItem;
+      return (
+        Graphics.width - this.leftPadding() - this.rightPadding() - (icon ? ImageManager.iconWidth + this.padding : 0)
+      );
+    }
+
+    /**
+     * 左側の空きスペースのサイズ
+     */
+    leftPadding() {
+      return Torigoya.NotifyMessage.parameter.baseLeftPadding;
+    }
+
+    /**
+     * 右側の空きスペースのサイズ
+     */
+    rightPadding() {
+      return Torigoya.NotifyMessage.parameter.baseRightPadding;
     }
 
     /**
