@@ -451,17 +451,7 @@ Torigoya.NotifyMessage = {
       const se = Torigoya.NotifyMessage.parameter.baseSound;
       if (!se.name) return;
 
-      // 大量に同時にメッセージが追加された場合に爆音になるのを防止するため
-      // 1フレームバッファしてから再生する
-      if (this._requestSound) return;
-
-      this._requestSound = Torigoya.FrameTween.create(this)
-        .wait(1)
-        .call(() => {
-          AudioManager.playSe(se);
-          this._requestSound = null;
-        })
-        .start();
+      AudioManager.playSe(se);
     }
   }
 
