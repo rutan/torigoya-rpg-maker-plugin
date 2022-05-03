@@ -28,9 +28,12 @@ Torigoya.NotifyMessage = {
     }
 
     initialize(params) {
-      this.message = params.message;
+      this.message = params.message || '';
       this.icon = params.icon;
+      this.note = params.note || '';
       this._openness = 0;
+
+      DataManager.extractMetadata(this);
     }
 
     get openness() {
@@ -492,15 +495,15 @@ Torigoya.NotifyMessage = {
   // -------------------------------------------------------------------------
   // プラグインコマンド
 
-  function commandNotify({ message, icon }) {
-    const item = new NotifyItem({ message, icon: parseInt(icon, 10) });
+  function commandNotify({ message, icon, note }) {
+    const item = new NotifyItem({ message, icon: parseInt(icon, 10), note });
     NotifyManager.notify(item);
   }
 
-  function commandNotifyWithVariableIcon({ message, iconVariable }) {
+  function commandNotifyWithVariableIcon({ message, iconVariable, note }) {
     const variableId = parseInt(iconVariable, 10);
     const icon = Math.max($gameVariables.value(variableId), 0);
-    const item = new NotifyItem({ message, icon });
+    const item = new NotifyItem({ message, icon, note });
     NotifyManager.notify(item);
   }
 

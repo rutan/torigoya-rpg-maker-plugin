@@ -154,6 +154,12 @@ TorigoyaMZ_NotifyMessage:
           desc: |
             通知に表示するアイコンのIDを指定します。
             0の場合は表示しません。
+        note:
+          type: 'note'
+          name: 'メモ欄'
+          desc: |
+            メモ欄です。
+            ツクールのメモ欄と同様に利用できます。
     notifyWithVariableIcon:
       name: '通知の表示(アイコン変数指定)'
       desc: '指定内容の通知を表示します。アイコンのIDを変数で指定します。'
@@ -169,6 +175,12 @@ TorigoyaMZ_NotifyMessage:
           desc: |
             通知に表示するアイコンIDが設定された変数を指定します。
             変数の中身が0またはマイナスの場合は表示しません。
+        note:
+          type: 'note'
+          name: 'メモ欄'
+          desc: |
+            メモ欄です。
+            ツクールのメモ欄と同様に利用できます。
 
 TorigoyaMZ_NotifyMessage_AddonGetItem:
   version: '1.1.1'
