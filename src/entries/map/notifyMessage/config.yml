@@ -162,7 +162,7 @@ TorigoyaMZ_NotifyMessage:
       desc: '指定内容の通知を表示します'
       parameter:
         message:
-          type: 'string'
+          type: 'multiline_string'
           name: 'メッセージ'
           desc: |
             通知に表示する文章を指定します。「文章の表示」のコマンドが一部利用できます。
@@ -183,7 +183,7 @@ TorigoyaMZ_NotifyMessage:
       desc: '指定内容の通知を表示します。アイコンのIDを変数で指定します。'
       parameter:
         message:
-          type: 'string'
+          type: 'multiline_string'
           name: 'メッセージ'
           desc: |
             通知に表示する文章を指定します。「文章の表示」のコマンドが一部利用できます。
