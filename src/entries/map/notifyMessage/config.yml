@@ -1,3 +1,37 @@
+soundConfig: &soundConfig
+  name:
+    name: '効果音ファイル名'
+    desc: |
+      通知表示時に再生する効果音ファイル
+      空っぽの場合は効果音なしになります
+    type: 'file'
+    dir: 'audio/se/'
+    default: ''
+  volume:
+    name: '効果音の音量'
+    desc: |
+      通知表示時に再生する効果音の音量（%）
+    type: 'number'
+    min: 0
+    max: 100
+    default: 90
+  pitch:
+    name: '効果音のピッチ'
+    desc: |
+      通知表示時に再生する効果音のピッチ（%）
+    type: 'number'
+    min: 0
+    max: 200
+    default: 100
+  pan:
+    name: '効果音の位相'
+    desc: |
+      通知表示時に再生する効果音の位相
+    type: 'number'
+    min: -100
+    max: 100
+    default: 0
+
 TorigoyaMZ_NotifyMessage:
   version: '1.2.0'
   title:
@@ -87,7 +121,7 @@ TorigoyaMZ_NotifyMessage:
       type: Sound
       desc: |
         通知表示時の効果音を指定します。
-      default: '{"soundName":"Saint5","soundVolume":"90"}'
+      default: '{"name":"Item1","volume":"90","pitch":"100","pan":"0"}'
     advanced:
       dummy: '■ 上級設定'
     advancedVisibleSwitch:
@@ -132,38 +166,7 @@ TorigoyaMZ_NotifyMessage:
 
   structures:
     Sound:
-      name:
-        name: '効果音ファイル名'
-        desc: |
-          通知表示時に再生する効果音ファイル
-          空っぽの場合は効果音なしになります
-        type: 'file'
-        dir: 'audio/se/'
-        default: 'Item1'
-      volume:
-        name: '効果音の音量'
-        desc: |
-          通知表示時に再生する効果音の音量（%）
-        type: 'number'
-        min: 0
-        max: 100
-        default: 90
-      pitch:
-        name: '効果音のピッチ'
-        desc: |
-          通知表示時に再生する効果音のピッチ（%）
-        type: 'number'
-        min: 0
-        max: 200
-        default: 100
-      pan:
-        name: '効果音の位相'
-        desc: |
-          通知表示時に再生する効果音の位相
-        type: 'number'
-        min: -100
-        max: 100
-        default: 0
+      <<: *soundConfig
 
   commands:
     notify:
@@ -273,3 +276,39 @@ TorigoyaMZ_NotifyMessage_AddonGetItem:
       desc: |
         このスイッチがONのときのみ画面に通知するようにします。「なし」の場合は常に通知されます。
       default: 0
+    advancedGainItemSound:
+      parent: 'advanced'
+      name: 'アイテム入手効果音の上書き'
+      type: 'CustomSound'
+      desc: |
+        アイテムを入手したときに再生する効果音を指定します。
+        上書き設定をしない場合は通常の通知音が再生されます。
+      default: '{"overwrite":"false","sound":"{\"name\":\"\",\"volume\":\"90\",\"pitch\":\"100\",\"pan\":\"0\"}"}'
+    advancedGainMoneySound:
+      parent: 'advanced'
+      name: 'お金入手効果音の上書き'
+      type: 'CustomSound'
+      desc: |
+        お金を入手したときに再生する効果音を指定します。
+        上書き設定をしない場合は通常の通知音が再生されます。
+      default: '{"overwrite":"false","sound":"{\"name\":\"\",\"volume\":\"90\",\"pitch\":\"100\",\"pan\":\"0\"}"}'
+  structures:
+    CustomSound:
+      overwrite:
+        name: '効果音設定の上書き'
+        desc: |
+          通知表示時に再生する効果音を
+          デフォルトから上書き設定するか指定します。
+        type: 'boolean'
+        on: '上書きする'
+        off: '上書きしない'
+        default: false
+      sound:
+        name: '効果音'
+        desc: |
+          上書き設定する効果音の内容を指定します。
+          上書きしない場合、この設定は無視されます。
+        type: 'Sound'
+        default: '{"name":"","volume":"90"}'
+    Sound:
+      <<: *soundConfig

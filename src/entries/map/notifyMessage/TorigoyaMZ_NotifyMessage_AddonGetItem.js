@@ -34,6 +34,7 @@ Torigoya.NotifyMessage.Addons.GetItem = {
     const notifyItem = new Torigoya.NotifyMessage.NotifyItem({
       message: template.replace(/\\gold/, value),
       icon: Torigoya.NotifyMessage.Addons.GetItem.parameter.baseGainMoneyIcon,
+      note: '<type:gainMoney>',
     });
     Torigoya.NotifyMessage.Manager.notify(notifyItem);
   };
@@ -50,8 +51,31 @@ Torigoya.NotifyMessage.Addons.GetItem = {
     const notifyItem = new Torigoya.NotifyMessage.NotifyItem({
       message: template.replace(/\\count/, count).replace(/\\name/, item.name),
       icon: item.iconIndex,
+      note: '<type:gainItem>',
     });
     Torigoya.NotifyMessage.Manager.notify(notifyItem);
+  };
+
+  // -------------------------------------------------------------------------
+  // Torigoya.NotifyMessage.NotifyItem
+
+  const upstream_NotifyItem_getDisplaySe = Torigoya.NotifyMessage.NotifyItem.prototype.getDisplaySe;
+  Torigoya.NotifyMessage.NotifyItem.prototype.getDisplaySe = function () {
+    switch (this.meta.type) {
+      case 'gainItem': {
+        if (Torigoya.NotifyMessage.Addons.GetItem.parameter.advancedGainItemSound.overwrite) {
+          return Torigoya.NotifyMessage.Addons.GetItem.parameter.advancedGainItemSound.sound;
+        }
+        break;
+      }
+      case 'gainMoney': {
+        if (Torigoya.NotifyMessage.Addons.GetItem.parameter.advancedGainMoneySound.overwrite) {
+          return Torigoya.NotifyMessage.Addons.GetItem.parameter.advancedGainMoneySound.sound;
+        }
+        break;
+      }
+    }
+    return upstream_NotifyItem_getDisplaySe.apply(this);
   };
 
   // -------------------------------------------------------------------------
