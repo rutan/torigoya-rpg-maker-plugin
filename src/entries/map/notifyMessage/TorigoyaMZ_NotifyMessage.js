@@ -45,6 +45,21 @@ Torigoya.NotifyMessage = {
       if (value > 255) value = 255;
       this._openness = value;
     }
+
+    /**
+     * 表示時に効果音再生が必要であるか？
+     * @returns {boolean}
+     */
+    isRequirePlaySound() {
+      return !this.meta['noSound'];
+    }
+
+    /**
+     * 表示時の効果音を再生
+     */
+    getDisplaySe() {
+      return Torigoya.NotifyMessage.parameter.baseSound;
+    }
   }
 
   Torigoya.NotifyMessage.NotifyItem = NotifyItem;
@@ -376,7 +391,12 @@ Torigoya.NotifyMessage = {
 
       this.startAppearAndExitAnimation(stack);
       this.startScrollAnimation(stack.window.height);
-      this.requestPlaySound();
+
+      // 効果音再生
+      if (notifyItem.isRequirePlaySound()) {
+        const se = notifyItem.getDisplaySe();
+        if (se && se.name) AudioManager.playSe(se);
+      }
 
       // 通知
       this._handlers.forEach((func) => func(notifyItem));
@@ -497,17 +517,6 @@ Torigoya.NotifyMessage = {
       if (index === -1) return;
       this._stacks.splice(index, 1);
       if (stack.window) this._releaseWindow(stack.window);
-    }
-
-    /**
-     * 効果音の再生
-     * @private
-     */
-    requestPlaySound() {
-      const se = Torigoya.NotifyMessage.parameter.baseSound;
-      if (!se.name) return;
-
-      AudioManager.playSe(se);
     }
   }
 
