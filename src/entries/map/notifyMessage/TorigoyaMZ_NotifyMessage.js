@@ -247,7 +247,6 @@ Torigoya.NotifyMessage = {
       this._stacks = [];
       this._pools = [];
       this._scrollAnimations = [];
-      this._requestSound = null;
       this._group = new Torigoya.FrameTween.Group();
       this._handlers = [];
     }
