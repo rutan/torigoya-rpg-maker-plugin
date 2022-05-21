@@ -71,7 +71,8 @@ Torigoya.NotifyMessage.Addons.AtsumaruGlobalSignal = {
           // 初回取得処理
           if (this._lastSignalCreatedAt < 0) {
             this._lastSignalCreatedAt = 0;
-            result = result.slice(result.length - this.firstFetchLimit());
+            const size = Math.min(result.length, this.firstFetchLimit());
+            result = result.slice(result.length - size);
           }
 
           if (result.length === 0) return;
