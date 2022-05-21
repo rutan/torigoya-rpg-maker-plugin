@@ -80,7 +80,8 @@ Torigoya.NotifyMessage.Addons.AtsumaruGlobalSignal = {
           this._lastSignalCreatedAt = result[result.length - 1].createdAt;
           result.forEach((s) => this.emit(s));
         })
-        .catch(() => {
+        .catch((e) => {
+          console.error(e);
           this._isFetching = false;
         });
     }
@@ -226,6 +227,7 @@ Torigoya.NotifyMessage.Addons.AtsumaruGlobalSignal = {
   };
 
   Torigoya.NotifyMessage.Manager.showAtsumaruGlobalSignalMessage = function () {
+    if (!this.isVisible()) return;
     if (SignalTemporaryStorage.queues.length === 0) return;
     const signal = SignalTemporaryStorage.queues.shift();
     const key = signal.body[SIGNAL_KEY];
@@ -315,27 +317,36 @@ Torigoya.NotifyMessage.Addons.AtsumaruGlobalSignal = {
 
     const data = JSON.stringify(body);
     if (window.RPGAtsumaru && window.RPGAtsumaru.signal && window.RPGAtsumaru.signal.sendSignalToGlobal) {
-      login().then(() => {
-        window.RPGAtsumaru.signal
-          .sendSignalToGlobal(data)
-          .then(() => {
-            Torigoya.NotifyMessage.Addons.AtsumaruGlobalSignal.SignalCrawler.doFetch();
-          })
-          .catch((e) => {
-            console.error(e);
-          });
-      });
+      login()
+        .then(() => {
+          window.RPGAtsumaru.signal
+            .sendSignalToGlobal(data)
+            .then(() => {
+              Torigoya.NotifyMessage.Addons.AtsumaruGlobalSignal.SignalCrawler.doFetch();
+            })
+            .catch((e) => {
+              console.error(e);
+              sendLocal(data);
+            });
+        })
+        .catch(() => {
+          sendLocal(data);
+        });
     } else {
-      const actor = $gameParty.members()[0];
-      SignalTemporaryStorage.handleSignal({
-        id: Date.now(),
-        senderId: 0,
-        senderName: actor ? actor.name() : '',
-        createdAt: Math.floor(Date.now() / 1000),
-        data,
-        body: JSON.parse(data),
-      });
+      sendLocal(data);
     }
+  }
+
+  function sendLocal(data) {
+    const actor = $gameParty.members()[0];
+    SignalTemporaryStorage.handleSignal({
+      id: Date.now(),
+      senderId: 0,
+      senderName: actor ? actor.name() : '',
+      createdAt: Math.floor(Date.now() / 1000),
+      data,
+      body: JSON.parse(data),
+    });
   }
 
   PluginManager.registerCommand(Torigoya.NotifyMessage.Addons.AtsumaruGlobalSignal.name, 'sendEvent', commandSendEvent);
