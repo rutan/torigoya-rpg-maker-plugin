@@ -382,7 +382,7 @@ Torigoya.Achievement2.Scene_Achievement = Scene_Achievement;
   }
 
   PluginManager.registerCommand(Torigoya.Achievement2.name, 'gainAchievement', commandGainAchievement);
-  PluginManager.registerCommand(Torigoya.Achievement2.name, 'clearAchievement', commandRemoveAchievement);
+  PluginManager.registerCommand(Torigoya.Achievement2.name, 'removeAchievement', commandRemoveAchievement);
   PluginManager.registerCommand(Torigoya.Achievement2.name, 'openSceneAchievement', commandOpenSceneAchievement);
   PluginManager.registerCommand(Torigoya.Achievement2.name, 'resetAchievement', commandResetAchievement);
 })();
