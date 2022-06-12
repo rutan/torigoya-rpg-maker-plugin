@@ -1,8 +1,8 @@
+import { getAtsumaru } from '../../../../common/atsumaru/getAtsumaru';
+
 /**
  * ニコニ広告APIのクライアント
  */
-import { getAtsumaru } from '../../../../common/atsumaru/getAtsumaru';
-
 export class NiconikoApiClient {
   /**
    * 初期化

@@ -1,5 +1,5 @@
 base: &base
-  version: '1.2.1'
+  version: '1.3.0'
   title:
     ja: 'ニコニ広告通知バー風表示プラグイン'
   body:
@@ -54,11 +54,28 @@ parameterBase: &parameterBase
       （※CSSと同様の指定方法です）
     type: 'string'
     default: '#000000'
-  baseScrollTime:
+  baseFontFamily:
     parent: 'base'
-    name: '表示時間'
+    name: 'フォント'
     desc: |
-      文字が流れきるのにかかる時間（秒）
+      文字のフォント
+      （※CSSと同様の指定方法です）
+    type: 'string'
+    default: 'sans-serif'
+  baseScrollSpeed:
+    parent: 'base'
+    name: '流れる速度'
+    desc: |
+      文字が流れる速度を指定します
+      （1秒間に何px分文字を流すか）
+    type: 'number'
+    default: 100
+  baseScrollTimeMax:
+    parent: 'base'
+    name: '最大表示時間'
+    desc: |
+      文字が流れる時間の最大時間を指定します。
+      この時間以上になる場合は流す速度を加速します。
     type: 'number'
     default: 10
   advanced:

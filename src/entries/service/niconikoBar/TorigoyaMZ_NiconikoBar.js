@@ -20,7 +20,9 @@ Torigoya.NiconikoBar.viewBuilder = new ViewBuilder({
   title: Torigoya.NiconikoBar.parameter.baseTitle,
   backgroundColor: Torigoya.NiconikoBar.parameter.baseBackgroundColor,
   textColor: Torigoya.NiconikoBar.parameter.baseTextColor,
-  scrollTime: Torigoya.NiconikoBar.parameter.baseScrollTime,
+  fontFamily: Torigoya.NiconikoBar.parameter.baseFontFamily,
+  scrollSpeed: Torigoya.NiconikoBar.parameter.baseScrollSpeed,
+  scrollTimeMax: Torigoya.NiconikoBar.parameter.baseScrollTimeMax,
 });
 
 Torigoya.NiconikoBar.timer = new Timer(() => {

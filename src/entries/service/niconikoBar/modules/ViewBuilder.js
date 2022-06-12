@@ -1,14 +1,16 @@
 export class ViewBuilder {
   /**
    * 初期化
-   * @param {{title: string, backgroundColor: string, textColor: string, scrollTime: number}} options
+   * @param {{title: string, backgroundColor: string, textColor: string, fontFamily: string, scrollSpeed: number, scrollTimeMax: number}} options
    */
   constructor(options = {}) {
     this._isShow = false;
     this._title = options.title;
+    this._fontFamily = options.fontFamily || 'sans-serif';
     this._backgroundColor = options.backgroundColor;
     this._textColor = options.textColor;
-    this._scrollTime = options.scrollTime || 0;
+    this._scrollSpeed = options.scrollSpeed || 0;
+    this._scrollTimeMax = options.scrollTimeMax || 0;
   }
 
   /**
@@ -52,6 +54,7 @@ export class ViewBuilder {
     element.style.zIndex = '10';
     element.style.overflow = 'hidden';
     element.style.pointerEvents = 'none';
+    element.style.fontFamily = this._fontFamily;
     return element;
   }
 
@@ -65,7 +68,6 @@ export class ViewBuilder {
     element.style.overflow = 'hidden';
     element.style.background = this._backgroundColor;
     element.style.color = this._textColor;
-    element.style.fontFamily = 'GameFont sans-serif';
     element.style.opacity = '0';
     element.style.transition = 'all ease-in-out .5s';
     return element;
@@ -155,9 +157,16 @@ export class ViewBuilder {
     this._messageElement.style.width = `calc(100% - ${rect.width}px)`;
 
     this._messageTextElement.innerText = message;
-    this._messageTextElement.style.left = '0';
-    this._messageTextElement.style.transform = 'translateX(-100%)';
-    this._messageTextElement.style.transition = `left linear ${this._scrollTime}s 2s, transform linear ${this._scrollTime}s 2s`;
+    this._messageTextElement.style.visibility = 'hidden';
+
+    const scrollTime = Math.min(this._messageTextElement.clientWidth / this._scrollSpeed, this._scrollTimeMax);
+
+    setTimeout(() => {
+      this._messageTextElement.style.visibility = 'visible';
+      this._messageTextElement.style.left = '0';
+      this._messageTextElement.style.transform = 'translateX(-100%)';
+      this._messageTextElement.style.transition = `left linear ${scrollTime}s 2s, transform linear ${scrollTime}s 2s`;
+    }, 1);
   }
 
   _onTextTransitionEnd() {
