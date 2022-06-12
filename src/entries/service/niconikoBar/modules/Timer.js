@@ -32,6 +32,7 @@ export class Timer {
   }
 
   _reserveNextCall() {
+    if (this._interval < 1) return;
     this._time = setTimeout(this._call.bind(this), this._interval);
   }
 }
