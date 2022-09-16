@@ -102,7 +102,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
       this.addChild(wrapperSprite);
 
       const sprite = new TilingSprite(bitmap);
-      sprite.move(-size / 2, -size / 2, size, size);
+      sprite.move(-size, -size, size * 2, size * 2);
       wrapperSprite.addChild(sprite);
 
       return sprite;
