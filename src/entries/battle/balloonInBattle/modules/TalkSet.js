@@ -1,7 +1,9 @@
 import { unescapeMetaString } from '../../../../common/utils/unescapeMetaString';
 
-function evalCondition(a, code) {
+function evalCondition(code, a, options = {}) {
   try {
+    const v = $gameVariables._data;
+
     return !!eval(code);
   } catch (e) {
     if ($gameTemp.isPlaytest()) console.error(e);
@@ -194,7 +196,7 @@ export class TalkSet {
       const str = item.meta['Condition'] || item.meta['条件'];
       if (!str) return true;
 
-      return evalCondition(options.subject, unescapeMetaString(str));
+      return evalCondition(unescapeMetaString(str), options.subject, options);
     });
   }
 
