@@ -105,6 +105,13 @@ Torigoya.DisplayAnimationInFrontView = {
         } else {
           this.y = Graphics.height / 2;
         }
+      } else if (this._targets.length > 0) {
+        const target = this._targets[0];
+        const parent = target.parent;
+        if (parent) {
+          this.x += parent.x;
+          this.y += parent.y;
+        }
       }
     }
   };
