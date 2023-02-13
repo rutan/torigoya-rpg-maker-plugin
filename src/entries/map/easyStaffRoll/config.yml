@@ -1,5 +1,5 @@
 base: &base
-  version: '1.0.2'
+  version: '1.1.0'
   title:
     ja: 'お手軽スタッフロールプラグイン'
 
@@ -55,6 +55,29 @@ parameterBase: &parameterBase
     desc: |
       各スタッフ名の間の余白の大きさを指定します。
     default: 30
+  designTextAlign:
+    parent: 'design'
+    name: '文字の水平配置位置'
+    desc: |
+      見出しやスタッフ名の文字の水平方向の配置位置を指定します。
+    type: 'select'
+    option:
+      - name: '左寄せ'
+        value: 'left'
+      - name: '中央寄せ'
+        value: 'center'
+      - name: '右寄せ'
+        value: 'right'
+    default: 'center'
+  designContentHorizontalPadding:
+    parent: 'design'
+    name: '文字の水平方向の余白'
+    type: 'integer'
+    min: 0
+    max: 10000
+    desc: |
+      文字の両側の余白サイズを指定します。
+    default: 0
 
 structureBase: &structureBase
   Section:

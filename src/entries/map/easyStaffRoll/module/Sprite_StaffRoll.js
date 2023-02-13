@@ -103,7 +103,17 @@ export class Sprite_StaffRoll extends Sprite {
    * @param sprite
    */
   addChildWithUpdateTotalHeight(sprite) {
-    sprite.anchor.x = 0.5;
+    switch (this.textAlign()) {
+      case 'left':
+        sprite.anchor.x = 0;
+        break;
+      case 'right':
+        sprite.anchor.x = 1;
+        break;
+      case 'center':
+      default:
+        sprite.anchor.x = 0.5;
+    }
     sprite.y = this._totalHeight;
     this._totalHeight += sprite.height;
     this.addChild(sprite);
@@ -125,7 +135,7 @@ export class Sprite_StaffRoll extends Sprite {
     const lineHeight = Math.ceil(textSetting.fontSize * 1.5);
 
     const bitmap = new Bitmap(
-      Math.min(width + textSetting.outlineWidth * 2, Graphics.width),
+      Math.min(width + textSetting.outlineWidth * 2, this.contentMaxWidth()),
       lineHeight * lines.length + textSetting.outlineWidth * 2
     );
     bitmap.fontSize = textSetting.fontSize;
@@ -197,7 +207,16 @@ export class Sprite_StaffRoll extends Sprite {
    */
   adjustPosition() {
     const { timerRate } = Torigoya.EasyStaffRoll.Manager;
-    this.x = Graphics.width / 2;
+    switch (this.textAlign()) {
+      case 'left':
+        this.x = this.contentHorizontalPadding();
+        break;
+      case 'right':
+        this.x = Graphics.width - this.contentHorizontalPadding();
+        break;
+      default:
+        this.x = Graphics.width / 2;
+    }
     this.y = Graphics.height - timerRate * (Graphics.height + this._totalHeight);
   }
 
@@ -214,6 +233,22 @@ export class Sprite_StaffRoll extends Sprite {
    * @returns {'left' | 'center' | 'right'}
    */
   textAlign() {
-    return 'center';
+    return Torigoya.EasyStaffRoll.parameter.designTextAlign || 'center';
+  }
+
+  /**
+   * 要素の横方向の余白サイズ
+   * @returns {number}
+   */
+  contentHorizontalPadding() {
+    return Torigoya.EasyStaffRoll.parameter.designContentHorizontalPadding || 0;
+  }
+
+  /**
+   * 各要素の最大幅
+   * @returns {number}
+   */
+  contentMaxWidth() {
+    return Graphics.width - this.contentHorizontalPadding() * 2;
   }
 }
