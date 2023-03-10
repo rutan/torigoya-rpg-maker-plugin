@@ -421,7 +421,7 @@ TorigoyaMZ_Achievement2_AddonTileView:
     - 'TorigoyaMZ_Achievement2'
 
 addonCategory: &addonCategoryBase
-  version: '1.3.0'
+  version: '1.3.1'
   title:
     ja: '実績プラグインアドオン: カテゴリ設定'
   body:
