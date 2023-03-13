@@ -3,6 +3,7 @@ import { getPluginName } from '../../../common/getPluginName';
 import { readParameter } from './_build/Torigoya_Achievement2_parameter';
 import { AchievementManager } from './modules/AchievementManager';
 import { AchievementPopupManager } from './modules/AchievementPopupManager';
+import { convertItemForWindow } from './modules/convertItemForWindow';
 
 Torigoya.Achievement2 = {
   name: getPluginName(),
@@ -11,6 +12,10 @@ Torigoya.Achievement2 = {
   // 内部処理用に使うユニークなスロット名（≠localStorageのキー）
   saveSlotID: 'Torigoya Achievement2',
 };
+
+// -------------------------------------------------------------------------
+// Utils
+Torigoya.Achievement2.convertItemForWindow = convertItemForWindow;
 
 // -------------------------------------------------------------------------
 // 実績マネージャ
@@ -181,27 +186,17 @@ class Window_AchievementList extends Window_Selectable {
   }
 
   drawItem(index) {
-    const item = this._data[index];
+    const achievementItem = this._data[index];
     const rect = this.itemRect(index);
     this.resetFontSettings();
 
-    if (item) {
+    if (achievementItem) {
+      const item = Torigoya.Achievement2.convertItemForWindow(achievementItem);
       const iconWidth = Window_Base._iconWidth + 4;
-      if (item.unlockInfo) {
-        this.changePaintOpacity(true);
-        this.drawIcon(item.achievement.icon, rect.x, rect.y);
-        this.drawText(item.achievement.title, rect.x + iconWidth, rect.y, rect.width - iconWidth, 'left');
-      } else {
-        this.changePaintOpacity(false);
-        this.drawIcon(Torigoya.Achievement2.parameter.achievementMenuHiddenIcon, rect.x, rect.y);
-        this.drawText(
-          Torigoya.Achievement2.parameter.achievementMenuHiddenTitle,
-          rect.x + iconWidth,
-          rect.y,
-          rect.width - iconWidth,
-          'left'
-        );
-      }
+
+      this.changePaintOpacity(!!achievementItem.unlockInfo);
+      this.drawIcon(item.iconIndex, rect.x, rect.y);
+      this.drawText(item.name, rect.x + iconWidth, rect.y, rect.width - iconWidth, 'left');
     } else {
       this.changePaintOpacity(true);
       this.drawText(Torigoya.Achievement2.parameter.achievementMenuCancelMessage, rect.x, rect.y, rect.width, 'center');
@@ -216,15 +211,7 @@ class Window_AchievementList extends Window_Selectable {
 
   updateHelp() {
     const item = this.item();
-    if (item) {
-      this.setHelpWindowItem({
-        description: item.unlockInfo
-          ? item.achievement.description
-          : item.achievement.hint || item.achievement.description,
-      });
-    } else {
-      this.setHelpWindowItem(null);
-    }
+    this.setHelpWindowItem(Torigoya.Achievement2.convertItemForWindow(item));
   }
 
   playBuzzerSound() {
