@@ -2,7 +2,7 @@ name: update github pages
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-18.04
@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/checkout@v2
         with:
-          ref: master
+          ref: main
           path: main
 
       - name: Setup Node
