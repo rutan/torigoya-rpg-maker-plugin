@@ -38,7 +38,7 @@
     "rimraf": "^3.0.2",
     "rollup": "^2.67.0",
     "simple-git": "^3.16.0",
-    "yaml": "^1.10.2"
+    "yaml": "^2.2.2"
   },
   "dependencies": {
     "@rutan/frame-tween": "0.5.0"
