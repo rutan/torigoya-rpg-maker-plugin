@@ -1,8 +1,8 @@
-import fs from 'fs';
-import path from 'path';
+import * as fs from 'fs';
+import * as path from 'path';
 import ejs from 'ejs';
 import simpleGit from 'simple-git';
-const { loadConfig } = require(path.resolve('scripts', 'utils', 'loadConfig.js'));
+import { loadConfig } from '../../scripts/utils/loadConfig.js';
 
 const git = simpleGit();
 

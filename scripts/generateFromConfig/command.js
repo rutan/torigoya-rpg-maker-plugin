@@ -1,10 +1,12 @@
-const path = require('path');
-const glob = require('glob');
-const chokidar = require('chokidar');
+import * as path from 'path';
+import { fileURLToPath } from 'node:url';
+import { generateFromConfig } from './generateFromConfig.js';
+import globPkg from 'glob';
+import chokidar from 'chokidar';
+const { glob } = globPkg;
 
-const { generateFromConfig } = require('./generateFromConfig');
-
-const globPath = path.resolve(__dirname, '..', '..', 'src', 'entries', '**', 'config.yml');
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+const globPath = path.resolve(dirname, '..', '..', 'src', 'entries', '**', 'config.yml');
 const isWatch = process.argv.some((n) => n === '-w');
 
 (async () => {

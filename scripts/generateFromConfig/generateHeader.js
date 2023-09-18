@@ -6,7 +6,7 @@ const defaultConfig = {
   license: 'public domain',
 };
 
-function generateHeader(config) {
+export function generateHeader(config) {
   const locales = Object.keys(config.title);
   const target = config.target;
 
@@ -198,7 +198,3 @@ function generateMultilineProp(propName, lang, value, defaultValue = null) {
 
   return [`@${propName} ${valueResult.shift()}`, ...valueResult];
 }
-
-module.exports = {
-  generateHeader,
-};
