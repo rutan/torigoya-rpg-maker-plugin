@@ -1,7 +1,7 @@
-import { Torigoya } from '../../../common/Torigoya';
-import { getPluginName } from '../../../common/getPluginName';
-import { readParameter } from './_build/TorigoyaMZ_SmoothValueGauge_parameter';
-import { findGlobalObject } from '../../../common/utils/findGlobalObject';
+import { Torigoya } from '../../../common/Torigoya.js';
+import { getPluginName } from '../../../common/getPluginName.js';
+import { readParameter } from './_build/TorigoyaMZ_SmoothValueGauge_parameter.js';
+import { findGlobalObject } from '../../../common/utils/findGlobalObject.js';
 
 Torigoya.SmoothValueGauge = {
   name: getPluginName(),

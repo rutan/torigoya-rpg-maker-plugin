@@ -27,9 +27,9 @@ export function generateParameterReader(config) {
     options.parser = 'babel';
 
     const code = `
-import { getPluginName } from '../../../../common/getPluginName';
+import { getPluginName } from '../../../../common/getPluginName.js';
 ${Array.from(state.useFunctions)
-  .map((n) => `import {${n}} from '../../../../common/pickFromParameter/${n}'`)
+  .map((n) => `import {${n}} from '../../../../common/pickFromParameter/${n}.js'`)
   .join('\n')}
 
 ${state.customPicker
