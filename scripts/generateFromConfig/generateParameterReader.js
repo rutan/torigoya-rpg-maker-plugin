@@ -1,8 +1,12 @@
-const path = require('path');
-const prettier = require('prettier');
+import * as path from 'path';
+import * as prettier from 'prettier';
+import { fileURLToPath } from 'node:url';
 
-const prettierConfig = path.resolve(__dirname, '..', '..', '.prettierrc');
-function generateParameterReader(config) {
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const prettierConfig = path.resolve(dirname, '..', '..', '.prettierrc');
+
+export function generateParameterReader(config) {
   const state = { paramMap: new Map(), useFunctions: new Set(), customPicker: [] };
 
   if (config.structures) {
@@ -149,7 +153,3 @@ function traceCustomPickerFromStructure(config, key, structure, state) {
 
   state.customPicker.push(code);
 }
-
-module.exports = {
-  generateParameterReader,
-};

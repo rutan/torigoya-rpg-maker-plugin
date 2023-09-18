@@ -1,11 +1,14 @@
-import path from 'path';
-import glob from 'glob';
+import * as path from 'path';
+import { fileURLToPath } from 'node:url';
+import { glob } from 'glob';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
-import applyTemplate from './extensions/rollup/rollup-apply-template';
+import applyTemplate from './extensions/rollup/rollup-apply-template.js';
 
-const config = glob.sync(path.join(__dirname, 'src', 'entries', '*', '*', 'Torigoya*.js')).map((input) => {
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const config = glob.sync(path.join(dirname, 'src', 'entries', '*', '*', 'Torigoya*.js')).map((input) => {
   return {
     input,
     output: {
@@ -13,14 +16,16 @@ const config = glob.sync(path.join(__dirname, 'src', 'entries', '*', '*', 'Torig
       format: 'iife',
     },
     plugins: [
-      resolve(),
+      resolve({
+        browser: true
+      }),
       commonjs(),
       replace({
         __entryFileName: JSON.stringify(path.basename(input).replace(/\.[^\.]+$/, '')),
         preventAssignment: false,
       }),
       applyTemplate({
-        template: path.resolve(__dirname, 'src', 'templates', 'plugin.ejs'),
+        template: path.resolve(dirname, 'src', 'templates', 'plugin.ejs'),
       }),
     ],
     onwarn(warning, warn) {

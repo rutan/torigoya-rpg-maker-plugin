@@ -1,10 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const cpx = require('cpx2');
-const glob = require('glob');
+import * as fs from 'fs';
+import * as path from 'path';
+import cpx from 'cpx2';
+import { glob } from 'glob';
+import { fileURLToPath } from 'node:url';
 
-const srcMvPlugins = path.join(__dirname, '..', '_dist', 'Torigoya_*.js');
-const srcMzPlugins = path.join(__dirname, '..', '_dist', 'TorigoyaMZ_*.js');
+const dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const srcMvPlugins = path.join(dirname, '..', '_dist', 'Torigoya_*.js');
+const srcMzPlugins = path.join(dirname, '..', '_dist', 'TorigoyaMZ_*.js');
 const isWatch = process.argv.some((n) => n === '-w');
 
 function isMvProject(projectDir) {
@@ -25,7 +28,7 @@ function isMzProject(projectDir) {
   }
 }
 
-glob.sync(path.join(__dirname, '..', 'projects', '*')).forEach((projectDir) => {
+glob.sync(path.join(dirname, '..', 'projects', '*')).forEach((projectDir) => {
   try {
     if (isMvProject(projectDir)) {
       const distDir = path.join(projectDir, 'js', 'plugins');
