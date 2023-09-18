@@ -1,6 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const glob = require('glob');
+import * as fs from 'fs';
+import * as path from 'path';
+import globPkg from 'glob';
+const { glob } = globPkg;
+import { fileURLToPath } from 'node:url';
+
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const targetDir = process.argv[process.argv.length - 1];
 if (!targetDir) process.exit(1);
@@ -9,7 +13,7 @@ if (!fs.statSync(targetDir).isDirectory()) {
   process.exit(1);
 }
 
-glob.sync(path.join(__dirname, '..', '_dist', '*.js')).forEach((file) => {
+glob.sync(path.join(dirname, '..', '_dist', '*.js')).forEach((file) => {
   const content = fs.readFileSync(file, 'utf-8');
   const match = content.match(/v\.\d+\.\d+\.\d+/);
   if (!match || !match[0]) {

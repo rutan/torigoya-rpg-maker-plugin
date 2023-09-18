@@ -1,17 +1,50 @@
-import { Tween, Group } from '@rutan/frame-tween';
-import * as Easing from '@rutan/frame-tween/esm/Easing';
+import {
+  Tween,
+  Group,
+  linear,
+  easeInSine,
+  easeOutSine,
+  easeInOutSine,
+  easeInQuad,
+  easeOutQuad,
+  easeInOutQuad,
+  easeInCubic,
+  easeOutCubic,
+  easeInOutCubic,
+  easeInCircular,
+  easeOutCircular,
+  easeInOutCircular,
+} from '@rutan/frame-tween';
 import { Torigoya } from '../../../common/Torigoya';
 import { getPluginName } from '../../../common/getPluginName';
 import { readParameter } from './_build/TorigoyaMZ_FrameTween_parameter';
+
+const globalGroup = new Group();
 
 Torigoya.FrameTween = {
   name: getPluginName(),
   parameter: readParameter(),
   Tween,
   Group,
-  Easing,
-  group: Tween._globalGroup,
-  create: Tween.create,
+  Easing: {
+    linear,
+    easeInSine,
+    easeOutSine,
+    easeInOutSine,
+    easeInQuad,
+    easeOutQuad,
+    easeInOutQuad,
+    easeInCubic,
+    easeOutCubic,
+    easeInOutCubic,
+    easeInCircular,
+    easeOutCircular,
+    easeInOutCircular,
+  },
+  group: globalGroup,
+  create(obj, initParams = {}) {
+    return new Tween(obj, initParams).group(globalGroup);
+  },
 };
 
 (() => {
@@ -21,5 +54,11 @@ Torigoya.FrameTween = {
     upstream_updateScene.apply(this);
 
     if (isStarted) Torigoya.FrameTween.group.update();
+  };
+
+  const upstream_onSceneTerminate = SceneManager.onSceneTerminate;
+  SceneManager.onSceneTerminate = function () {
+    upstream_onSceneTerminate.apply(this);
+    Torigoya.FrameTween.group.clear();
   };
 })();

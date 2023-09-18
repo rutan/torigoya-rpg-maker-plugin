@@ -1,5 +1,5 @@
 base: &base
-  version: '2.1.0'
+  version: '2.2.0'
   title:
     en: '[Base] Tween-animation Engine'
     ja: '[鳥小屋.txt ベースプラグイン] Tweenアニメーション'

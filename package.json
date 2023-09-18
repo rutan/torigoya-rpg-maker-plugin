@@ -2,14 +2,15 @@
   "name": "torigoya-rpg-maker-plugins",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "run-s clean build:*",
-    "build:config": "node ./scripts/generateFromConfig",
+    "build:config": "node ./scripts/generateFromConfig/command.js",
     "build:js": "cross-env NODE_ENV=production rollup -c",
     "build:format": "prettier --tab-width 4 --write ./_dist/**/*.js",
     "build:copy": "node ./scripts/copy-to-projects.js",
     "watch": "run-p watch:*",
-    "watch:config": "node ./scripts/generateFromConfig -w",
+    "watch:config": "node ./scripts/generateFromConfig/command.js -w",
     "watch:rollup": "rollup -c -w",
     "watch:copy": "node ./scripts/copy-to-projects.js -w",
     "clean": "run-p clean:*",
@@ -41,6 +42,6 @@
     "yaml": "^2.2.2"
   },
   "dependencies": {
-    "@rutan/frame-tween": "0.5.0"
+    "@rutan/frame-tween": "0.6.1"
   }
 }

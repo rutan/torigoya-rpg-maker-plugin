@@ -1,12 +1,11 @@
-const fs = require('fs');
-const path = require('path');
-const mkdirp = require('mkdirp');
-const { loadConfig } = require('../utils/loadConfig');
+import * as fs from 'fs';
+import * as path from 'path';
+import mkdirp from 'mkdirp';
+import { loadConfig } from '../utils/loadConfig.js';
+import { generateHeader } from './generateHeader.js';
+import { generateParameterReader } from './generateParameterReader.js';
 
-const { generateHeader } = require('./generateHeader');
-const { generateParameterReader } = require('./generateParameterReader');
-
-async function generateFromConfig(file) {
+export async function generateFromConfig(file) {
   const config = loadConfig(file);
   const distDir = path.resolve(file, '..', '_build');
   mkdirp.sync(distDir);
@@ -22,7 +21,3 @@ async function generateFromConfig(file) {
   console.log(`build config: ${file}`);
   console.log('');
 }
-
-module.exports = {
-  generateFromConfig,
-};

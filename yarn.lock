@@ -77,10 +77,10 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rutan/frame-tween@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@rutan/frame-tween/-/frame-tween-0.5.0.tgz#96a5c2429a0b80a79c11e9ceb3d46c965424c124"
-  integrity sha512-URMCdxdF3C0VkLIcmBrbT9AI5PKoYmIVfLdYuRFfMslOWR732ldrAODqNyh90xpycXUPYofBGlHSeHtc1DdR+g==
+"@rutan/frame-tween@0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@rutan/frame-tween/-/frame-tween-0.6.1.tgz#6e5fdd0348de287030fae215f2960726fa4098bd"
+  integrity sha512-M51SkposqKjRzXNMlFnPSxWWsLAB+HE8fzmFGzDvzJAwysRPRNpGIdVVHe9AbW0VRpMRucTb5ixgMuo1CsIBmQ==
 
 "@types/estree@*":
   version "0.0.51"

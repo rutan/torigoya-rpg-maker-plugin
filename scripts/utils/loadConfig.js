@@ -1,7 +1,7 @@
-const fs = require('fs');
-const YAML = require('yaml');
+import * as fs from 'fs';
+import * as YAML from 'yaml';
 
-function loadConfig(configPath) {
+export function loadConfig(configPath) {
   const config = YAML.parse(fs.readFileSync(configPath, 'utf-8'), { merge: true });
 
   Object.keys(config).forEach((key) => {
@@ -47,7 +47,3 @@ function convertConfigForMV(config) {
 function convertConfigForMZ(config) {
   // nothing to do
 }
-
-module.exports = {
-  loadConfig,
-};
