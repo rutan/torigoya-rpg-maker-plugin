@@ -54,7 +54,7 @@ Torigoya.FrameTween = {
     if (this._scene) Torigoya.FrameTween.group.update();
   };
 
-  const upstream_terminate = Scene_Base.terminate;
+  const upstream_terminate = Scene_Base.prototype.terminate;
   Scene_Base.prototype.terminate = function() {
     upstream_terminate.apply(this);
     Torigoya.FrameTween.group.clear();
