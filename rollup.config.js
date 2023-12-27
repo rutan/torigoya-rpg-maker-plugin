@@ -5,6 +5,7 @@ import { babel } from '@rollup/plugin-babel';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import replace from '@rollup/plugin-replace';
+import alias from '@rollup/plugin-alias';
 import applyTemplate from './extensions/rollup/rollup-apply-template.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -19,6 +20,11 @@ const config = glob.sync(resolve(__dirname, 'src', 'entries', '*', '*', 'Torigoy
       format: 'iife',
     },
     plugins: [
+      alias({
+        entries: {
+          $common: resolve(__dirname, 'src', 'common'),
+        },
+      }),
       nodeResolve({
         browser: true,
       }),

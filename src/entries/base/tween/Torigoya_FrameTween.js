@@ -15,8 +15,7 @@ import {
   easeOutCircular,
   easeInOutCircular,
 } from '@rutan/frame-tween';
-import { Torigoya } from '../../../common/Torigoya';
-import { getPluginName } from '../../../common/getPluginName';
+import { Torigoya, getPluginName } from '$common';
 import { readParameter } from './_build/Torigoya_FrameTween_parameter';
 
 const globalGroup = new Group();
