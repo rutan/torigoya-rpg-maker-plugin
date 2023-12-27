@@ -4,18 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "run-s clean build:*",
-    "build:config": "node ./scripts/generateFromConfig/command.js",
-    "build:js": "cross-env NODE_ENV=production rollup -c",
-    "build:format": "prettier --write --ignore-path '' --tab-width 4 ./_dist/**/*.js",
-    "build:copy": "node ./scripts/copy-to-projects.js",
-    "watch": "run-p watch:*",
-    "watch:config": "node ./scripts/generateFromConfig/command.js -w",
-    "watch:rollup": "rollup -c -w",
-    "watch:copy": "node ./scripts/copy-to-projects.js -w",
-    "clean": "run-p clean:*",
-    "clean:dist": "rimraf ./_dist",
-    "clean:generated": "rimraf ./src/entries/**/_build",
+    "build": "run-s build:*",
+    "build:turbo": "turbo build",
+    "clean": "turbo clean",
+    "copy": "node ./scripts/copy-to-projects.js",
+    "copy:watch": "node ./scripts/copy-to-projects.js -w",
     "format": "prettier -w ./",
     "prepare": "husky install",
     "precommit": "lint-staged"
@@ -27,12 +20,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.23.6",
-    "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-babel": "^6.0.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
+    "@rutan/rpgmaker-plugin-annotation": "^0.1.0",
+    "@types/node": "^20.10.5",
     "chokidar": "^3.5.3",
+    "consola": "^3.2.3",
     "cpx2": "^7.0.0",
     "cross-env": "^7.0.3",
     "ejs": "^3.1.9",
@@ -45,10 +39,13 @@
     "rimraf": "^5.0.5",
     "rollup": "^4.9.1",
     "simple-git": "^3.21.0",
+    "turbo": "^1.11.2",
+    "typescript": "^5.3.3",
     "yaml": "^2.3.4"
   },
   "dependencies": {
     "@babel/preset-env": "^7.23.6",
     "@rutan/frame-tween": "0.6.1"
-  }
+  },
+  "packageManager": "pnpm@8.10.0"
 }

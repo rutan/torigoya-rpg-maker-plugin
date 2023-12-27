@@ -15,6 +15,7 @@ parameterBase: &parameterBase
   baseSaveSlot:
     parent: 'base'
     name: 'セーブデータのスロット名'
+    type: 'string'
     default: 'achievement'
   popup:
     dummy: '■ ポップアップ設定'
@@ -108,6 +109,7 @@ parameterBase: &parameterBase
   popupMessage:
     parent: 'popup'
     name: 'メッセージの内容'
+    type: 'string'
     desc: |
       実績獲得ポップアップに表示される
       獲得メッセージの内容
@@ -169,6 +171,7 @@ parameterBase: &parameterBase
   titleMenuText:
     parent: 'title'
     name: '項目名'
+    type: 'string'
     desc: |
       タイトルやメニューに表示する際の
       実績メニューの項目名
@@ -178,6 +181,7 @@ parameterBase: &parameterBase
   achievementMenuHiddenTitle:
     parent: 'achievementMenu'
     name: '未獲得実績の表示名'
+    type: 'string'
     desc: |
       実績画面で未取得の実績の欄に
       表示する名前
@@ -195,6 +199,7 @@ parameterBase: &parameterBase
   advancedFontFace:
     parent: 'advanced'
     name: 'ポップアップのフォント'
+    type: 'string'
     desc: |
       実績獲得ポップアップ表示のフォント名を指定します。
       空欄の場合は他のウィンドウと同じフォントを使用します。
@@ -309,6 +314,7 @@ Torigoya_Achievement2:
     achievementMenuCancelMessage:
       parent: 'achievementMenu'
       name: '閉じるボタンのテキスト'
+      type: 'string'
       desc: |
         実績画面を閉じるボタンのテキスト
         空欄の場合は閉じるボタンを表示しません

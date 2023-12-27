@@ -9,11 +9,11 @@
 
 ## How to build
 
-require node and yarn
+require node and pnpm
 
 ```bash
-$ yarn install
-$ yarn build
+$ pnpm install
+$ pnpm build
 ```
 
 ## License

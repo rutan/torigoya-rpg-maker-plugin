@@ -3,18 +3,19 @@ base: &base
   title:
     en: '[Base] Tween-animation Engine'
     ja: '[鳥小屋.txt ベースプラグイン] Tweenアニメーション'
-  body:
+  help:
     en: 'This plugin is a base-plugin for Torigoya plugins.'
     ja: |
       このプラグインはベースプラグインです。
       このプラグインを導入しただけでは特に何も起きません。
       Tweenアニメーション用の処理を追加します。
-  parameter: {}
 
 Torigoya_FrameTween:
   <<: *base
-  target: 'MV'
+  target:
+    - 'MV'
 
 TorigoyaMZ_FrameTween:
   <<: *base
-  target: 'MZ'
+  target:
+    - 'MZ'
