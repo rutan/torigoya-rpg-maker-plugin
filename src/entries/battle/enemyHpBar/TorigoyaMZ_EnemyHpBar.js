@@ -89,7 +89,7 @@ class Sprite_EnemyHpGauge extends Sprite_Gauge {
       return Math.max(
         this.labelFontSize() + this.labelOutlineWidth(),
         this.valueFontSize() + this.valueOutlineWidth(),
-        this.gaugeHeight()
+        this.gaugeHeight(),
       );
     } else {
       return this.gaugeHeight();

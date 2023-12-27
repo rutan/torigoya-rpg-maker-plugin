@@ -125,7 +125,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
       colorBitmap.height / 2,
       color2,
       color1,
-      true
+      true,
     );
 
     this._mainBackSprite = new Sprite(colorBitmap);
@@ -224,7 +224,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           y: 1,
         },
         this.getOpenAndCloseTime(),
-        easingBounce
+        easingBounce,
       )
       .wait(this.getStopTime())
       .to(
@@ -232,7 +232,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           y: 0,
         },
         this.getOpenAndCloseTime(),
-        Torigoya.FrameTween.Easing.easeOutCubic
+        Torigoya.FrameTween.Easing.easeOutCubic,
       )
       .call(() => this.finish())
       .start();
@@ -245,7 +245,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           opacity: 128,
         },
         this.getOpenAndCloseTime(),
-        easingBounce
+        easingBounce,
       )
       .wait(this.getStopTime())
       .to(
@@ -253,7 +253,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           opacity: 0,
         },
         this.getOpenAndCloseTime(),
-        Torigoya.FrameTween.Easing.easeOutCubic
+        Torigoya.FrameTween.Easing.easeOutCubic,
       )
       .start();
   }
@@ -267,7 +267,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
             opacity: 255,
           },
           this.getOpenAndCloseTime(),
-          easingBounce
+          easingBounce,
         )
         .wait(this.getStopTime())
         .to(
@@ -275,7 +275,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
             opacity: 0,
           },
           this.getOpenAndCloseTime(),
-          Torigoya.FrameTween.Easing.easeOutCubic
+          Torigoya.FrameTween.Easing.easeOutCubic,
         )
         .start();
     });
@@ -290,7 +290,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
             y: 1,
           },
           this.getOpenAndCloseTime(),
-          easingBounce
+          easingBounce,
         )
         .wait(this.getStopTime())
         .to(
@@ -298,7 +298,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
             y: 0,
           },
           this.getOpenAndCloseTime(),
-          Torigoya.FrameTween.Easing.easeOutCubic
+          Torigoya.FrameTween.Easing.easeOutCubic,
         )
         .start();
     });
@@ -313,7 +313,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           opacity: 255,
         },
         this.getOpenAndCloseTime(),
-        easingBounce
+        easingBounce,
       )
       .wait(this.getStopTime())
       .to(
@@ -321,7 +321,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           opacity: 0,
         },
         this.getOpenAndCloseTime(),
-        Torigoya.FrameTween.Easing.easeOutCubic
+        Torigoya.FrameTween.Easing.easeOutCubic,
       )
       .start();
 
@@ -332,7 +332,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           y: 1,
         },
         this.getOpenAndCloseTime(),
-        easingBounce
+        easingBounce,
       )
       .wait(this.getStopTime())
       .to(
@@ -341,7 +341,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           y: 3,
         },
         this.getOpenAndCloseTime(),
-        Torigoya.FrameTween.Easing.easeOutCubic
+        Torigoya.FrameTween.Easing.easeOutCubic,
       )
       .start();
 
@@ -354,14 +354,14 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           opacity: 255,
         },
         blurAnimationTime,
-        Torigoya.FrameTween.Easing.easeOutCubic
+        Torigoya.FrameTween.Easing.easeOutCubic,
       )
       .to(
         {
           opacity: 0,
         },
         blurAnimationTime,
-        Torigoya.FrameTween.Easing.easeOutCubic
+        Torigoya.FrameTween.Easing.easeOutCubic,
       )
       .start();
 
@@ -373,7 +373,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           y: 1,
         },
         blurAnimationTime,
-        Torigoya.FrameTween.Easing.easeOutCubic
+        Torigoya.FrameTween.Easing.easeOutCubic,
       )
       .to(
         {
@@ -381,7 +381,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
           y: 3,
         },
         blurAnimationTime,
-        Torigoya.FrameTween.Easing.easeOutCubic
+        Torigoya.FrameTween.Easing.easeOutCubic,
       )
       .start();
   }

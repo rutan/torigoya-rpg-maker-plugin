@@ -6,12 +6,12 @@ import { checkPluginVersion } from '../../../common/utils/checkPlugin';
 
 checkPlugin(
   Torigoya.Achievement2,
-  '「実績アドオン:ご褒美コモンイベント」より上に「実績プラグイン」が導入されていません。'
+  '「実績アドオン:ご褒美コモンイベント」より上に「実績プラグイン」が導入されていません。',
 );
 checkPluginVersion(
   Torigoya.Achievement2.parameter.version,
   '1.6.0',
-  '「実績アドオン:ご褒美コモンイベント」を利用するには「実績プラグイン」を最新版にアップデートしてください'
+  '「実績アドオン:ご褒美コモンイベント」を利用するには「実績プラグイン」を最新版にアップデートしてください',
 );
 
 Torigoya.Achievement2.Addons = Torigoya.Achievement2.Addons || {};

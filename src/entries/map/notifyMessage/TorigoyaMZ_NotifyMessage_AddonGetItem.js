@@ -5,7 +5,7 @@ import { checkExistPlugin } from '../../../common/utils/checkPlugin';
 
 checkExistPlugin(
   Torigoya.NotifyMessage,
-  '「通知メッセージアドオン: アイテム獲得表示」より上に「通知メッセージプラグイン」が導入されていません。'
+  '「通知メッセージアドオン: アイテム獲得表示」より上に「通知メッセージプラグイン」が導入されていません。',
 );
 
 Torigoya.NotifyMessage.Addons = Torigoya.NotifyMessage.Addons || {};

@@ -5,12 +5,12 @@ import { checkExistPlugin, checkPluginVersion } from '../../../common/utils/chec
 
 checkExistPlugin(
   Torigoya.FrameTween,
-  '「通知メッセージプラグイン」より上に「[鳥小屋.txt ベースプラグイン] Tweenアニメーション」が導入されていません。'
+  '「通知メッセージプラグイン」より上に「[鳥小屋.txt ベースプラグイン] Tweenアニメーション」が導入されていません。',
 );
 checkPluginVersion(
   Torigoya.FrameTween.parameter.version,
   '2.1.0',
-  '「[鳥小屋.txt ベースプラグイン] Tweenアニメーション」のバージョンが古いです。アップデートをしてください。'
+  '「[鳥小屋.txt ベースプラグイン] Tweenアニメーション」のバージョンが古いです。アップデートをしてください。',
 );
 
 Torigoya.NotifyMessage = {
@@ -171,7 +171,7 @@ Torigoya.NotifyMessage = {
         x,
         icon ? (gap < 0 ? -gap / 2 : 0) : 0,
         Math.min(messageWidth, this.messageMaxWidth()),
-        messageHeight
+        messageHeight,
       );
     }
 

@@ -21,7 +21,7 @@ class Window_AchievementCategory extends Window_Command {
     if (Torigoya.Achievement2.Addons.Category.parameter.position === 'top') {
       return Math.min(
         Torigoya.Achievement2.Addons.Category.parameter.categories.length,
-        Torigoya.Achievement2.Addons.Category.parameter.maxCols
+        Torigoya.Achievement2.Addons.Category.parameter.maxCols,
       );
     } else {
       return 1;
@@ -127,7 +127,7 @@ Torigoya.Achievement2.Addons.Category.readCategoryName = readCategoryName;
     if (position === 'top') {
       const length = Math.ceil(
         Torigoya.Achievement2.Addons.Category.parameter.categories.length /
-          Torigoya.Achievement2.Addons.Category.parameter.maxCols
+          Torigoya.Achievement2.Addons.Category.parameter.maxCols,
       );
       const wx = 0;
       const wy = this.mainAreaTop();
@@ -188,11 +188,11 @@ Torigoya.Achievement2.Addons.Category.readCategoryName = readCategoryName;
   PluginManager.registerCommand(
     Torigoya.Achievement2.Addons.Category.name,
     'gainAchievementCategory',
-    commandGainAchievementCategory
+    commandGainAchievementCategory,
   );
   PluginManager.registerCommand(
     Torigoya.Achievement2.Addons.Category.name,
     'removeAchievementCategory',
-    commandRemoveAchievementCategory
+    commandRemoveAchievementCategory,
   );
 })();

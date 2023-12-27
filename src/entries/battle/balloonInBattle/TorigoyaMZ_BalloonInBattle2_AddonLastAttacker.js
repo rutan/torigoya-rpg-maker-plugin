@@ -5,7 +5,7 @@ import { checkPlugin } from '../../../../scripts/utils/checkPlugin';
 
 checkPlugin(
   Torigoya.BalloonInBattle,
-  '「戦闘中セリフ表示プラグインアドオン: 勝利セリフをトドメキャラに」より上に「戦闘中セリフ表示プラグイン」が導入されていません。'
+  '「戦闘中セリフ表示プラグインアドオン: 勝利セリフをトドメキャラに」より上に「戦闘中セリフ表示プラグイン」が導入されていません。',
 );
 
 Torigoya.BalloonInBattle.Addons = Torigoya.BalloonInBattle.Addons || {};

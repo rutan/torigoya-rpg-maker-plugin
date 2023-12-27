@@ -62,7 +62,7 @@ export class NiconikoApiClient {
 
             return result;
           }, new Map())
-          .values()
+          .values(),
       );
 
       if (newItems[0]) this._lastStartedTime = newItems[0].startedAt;

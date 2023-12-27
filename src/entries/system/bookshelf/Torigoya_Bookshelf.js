@@ -201,8 +201,8 @@ class Window_BookContent extends Window_Selectable {
         align === 'right'
           ? textState.x + this.contents.width - faceWidth
           : align === 'center'
-          ? textState.x + (this.contents.width - faceWidth) / 2
-          : textState.x;
+            ? textState.x + (this.contents.width - faceWidth) / 2
+            : textState.x;
       this.drawFace(faceName, faceIndex, dx, textState.y);
     } else {
       this.addWaitLoadBitmap(bitmap);
@@ -233,8 +233,8 @@ class Window_BookContent extends Window_Selectable {
         align === 'right'
           ? textState.x + this.contents.width - dw
           : align === 'center'
-          ? textState.x + (this.contents.width - dw) / 2
-          : textState.x;
+            ? textState.x + (this.contents.width - dw) / 2
+            : textState.x;
 
       this.contents.blt(bitmap, 0, 0, bitmap.width, bitmap.height, dx, textState.y, dw, dh);
     } else {
@@ -423,7 +423,7 @@ class Scene_Bookshelf extends Scene_MenuBase {
     const titleHeight = this._bookshelf.title ? this._titleWindow.height : 0;
     this._booksListWindow.height = Math.min(
       Window_Selectable.prototype.fittingHeight(this._booksListWindow.maxItems()),
-      this.maxBooksWindowHeight()
+      this.maxBooksWindowHeight(),
     );
 
     const x = (Graphics.boxWidth - this.listWindowWidth()) / 2;

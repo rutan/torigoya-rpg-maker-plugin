@@ -3,8 +3,8 @@ export default {
     [
       '@babel/preset-env',
       {
-        'useBuiltIns': false,
-      }
-    ]
-  ]
+        useBuiltIns: false,
+      },
+    ],
+  ],
 };

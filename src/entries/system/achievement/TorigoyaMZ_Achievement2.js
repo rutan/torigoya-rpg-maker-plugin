@@ -128,7 +128,7 @@ class Window_AchievementPopup extends Window_Base {
       y,
       textWidth,
       this.messageFontSize(),
-      'left'
+      'left',
     );
   }
 

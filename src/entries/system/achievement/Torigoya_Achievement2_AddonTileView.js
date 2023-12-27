@@ -33,7 +33,7 @@ Torigoya.Achievement2.Addons.TileView = {
 
     this.width = Math.min(
       this.maxCols() * this.itemWidth() + (this.maxCols() - 1) * this.spacing() + this.padding * 2,
-      width
+      width,
     );
     this.height = Math.max(Math.min(h * this.itemHeight() + this.padding * 2, height), this.fittingHeight(1));
     this.x = x + (width - this.width) / 2;
@@ -76,7 +76,7 @@ Torigoya.Achievement2.Addons.TileView = {
         this.drawIcon(
           Torigoya.Achievement2.parameter.achievementMenuHiddenIcon,
           rect.x + parameter.itemPadding,
-          rect.y + parameter.itemPadding
+          rect.y + parameter.itemPadding,
         );
       }
     } else {

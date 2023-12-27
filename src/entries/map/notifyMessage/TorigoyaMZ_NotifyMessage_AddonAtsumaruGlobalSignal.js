@@ -5,7 +5,7 @@ import { checkExistPlugin } from '../../../common/utils/checkPlugin';
 
 checkExistPlugin(
   Torigoya.NotifyMessage,
-  '「通知メッセージアドオン: アツマールグローバルシグナル通知ログ」より上に「通知メッセージプラグイン」が導入されていません。'
+  '「通知メッセージアドオン: アツマールグローバルシグナル通知ログ」より上に「通知メッセージプラグイン」が導入されていません。',
 );
 
 Torigoya.NotifyMessage.Addons = Torigoya.NotifyMessage.Addons || {};
@@ -175,7 +175,7 @@ Torigoya.NotifyMessage.Addons.AtsumaruGlobalSignal = {
   };
 
   Torigoya.NotifyMessage.Addons.AtsumaruGlobalSignal.SignalCrawler.on(
-    SignalTemporaryStorage.handleSignal.bind(SignalTemporaryStorage)
+    SignalTemporaryStorage.handleSignal.bind(SignalTemporaryStorage),
   );
   Torigoya.NotifyMessage.Addons.AtsumaruGlobalSignal.Storage = SignalTemporaryStorage;
 

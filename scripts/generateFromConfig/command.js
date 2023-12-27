@@ -1,9 +1,8 @@
 import * as path from 'path';
 import { fileURLToPath } from 'node:url';
 import { generateFromConfig } from './generateFromConfig.js';
-import globPkg from 'glob';
+import { glob } from 'glob';
 import chokidar from 'chokidar';
-const { glob } = globPkg;
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const globPath = path.resolve(dirname, '..', '..', 'src', 'entries', '**', 'config.yml');

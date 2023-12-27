@@ -20,10 +20,10 @@ const config = glob.sync(path.join(dirname, 'src', 'entries', '*', '*', 'Torigoy
     },
     plugins: [
       resolve({
-        browser: true
+        browser: true,
       }),
       commonjs(),
-      isMZ ? null : babel({babelHelpers: 'bundled'}),
+      isMZ ? null : babel({ babelHelpers: 'bundled' }),
       replace({
         __entryFileName: JSON.stringify(path.basename(input).replace(/\.[^\.]+$/, '')),
         preventAssignment: false,

@@ -103,7 +103,7 @@ function tracePickerFromParameter(config, key, param, paramName, state) {
         key,
         `${funcName}(${paramName}, ${JSON.stringify(key)}, ${
           param.default === undefined ? undefined : JSON.stringify(param.default)
-        })`
+        })`,
       );
     } else {
       const type = param.type;

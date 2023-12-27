@@ -93,7 +93,7 @@ export class AchievementPopupManager {
           contentsOpacity: 255,
         },
         30,
-        Easing.easeOutCircular
+        Easing.easeOutCircular,
       )
       .wait(Math.floor(this._options.popupWait * 60))
       .to(
@@ -104,7 +104,7 @@ export class AchievementPopupManager {
           contentsOpacity: 0,
         },
         30,
-        Easing.easeInCircular
+        Easing.easeInCircular,
       )
       .call(() => {
         this._stacks = this._stacks.filter((stack) => popupWindow !== stack);

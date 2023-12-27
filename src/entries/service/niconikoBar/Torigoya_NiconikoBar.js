@@ -25,15 +25,18 @@ Torigoya.NiconikoBar.viewBuilder = new ViewBuilder({
   scrollTimeMax: Torigoya.NiconikoBar.parameter.baseScrollTimeMax,
 });
 
-Torigoya.NiconikoBar.timer = new Timer(() => {
-  return Torigoya.NiconikoBar.client.fetchNewHistories().then((histories) => {
-    if (histories.length === 0) return;
+Torigoya.NiconikoBar.timer = new Timer(
+  () => {
+    return Torigoya.NiconikoBar.client.fetchNewHistories().then((histories) => {
+      if (histories.length === 0) return;
 
-    Torigoya.NiconikoBar.viewBuilder.showMessage(
-      `${generateMessage(histories)} ${Torigoya.NiconikoBar.parameter.baseMessage}`
-    );
-  });
-}, Torigoya.NiconikoBar.parameter.advancedFetchInterval * 60 * 1000);
+      Torigoya.NiconikoBar.viewBuilder.showMessage(
+        `${generateMessage(histories)} ${Torigoya.NiconikoBar.parameter.baseMessage}`,
+      );
+    });
+  },
+  Torigoya.NiconikoBar.parameter.advancedFetchInterval * 60 * 1000,
+);
 
 // -------------------------------------------------------------------------
 // hook

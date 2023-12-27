@@ -214,7 +214,7 @@ Torigoya.DisplayAnimationInFrontView = {
       const rect = this._statusWindow.itemRect(i);
       sprite.setHome(
         baseX + this._statusWindow.x + this._statusWindow.padding + rect.x + rect.width / 2,
-        baseY + this._statusWindow.y + rect.y + rect.height / 2
+        baseY + this._statusWindow.y + rect.y + rect.height / 2,
       );
     }
   };

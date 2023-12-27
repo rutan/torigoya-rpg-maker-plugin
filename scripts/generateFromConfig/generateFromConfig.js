@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import mkdirp from 'mkdirp';
+import { mkdirp } from 'mkdirp';
 import { loadConfig } from '../utils/loadConfig.js';
 import { generateHeader } from './generateHeader.js';
 import { generateParameterReader } from './generateParameterReader.js';

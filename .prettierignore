@@ -1,0 +1,5 @@
+/.idea
+/_dist
+/node_modules
+/projects
+/pnpm-lock.yaml

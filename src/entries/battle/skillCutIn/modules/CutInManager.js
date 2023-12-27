@@ -31,7 +31,7 @@ class CutInManagerClass {
       if (cache) return cache;
 
       const result = Torigoya.SkillCutIn.parameter.actorConfig.filter(
-        (config) => config.actorId === actorId && config.skillId === item.id
+        (config) => config.actorId === actorId && config.skillId === item.id,
       );
       this._configCache.set(key, result);
 
@@ -43,7 +43,7 @@ class CutInManagerClass {
 
       const result = Torigoya.SkillCutIn.parameter.actorConfig.filter(
         (config) =>
-          config.actorId === actorId && parseInt(config.meta['item'] || config.meta['アイテム'] || 0, 10) === item.id
+          config.actorId === actorId && parseInt(config.meta['item'] || config.meta['アイテム'] || 0, 10) === item.id,
       );
       this._configCache.set(key, result);
 
@@ -62,7 +62,7 @@ class CutInManagerClass {
       if (cache) return cache;
 
       const result = Torigoya.SkillCutIn.parameter.enemyConfig.filter(
-        (config) => config.enemyId === enemyId && config.skillId === item.id
+        (config) => config.enemyId === enemyId && config.skillId === item.id,
       );
       this._configCache.set(key, result);
 
@@ -78,7 +78,7 @@ class CutInManagerClass {
     if (cache) return cache;
 
     const result = Torigoya.SkillCutIn.parameter.actorConfig.filter(
-      (config) => (config.meta['name'] || config.meta['呼び出し名'] || '').trim() === name
+      (config) => (config.meta['name'] || config.meta['呼び出し名'] || '').trim() === name,
     );
     this._configCache.set(key, result);
 
@@ -91,7 +91,7 @@ class CutInManagerClass {
     if (cache) return cache;
 
     const result = Torigoya.SkillCutIn.parameter.enemyConfig.filter(
-      (config) => (config.meta['name'] || config.meta['呼び出し名'] || '').trim() === name
+      (config) => (config.meta['name'] || config.meta['呼び出し名'] || '').trim() === name,
     );
     this._configCache.set(key, result);
 

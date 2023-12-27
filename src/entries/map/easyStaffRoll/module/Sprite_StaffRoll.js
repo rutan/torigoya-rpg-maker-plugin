@@ -136,7 +136,7 @@ export class Sprite_StaffRoll extends Sprite {
 
     const bitmap = new Bitmap(
       Math.min(width + textSetting.outlineWidth * 2, this.contentMaxWidth()),
-      lineHeight * lines.length + textSetting.outlineWidth * 2
+      lineHeight * lines.length + textSetting.outlineWidth * 2,
     );
     bitmap.fontSize = textSetting.fontSize;
     bitmap.textColor = textSetting.textColor;
@@ -153,7 +153,7 @@ export class Sprite_StaffRoll extends Sprite {
         textSetting.outlineWidth + i * textSetting.fontSize * 1.5,
         bitmap.width,
         lineHeight,
-        this.textAlign()
+        this.textAlign(),
       );
     });
 

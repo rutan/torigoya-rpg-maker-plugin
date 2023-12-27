@@ -15,7 +15,7 @@ Torigoya.Achievement2.Addons.RewardPicture = {
   function findRewardPicture(item) {
     if (!item) return null;
     return Torigoya.Achievement2.Addons.RewardPicture.parameter.baseRewardData.find(
-      (n) => n.key === item.achievement.key
+      (n) => n.key === item.achievement.key,
     );
   }
 
@@ -96,7 +96,7 @@ Torigoya.Achievement2.Addons.RewardPicture = {
         (this.itemWidth() - drawWidth) / 2,
         (this.itemHeight() - drawHeight) / 2,
         drawWidth,
-        drawHeight
+        drawHeight,
       );
     }
 
