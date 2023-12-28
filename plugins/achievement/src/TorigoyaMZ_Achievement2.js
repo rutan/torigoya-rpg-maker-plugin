@@ -1,9 +1,8 @@
-import { Torigoya } from '../../../common/Torigoya';
-import { getPluginName } from '../../../common/getPluginName';
-import { readParameter } from './_build/TorigoyaMZ_Achievement2_parameter';
-import { AchievementManager } from './modules/AchievementManager';
-import { AchievementPopupManager } from './modules/AchievementPopupManager';
-import { convertItemForWindow } from './modules/convertItemForWindow';
+import { Torigoya, getPluginName } from '@rutan/torigoya-plugin-common';
+import { readParameter } from './_build/TorigoyaMZ_Achievement2_parameter.js';
+import { AchievementManager } from './modules/AchievementManager.js';
+import { AchievementPopupManager } from './modules/AchievementPopupManager.js';
+import { convertItemForWindow } from './modules/convertItemForWindow.js';
 
 Torigoya.Achievement2 = {
   name: getPluginName(),

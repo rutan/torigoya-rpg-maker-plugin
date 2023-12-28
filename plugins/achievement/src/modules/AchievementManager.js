@@ -1,4 +1,4 @@
-import { isThenable } from '../../../../common/utils/isThenable';
+import { isThenable } from '@rutan/torigoya-plugin-common';
 
 export class AchievementManager {
   get achievements() {

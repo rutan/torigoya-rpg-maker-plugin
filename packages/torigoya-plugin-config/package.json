@@ -12,7 +12,8 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
-    "@rutan/torigoya-plugin-common": "workspace:*"
+    "@rutan/torigoya-plugin-common": "workspace:*",
+    "jiti": "^1.21.0"
   },
   "devDependencies": {
     "@types/ejs": "^3.1.5"

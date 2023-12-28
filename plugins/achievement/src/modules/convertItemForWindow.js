@@ -1,4 +1,4 @@
-import { Torigoya } from '../../../../common/Torigoya';
+import { Torigoya } from '@rutan/torigoya-plugin-common';
 
 export function convertItemForWindow(achievementItem) {
   if (!achievementItem || !achievementItem.achievement) return null;

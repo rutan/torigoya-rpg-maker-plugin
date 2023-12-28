@@ -1,0 +1,1207 @@
+base: &base
+  version: 1.7.0
+  title:
+    ja: 実績プラグイン
+
+Torigoya_Achievement2:
+  <<: *base
+  target:
+    - MV
+  help:
+    ja: |
+      実績・トロフィー的なシステムを定義します。
+
+      ------------------------------------------------------------
+      ■ 設定方法
+      ------------------------------------------------------------
+
+      このプラグインの設定から実績を登録してください。
+      ここでの並び順の順番で画面に表示されます。
+      （並び順は後から並び替えても問題ありません）
+
+      ------------------------------------------------------------
+      ■ ゲーム中に実績を獲得する
+      ------------------------------------------------------------
+
+      プラグインコマンドに以下のように入力してください
+
+      実績 ここに管理ID
+
+      ※ここに管理IDの部分に、プラグイン設定画面で登録した管理IDを指定してください
+
+      ------------------------------------------------------------
+      ■ その他の使い方・アドオンについて
+      ------------------------------------------------------------
+      以下の記事をご確認ください。
+      https://torigoya-plugin.rutan.dev/system/achievement2/
+  params:
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: baseAchievementData
+      type: struct[]
+      text: 実績情報の登録
+      parent: base
+      default: []
+      struct: Achievement
+    - name: baseSaveSlot
+      type: string
+      text: セーブデータのスロット名
+      parent: base
+      default: achievement
+    - name: popup
+      type: string
+      text: ■ ポップアップ設定
+    - name: popupEnable
+      type: boolean
+      text: ポップアップ表示のON/OFF
+      description: 実績を獲得した時にポップアップ表示を行うか？
+      parent: popup
+      on: 表示する
+      off: 表示しない
+      default: true
+    - name: popupPosition
+      type: select
+      text: 表示位置
+      description: 実績獲得ポップアップの表示位置
+      parent: popup
+      default: leftUp
+      options:
+        - name: 左上
+          value: leftUp
+        - name: 右上
+          value: rightUp
+    - name: popupTopY
+      type: number
+      text: '表示位置: 上端'
+      description: 実績獲得ポップアップ表示位置の上端
+      parent: popup
+      min: 0
+      default: 10
+    - name: popupAnimationType
+      type: select
+      text: アニメーション
+      description: |-
+        実績獲得ポップアップのアニメーション方法
+        「なめらか」はTorigoya_FrameTween.jsが必要です
+      parent: popup
+      default: tween
+      options:
+        - name: なめらか
+          value: tween
+        - name: その場に表示
+          value: open
+    - name: popupWait
+      type: number
+      text: 表示時間
+      description: |-
+        実績獲得ポップアップの表示時間（秒）
+        ※アニメーションの時間は含みません
+      parent: popup
+      decimals: 2
+      min: 0
+      default: 1.25
+    - name: popupWidth
+      type: number
+      text: ポップアップの横幅
+      description: |-
+        実績獲得ポップアップの横幅（px）
+        小さすぎると文字がはみ出します
+      parent: popup
+      min: 200
+      default: 300
+    - name: popupPadding
+      type: number
+      text: ポップアップの余白
+      description: 実績獲得ポップアップの余白サイズ
+      parent: popup
+      min: 0
+      default: 10
+    - name: popupTitleFontSize
+      type: number
+      text: 実績名の文字サイズ
+      description: |-
+        実績獲得ポップアップに表示される
+        取得した実績名の文字サイズ
+      parent: popup
+      min: 16
+      default: 20
+    - name: popupTitleColor
+      type: number
+      text: 実績名の文字の色番号
+      description: |-
+        実績名の文字表示に使用する色
+        ※\c[数字] ←の数字欄に入れる数字
+      parent: popup
+      min: 0
+      default: 1
+    - name: popupMessage
+      type: string
+      text: メッセージの内容
+      description: |-
+        実績獲得ポップアップに表示される
+        獲得メッセージの内容
+      parent: popup
+      default: 実績を獲得しました
+    - name: popupMessageFontSize
+      type: number
+      text: メッセージの文字サイズ
+      description: |-
+        実績獲得ポップアップに表示される
+        獲得メッセージの文字サイズ
+      parent: popup
+      min: 12
+      default: 16
+    - name: popupSound
+      type: struct
+      text: 効果音
+      description: 実績獲得時に再生する効果音の設定
+      parent: popup
+      default:
+        soundName: Saint5
+        soundVolume: '90'
+      struct: Sound
+    - name: popupWindowImage
+      type: file
+      text: ウィンドウ画像
+      description: 実績獲得ポップアップのウィンドウ画像
+      parent: popup
+      dir: img/system/
+      default: Window
+    - name: popupOpacity
+      type: number
+      text: ウィンドウ背景の透明度
+      description: |-
+        ウィンドウ背景の透明度(0～255)
+        -1の場合はデフォルトの透明度を使用します
+      parent: popup
+      min: -1
+      max: 255
+      default: -1
+    - name: titleMenu
+      type: string
+      text: ■ タイトル / メニュー画面設定
+    - name: titleMenuUseInTitle
+      type: boolean
+      text: タイトル画面に表示
+      description: タイトル画面に実績メニューを表示するか？
+      parent: titleMenu
+      on: 表示する
+      off: 表示しない
+      default: true
+    - name: titleMenuUseInMenu
+      type: boolean
+      text: メニュー画面に表示
+      description: メニュー画面に実績メニューを表示するか？
+      parent: titleMenu
+      on: 表示する
+      off: 表示しない
+      default: true
+    - name: titleMenuText
+      type: string
+      text: 項目名
+      description: |-
+        タイトルやメニューに表示する際の
+        実績メニューの項目名
+      parent: title
+      default: 実績
+    - name: achievementMenu
+      type: string
+      text: ■ 実績画面設定
+    - name: achievementMenuHiddenTitle
+      type: string
+      text: 未獲得実績の表示名
+      description: |-
+        実績画面で未取得の実績の欄に
+        表示する名前
+      parent: achievementMenu
+      default: ？？？？？
+    - name: achievementMenuHiddenIcon
+      type: number
+      text: 未獲得実績のアイコンID
+      description: |-
+        実績画面で未取得の実績の欄に
+        表示するアイコンのID
+      parent: achievementMenu
+      default: 0
+    - name: advanced
+      type: string
+      text: ■ 上級者向け設定
+    - name: advancedFontFace
+      type: string
+      text: ポップアップのフォント
+      description: |-
+        実績獲得ポップアップ表示のフォント名を指定します。
+        空欄の場合は他のウィンドウと同じフォントを使用します。
+      parent: advanced
+      default: ''
+    - name: advancedOverwritable
+      type: boolean
+      text: 獲得済み実績の再取得
+      description: 既に獲得済みの実績でも再取得できるようにします
+      parent: advanced
+      on: する
+      off: しない
+      default: false
+    - name: achievementMenuCancelMessage
+      type: string
+      text: 閉じるボタンのテキスト
+      description: |-
+        実績画面を閉じるボタンのテキスト
+        空欄の場合は閉じるボタンを表示しません
+      parent: achievementMenu
+      default: 閉じる
+  structs:
+    - name: Sound
+      params:
+        - name: soundName
+          type: file
+          text: 効果音ファイル名
+          description: |-
+            実績獲得ポップアップ表示時に再生する効果音ファイル
+            空っぽの場合は効果音なしになります
+          dir: audio/se/
+          default: Saint5
+        - name: soundVolume
+          type: number
+          text: 効果音の音量
+          description: 実績獲得ポップアップ表示時に再生する効果音の音量
+          min: 0
+          max: 100
+          default: 90
+    - name: Achievement
+      params:
+        - name: key
+          type: string
+          text: 管理ID
+          description: |-
+            実績獲得時に指定する名前（例: ゲームクリア）
+            数字でも日本語でもOK / 他の実績と被るのはNG
+        - name: title
+          type: string
+          text: 表示名
+          description: |-
+            実績に画面に表示するときの実績名
+            （例：激闘の果てに魔王を倒した…ッ！）
+          default: ''
+        - name: description
+          type: multiline_string
+          text: 実績の説明文
+          description: 実績に画面に表示する説明文（2行程度）
+          default: ''
+        - name: icon
+          type: number
+          text: 実績のアイコンID
+          default: 0
+        - name: hint
+          type: multiline_string
+          text: 実績獲得のヒント
+          description: |-
+            未取得の場合に取得方法を表示できます（2行程度）
+            空欄の場合は通常の説明文を表示します
+          default: ''
+        - name: isSecret
+          type: boolean
+          text: 秘密実績フラグ
+          description: |-
+            この実績の存在を秘密にします
+            未獲得の場合に一覧に表示されなくなります
+          on: 秘密にする
+          off: 秘密にしない
+          default: false
+        - name: note
+          type: multiline_string
+          text: メモ
+          description: |-
+            メモ欄です。
+            ツクールのメモ欄同様に使えます。
+          default: ''
+
+TorigoyaMZ_Achievement2:
+  <<: *base
+  target:
+    - MZ
+  commands:
+    - name: gainAchievement
+      text: 実績の獲得
+      description: 指定した実績を獲得します
+      args:
+        - name: key
+          type: string
+          text: 実績の管理ID
+          description: 獲得したい実績に設定したIDを指定
+    - name: removeAchievement
+      text: 獲得済み実績の削除
+      description: |
+        既に獲得済みの実績を未獲得状態にします。
+        未獲得だった場合は何もしません。
+      args:
+        - name: key
+          type: string
+          text: 実績の管理ID
+          description: 削除したい実績に設定したIDを指定
+    - name: openSceneAchievement
+      text: 実績画面の表示
+      description: |
+        獲得済み実績の一覧画面を表示します。
+      args: []
+    - name: resetAchievement
+      text: 全実績の削除（注意！）
+      description: |
+        すべての実績を獲得前の状態に戻します。
+        気をつけて使おう！
+      args: []
+  help:
+    ja: |
+      実績・トロフィー的なシステムを定義します。
+      使用方法の詳細は以下の記事をご確認ください。
+      https://torigoya-plugin.rutan.dev/system/achievement2/
+
+      ------------------------------------------------------------
+      ■ 設定方法
+      ------------------------------------------------------------
+
+      このプラグインの設定から実績を登録してください。
+      ここでの並び順の順番で画面に表示されます。
+      （並び順は後から並び替えても問題ありません）
+
+      ------------------------------------------------------------
+      ■ ゲーム中に実績を獲得する
+      ------------------------------------------------------------
+
+      プラグインコマンドから獲得処理を呼び出すことができます。
+
+      ------------------------------------------------------------
+      ■ その他の使い方・アドオンについて
+      ------------------------------------------------------------
+      以下の記事をご確認ください。
+      https://torigoya-plugin.rutan.dev/system/achievement2/
+  params:
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: baseAchievementData
+      type: struct[]
+      text: 実績情報の登録
+      parent: base
+      default: []
+      struct: Achievement
+    - name: baseSaveSlot
+      type: string
+      text: セーブデータのスロット名
+      parent: base
+      default: achievement
+    - name: popup
+      type: string
+      text: ■ ポップアップ設定
+    - name: popupEnable
+      type: boolean
+      text: ポップアップ表示のON/OFF
+      description: 実績を獲得した時にポップアップ表示を行うか？
+      parent: popup
+      on: 表示する
+      off: 表示しない
+      default: true
+    - name: popupPosition
+      type: select
+      text: 表示位置
+      description: 実績獲得ポップアップの表示位置
+      parent: popup
+      default: leftUp
+      options:
+        - name: 左上
+          value: leftUp
+        - name: 右上
+          value: rightUp
+    - name: popupTopY
+      type: number
+      text: '表示位置: 上端'
+      description: 実績獲得ポップアップ表示位置の上端
+      parent: popup
+      min: 0
+      default: 10
+    - name: popupAnimationType
+      type: select
+      text: アニメーション
+      description: |-
+        実績獲得ポップアップのアニメーション方法
+        「なめらか」はTorigoya_FrameTween.jsが必要です
+      parent: popup
+      default: tween
+      options:
+        - name: なめらか
+          value: tween
+        - name: その場に表示
+          value: open
+    - name: popupWait
+      type: number
+      text: 表示時間
+      description: |-
+        実績獲得ポップアップの表示時間（秒）
+        ※アニメーションの時間は含みません
+      parent: popup
+      decimals: 2
+      min: 0
+      default: 1.25
+    - name: popupWidth
+      type: number
+      text: ポップアップの横幅
+      description: |-
+        実績獲得ポップアップの横幅（px）
+        小さすぎると文字がはみ出します
+      parent: popup
+      min: 200
+      default: 300
+    - name: popupPadding
+      type: number
+      text: ポップアップの余白
+      description: 実績獲得ポップアップの余白サイズ
+      parent: popup
+      min: 0
+      default: 10
+    - name: popupTitleFontSize
+      type: number
+      text: 実績名の文字サイズ
+      description: |-
+        実績獲得ポップアップに表示される
+        取得した実績名の文字サイズ
+      parent: popup
+      min: 16
+      default: 20
+    - name: popupTitleColor
+      type: number
+      text: 実績名の文字の色番号
+      description: |-
+        実績名の文字表示に使用する色
+        ※\c[数字] ←の数字欄に入れる数字
+      parent: popup
+      min: 0
+      default: 1
+    - name: popupMessage
+      type: string
+      text: メッセージの内容
+      description: |-
+        実績獲得ポップアップに表示される
+        獲得メッセージの内容
+      parent: popup
+      default: 実績を獲得しました
+    - name: popupMessageFontSize
+      type: number
+      text: メッセージの文字サイズ
+      description: |-
+        実績獲得ポップアップに表示される
+        獲得メッセージの文字サイズ
+      parent: popup
+      min: 12
+      default: 16
+    - name: popupSound
+      type: struct
+      text: 効果音
+      description: 実績獲得時に再生する効果音の設定
+      parent: popup
+      default:
+        soundName: Saint5
+        soundVolume: '90'
+      struct: Sound
+    - name: popupWindowImage
+      type: file
+      text: ウィンドウ画像
+      description: 実績獲得ポップアップのウィンドウ画像
+      parent: popup
+      dir: img/system/
+      default: Window
+    - name: popupOpacity
+      type: number
+      text: ウィンドウ背景の透明度
+      description: |-
+        ウィンドウ背景の透明度(0～255)
+        -1の場合はデフォルトの透明度を使用します
+      parent: popup
+      min: -1
+      max: 255
+      default: -1
+    - name: titleMenu
+      type: string
+      text: ■ タイトル / メニュー画面設定
+    - name: titleMenuUseInTitle
+      type: boolean
+      text: タイトル画面に表示
+      description: タイトル画面に実績メニューを表示するか？
+      parent: titleMenu
+      on: 表示する
+      off: 表示しない
+      default: true
+    - name: titleMenuUseInMenu
+      type: boolean
+      text: メニュー画面に表示
+      description: メニュー画面に実績メニューを表示するか？
+      parent: titleMenu
+      on: 表示する
+      off: 表示しない
+      default: true
+    - name: titleMenuText
+      type: string
+      text: 項目名
+      description: |-
+        タイトルやメニューに表示する際の
+        実績メニューの項目名
+      parent: title
+      default: 実績
+    - name: achievementMenu
+      type: string
+      text: ■ 実績画面設定
+    - name: achievementMenuHiddenTitle
+      type: string
+      text: 未獲得実績の表示名
+      description: |-
+        実績画面で未取得の実績の欄に
+        表示する名前
+      parent: achievementMenu
+      default: ？？？？？
+    - name: achievementMenuHiddenIcon
+      type: number
+      text: 未獲得実績のアイコンID
+      description: |-
+        実績画面で未取得の実績の欄に
+        表示するアイコンのID
+      parent: achievementMenu
+      default: 0
+    - name: advanced
+      type: string
+      text: ■ 上級者向け設定
+    - name: advancedFontFace
+      type: string
+      text: ポップアップのフォント
+      description: |-
+        実績獲得ポップアップ表示のフォント名を指定します。
+        空欄の場合は他のウィンドウと同じフォントを使用します。
+      parent: advanced
+      default: ''
+    - name: advancedOverwritable
+      type: boolean
+      text: 獲得済み実績の再取得
+      description: 既に獲得済みの実績でも再取得できるようにします
+      parent: advanced
+      on: する
+      off: しない
+      default: false
+  structs:
+    - name: Sound
+      params:
+        - name: soundName
+          type: file
+          text: 効果音ファイル名
+          description: |-
+            実績獲得ポップアップ表示時に再生する効果音ファイル
+            空っぽの場合は効果音なしになります
+          dir: audio/se/
+          default: Saint5
+        - name: soundVolume
+          type: number
+          text: 効果音の音量
+          description: 実績獲得ポップアップ表示時に再生する効果音の音量
+          min: 0
+          max: 100
+          default: 90
+    - name: Achievement
+      params:
+        - name: key
+          type: string
+          text: 管理ID
+          description: |-
+            実績獲得時に指定する名前（例: ゲームクリア）
+            数字でも日本語でもOK / 他の実績と被るのはNG
+        - name: title
+          type: string
+          text: 表示名
+          description: |-
+            実績に画面に表示するときの実績名
+            （例：激闘の果てに魔王を倒した…ッ！）
+          default: ''
+        - name: description
+          type: multiline_string
+          text: 実績の説明文
+          description: 実績に画面に表示する説明文（2行程度）
+          default: ''
+        - name: icon
+          type: number
+          text: 実績のアイコンID
+          default: 0
+        - name: hint
+          type: multiline_string
+          text: 実績獲得のヒント
+          description: |-
+            未取得の場合に取得方法を表示できます（2行程度）
+            空欄の場合は通常の説明文を表示します
+          default: ''
+        - name: isSecret
+          type: boolean
+          text: 秘密実績フラグ
+          description: |-
+            この実績の存在を秘密にします
+            未獲得の場合に一覧に表示されなくなります
+          on: 秘密にする
+          off: 秘密にしない
+          default: false
+        - name: note
+          type: multiline_string
+          text: メモ
+          description: |-
+            メモ欄です。
+            ツクールのメモ欄同様に使えます。
+          default: ''
+
+Torigoya_Achievement2_AddonTileView:
+  version: 1.2.1
+  title:
+    ja: '実績プラグインアドオン: タイル表示'
+  target:
+    - MV
+  help:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      獲得した実績の一覧画面をテキストではなく
+      アイコンで表示するように変更します
+  params:
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: colsSize
+      type: number
+      text: 表示数（横）
+      description: 一列に表示するアイコンの個数
+      parent: base
+      min: 1
+      default: 5
+    - name: itemPadding
+      type: number
+      text: アイコンの余白
+      description: アイコンの周囲の余白(px)
+      parent: base
+      min: 0
+      default: 5
+
+TorigoyaMZ_Achievement2_AddonTileView:
+  version: 1.2.1
+  title:
+    ja: '実績プラグインアドオン: タイル表示'
+  target:
+    - MZ
+  base:
+    - TorigoyaMZ_Achievement2
+  orderAfter:
+    - TorigoyaMZ_Achievement2
+  help:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      獲得した実績の一覧画面をテキストではなく
+      アイコンで表示するように変更します
+  params:
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: colsSize
+      type: number
+      text: 表示数（横）
+      description: 一列に表示するアイコンの個数
+      parent: base
+      min: 1
+      default: 5
+    - name: itemPadding
+      type: number
+      text: アイコンの余白
+      description: アイコンの周囲の余白(px)
+      parent: base
+      min: 0
+      default: 5
+
+Torigoya_Achievement2_AddonCategory:
+  version: 1.3.1
+  title:
+    ja: '実績プラグインアドオン: カテゴリ設定'
+  target:
+    - MV
+  help:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      獲得した実績をカテゴリ別に表示するようにします。
+
+      ------------------------------------------------------------
+      ■ カテゴリの種類を定義する
+      ------------------------------------------------------------
+
+      このプラグインの設定で行います。
+      右のプラグイン設定から、画面に従って必要なカテゴリを作成してください。
+
+      ＜カテゴリの自動割当＞
+      実績プラグインで設定する管理IDの
+      先頭についている文字列を使って
+      自動的にカテゴリを割当することができます。
+
+      例えば
+      ・ストーリー_ハジメ村に到着
+      ・ストーリー_ハジメ村ボス撃破
+      のような管理IDをつけた実績がある場合
+      「ストーリー」と指定することで、個別の設定をしなくても
+      カテゴリが設定できます。
+
+      ------------------------------------------------------------
+      ■ 各実績に個別にカテゴリを設定する
+      ------------------------------------------------------------
+
+      【このプラグインではなく、実績プラグインの設定】で行います。
+
+      実績プラグインに実績を登録する画面にメモ欄があります。
+      そのメモ欄に以下のように設定してください。
+
+      <カテゴリ: カテゴリの名前>
+  params:
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: categories
+      type: struct[]
+      text: カテゴリ設定
+      description: |-
+        カテゴリを設定します。
+        必要な個数追加してください。
+      parent: base
+      default: []
+      struct: Category
+    - name: position
+      type: select
+      text: カテゴリ位置
+      description: カテゴリリストの表示位置を設定します。
+      parent: base
+      default: top
+      options:
+        - name: 左（縦向き）
+          value: left
+        - name: 上（横向き）
+          value: top
+        - name: 右（縦向き）
+          value: right
+    - name: maxCols
+      type: number
+      text: 最大列数
+      description: |-
+        一度に表示するカテゴリの最大数
+        ※カテゴリ位置が「上」のときだけ有効
+      parent: base
+      default: 4
+  structs:
+    - name: Category
+      params:
+        - name: name
+          type: string
+          text: カテゴリ名
+          description: |-
+            カテゴリの名前。
+            ここで設定した名前をメモ欄で指定してください。
+          default: ''
+        - name: prefix
+          type: string
+          text: 自動割当のID命名規則
+          description: |-
+            ここに設定した文字列で始まるIDの実績を
+            このカテゴリに自動割当します（空欄の場合は無し）
+          default: ''
+
+TorigoyaMZ_Achievement2_AddonCategory:
+  version: 1.3.1
+  title:
+    ja: '実績プラグインアドオン: カテゴリ設定'
+  target:
+    - MZ
+  base:
+    - TorigoyaMZ_Achievement2
+  orderAfter:
+    - TorigoyaMZ_Achievement2
+  commands:
+    - name: gainAchievementCategory
+      text: 指定カテゴリの全実績を獲得
+      description: 指定カテゴリの実績を獲得します
+      args:
+        - name: category
+          type: string
+          text: カテゴリ名
+          description: 獲得したい実績に設定したカテゴリ名を指定
+    - name: removeAchievementCategory
+      text: 指定カテゴリの全実績を削除
+      description: |
+        指定カテゴリの実績を未獲得状態にします。
+        未獲得だった場合は何もしません。
+      args:
+        - name: category
+          type: string
+          text: カテゴリ名
+          description: 削除したい実績に設定したカテゴリ名を指定
+  help:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      獲得した実績をカテゴリ別に表示するようにします。
+
+      ------------------------------------------------------------
+      ■ カテゴリの種類を定義する
+      ------------------------------------------------------------
+
+      このプラグインの設定で行います。
+      右のプラグイン設定から、画面に従って必要なカテゴリを作成してください。
+
+      ＜カテゴリの自動割当＞
+      実績プラグインで設定する管理IDの
+      先頭についている文字列を使って
+      自動的にカテゴリを割当することができます。
+
+      例えば
+      ・ストーリー_ハジメ村に到着
+      ・ストーリー_ハジメ村ボス撃破
+      のような管理IDをつけた実績がある場合
+      「ストーリー」と指定することで、個別の設定をしなくても
+      カテゴリが設定できます。
+
+      ------------------------------------------------------------
+      ■ 各実績に個別にカテゴリを設定する
+      ------------------------------------------------------------
+
+      【このプラグインではなく、実績プラグインの設定】で行います。
+
+      実績プラグインに実績を登録する画面にメモ欄があります。
+      そのメモ欄に以下のように設定してください。
+
+      <カテゴリ: カテゴリの名前>
+  params:
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: categories
+      type: struct[]
+      text: カテゴリ設定
+      description: |-
+        カテゴリを設定します。
+        必要な個数追加してください。
+      parent: base
+      default: []
+      struct: Category
+    - name: position
+      type: select
+      text: カテゴリ位置
+      description: カテゴリリストの表示位置を設定します。
+      parent: base
+      default: top
+      options:
+        - name: 左（縦向き）
+          value: left
+        - name: 上（横向き）
+          value: top
+        - name: 右（縦向き）
+          value: right
+    - name: maxCols
+      type: number
+      text: 最大列数
+      description: |-
+        一度に表示するカテゴリの最大数
+        ※カテゴリ位置が「上」のときだけ有効
+      parent: base
+      default: 4
+  structs:
+    - name: Category
+      params:
+        - name: name
+          type: string
+          text: カテゴリ名
+          description: |-
+            カテゴリの名前。
+            ここで設定した名前をメモ欄で指定してください。
+          default: ''
+        - name: prefix
+          type: string
+          text: 自動割当のID命名規則
+          description: |-
+            ここに設定した文字列で始まるIDの実績を
+            このカテゴリに自動割当します（空欄の場合は無し）
+          default: ''
+
+Torigoya_Achievement2_AddonUseSaveSlot:
+  version: 1.0.0
+  title:
+    ja: '実績プラグインアドオン: セーブ別実績'
+  target:
+    - MV
+  help:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      実績をセーブ別に保存するようにします。
+      このプラグインに設定項目はありません。
+
+      【注意】
+      このアドオンを有効にすると、タイトル画面での実績表示は正常に動きません。
+      実績プラグインの設定で、タイトル画面でのメニュー表示をOFFにしてください。
+
+TorigoyaMZ_Achievement2_AddonUseSaveSlot:
+  version: 1.0.0
+  title:
+    ja: '実績プラグインアドオン: セーブ別実績'
+  target:
+    - MZ
+  base:
+    - TorigoyaMZ_Achievement2
+  orderAfter:
+    - TorigoyaMZ_Achievement2
+  help:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      実績をセーブ別に保存するようにします。
+      このプラグインに設定項目はありません。
+
+      【注意】
+      このアドオンを有効にすると、タイトル画面での実績表示は正常に動きません。
+      実績プラグインの設定で、タイトル画面でのメニュー表示をOFFにしてください。
+
+Torigoya_Achievement2_AddonRewardPicture:
+  version: 1.1.1
+  title:
+    ja: '実績プラグインアドオン: ご褒美ピクチャー'
+  target:
+    - MV
+  help:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      実績を獲得した人だけが見られるご褒美画像を設定できるようにします。
+      画像ファイルはピクチャー用のフォルダに入れてください。
+
+      ------------------------------------------------------------
+      ■ 設定方法（ちょっとめんどい）
+      ------------------------------------------------------------
+      このプラグインの右側の設定で、
+      「どの実績IDに、何の画像を指定するか」を設定できます。
+
+      実績プラグイン本体のほうで設定した各実績のIDに
+      ピクチャー画像を紐付ける形で登録してください。
+      （画像を登録していない実績があっても大丈夫です）
+  params:
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: baseRewardData
+      type: struct[]
+      text: ご褒美ピクチャーの登録
+      parent: base
+      default: []
+      struct: RewardPicture
+  structs:
+    - name: RewardPicture
+      params:
+        - name: key
+          type: string
+          text: 実績ID
+          description: |-
+            ご褒美ピクチャーを設定する対象の
+            実績プラグインで設定した実績IDを指定してください。
+          default: ''
+        - name: picture
+          type: file[]
+          text: ご褒美の画像
+          description: |-
+            ご褒美として表示する画像を選択してください。
+            画像は複数枚指定可能です。
+          dir: img/pictures
+          default: []
+
+TorigoyaMZ_Achievement2_AddonRewardPicture:
+  version: 1.1.1
+  title:
+    ja: '実績プラグインアドオン: ご褒美ピクチャー'
+  target:
+    - MZ
+  base:
+    - TorigoyaMZ_Achievement2
+  orderAfter:
+    - TorigoyaMZ_Achievement2
+  help:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      実績を獲得した人だけが見られるご褒美画像を設定できるようにします。
+      画像ファイルはピクチャー用のフォルダに入れてください。
+
+      ------------------------------------------------------------
+      ■ 設定方法（ちょっとめんどい）
+      ------------------------------------------------------------
+      このプラグインの右側の設定で、
+      「どの実績IDに、何の画像を指定するか」を設定できます。
+
+      実績プラグイン本体のほうで設定した各実績のIDに
+      ピクチャー画像を紐付ける形で登録してください。
+      （画像を登録していない実績があっても大丈夫です）
+  params:
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: baseRewardData
+      type: struct[]
+      text: ご褒美ピクチャーの登録
+      parent: base
+      default: []
+      struct: RewardPicture
+  structs:
+    - name: RewardPicture
+      params:
+        - name: key
+          type: string
+          text: 実績ID
+          description: |-
+            ご褒美ピクチャーを設定する対象の
+            実績プラグインで設定した実績IDを指定してください。
+          default: ''
+        - name: picture
+          type: file[]
+          text: ご褒美の画像
+          description: |-
+            ご褒美として表示する画像を選択してください。
+            画像は複数枚指定可能です。
+          dir: img/pictures
+          default: []
+
+Torigoya_Achievement2_AddonRewardEvent:
+  version: 1.0.0
+  title:
+    ja: '実績プラグインアドオン: ご褒美コモンイベント'
+  target:
+    - MV
+  help:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      獲得した実績を選択することで、
+      コモンイベントを実行できるようにします。
+
+      ------------------------------------------------------------
+      ■ 注意
+      ------------------------------------------------------------
+      ・コモンイベントの実行はゲーム内での実績画面でのみ動作します
+      　タイトル画面から呼び出される実績画面では動きません
+
+      ・動作としては「アイテム」の効果に
+      　「コモンイベント」を設定したときと同様の動作をします。
+      　つまり、一度メニューを閉じてコモンイベントが動作します。
+
+      ------------------------------------------------------------
+      ■ 設定方法
+      ------------------------------------------------------------
+      設定はこのプラグイン内ではなく「実績プラグイン」側で行います。
+
+      コモンイベントを設定した実績の「メモ」欄に
+      以下のように記述してください。
+
+      <コモンイベント: 1>
+
+      もしくは
+
+      <CommonEvent: 1>
+
+      「1」の部分には呼び出したいコモンイベントのIDを指定してください。
+
+      ------------------------------------------------------------
+      ■ 上級者向けの使い方
+      ------------------------------------------------------------
+      このプラグインを導入すると、「スクリプト」内で以下の方法で
+      「最後に選択（コモンイベントを呼び出した）した実績」を獲得できます。
+
+      Torigoya.Achievement2.Addons.RewardEvent.lastItem
+
+      この中には以下のようなフォーマットでデータが格納されます。
+
+      {
+        "key": "実績のID",
+        "title": "実績の名前",
+        "description": "実績の説明文",
+        "hint": "実績のヒント",
+        "icon": 123,        // アイコンのID
+        "isSecret": false   // 実績が秘密であるか？
+      }
+
+      ▼ 例：最後に選択した実績の名前を取得する
+      Torigoya.Achievement2.Addons.RewardEvent.lastItem.title
+
+TorigoyaMZ_Achievement2_AddonRewardEvent:
+  version: 1.0.0
+  title:
+    ja: '実績プラグインアドオン: ご褒美コモンイベント'
+  target:
+    - MZ
+  base:
+    - TorigoyaMZ_Achievement2
+  orderAfter:
+    - TorigoyaMZ_Achievement2
+  help:
+    ja: |
+      このプラグインは「実績プラグイン」のアドオンです。
+      実績プラグインより下に導入してください。
+
+      獲得した実績を選択することで、
+      コモンイベントを実行できるようにします。
+
+      ------------------------------------------------------------
+      ■ 注意
+      ------------------------------------------------------------
+      ・コモンイベントの実行はゲーム内での実績画面でのみ動作します
+      　タイトル画面から呼び出される実績画面では動きません
+
+      ・動作としては「アイテム」の効果に
+      　「コモンイベント」を設定したときと同様の動作をします。
+      　つまり、一度メニューを閉じてコモンイベントが動作します。
+
+      ------------------------------------------------------------
+      ■ 設定方法
+      ------------------------------------------------------------
+      設定はこのプラグイン内ではなく「実績プラグイン」側で行います。
+
+      コモンイベントを設定した実績の「メモ」欄に
+      以下のように記述してください。
+
+      <コモンイベント: 1>
+
+      もしくは
+
+      <CommonEvent: 1>
+
+      「1」の部分には呼び出したいコモンイベントのIDを指定してください。
+
+      ------------------------------------------------------------
+      ■ 上級者向けの使い方
+      ------------------------------------------------------------
+      このプラグインを導入すると、「スクリプト」内で以下の方法で
+      「最後に選択（コモンイベントを呼び出した）した実績」を獲得できます。
+
+      Torigoya.Achievement2.Addons.RewardEvent.lastItem
+
+      この中には以下のようなフォーマットでデータが格納されます。
+
+      {
+        "key": "実績のID",
+        "title": "実績の名前",
+        "description": "実績の説明文",
+        "hint": "実績のヒント",
+        "icon": 123,        // アイコンのID
+        "isSecret": false   // 実績が秘密であるか？
+      }
+
+      ▼ 例：最後に選択した実績の名前を取得する
+      Torigoya.Achievement2.Addons.RewardEvent.lastItem.title

@@ -45,7 +45,7 @@ parameterBase: &parameterBase
     name: '表示位置: 上端'
     desc: |
       実績獲得ポップアップ表示位置の上端
-    type: 'integer'
+    type: 'number'
     min: 0
     default: 10
   popupAnimationType:

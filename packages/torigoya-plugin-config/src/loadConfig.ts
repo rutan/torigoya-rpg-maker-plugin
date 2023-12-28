@@ -1,8 +1,10 @@
-import { pathToFileURL } from 'url';
+import { fileURLToPath, pathToFileURL } from 'url';
 import { readFile } from 'fs/promises';
 import YAML from 'yaml';
 import { sanitize } from '@rutan/rpgmaker-plugin-annotation';
 import { TorigoyaPluginConfigSchema } from './types.js';
+import createJITI, { JITI } from 'jiti';
+import { resolve } from 'path';
 
 const BASE_CONFIG = {
   author: {
@@ -17,6 +19,8 @@ export async function loadConfig(inputPath: string): Promise<{ [key: string]: To
     return parseYAMLConfig(inputPath);
   } else if (inputPath.endsWith('.json')) {
     return parseJSONConfig(inputPath);
+  } else if (inputPath.endsWith('.ts')) {
+    return parseTSConfig(inputPath);
   } else if (inputPath.endsWith('.js') || inputPath.endsWith('.cjs') || inputPath.endsWith('.mjs')) {
     return parseJSConfig(inputPath);
   } else {
@@ -24,52 +28,52 @@ export async function loadConfig(inputPath: string): Promise<{ [key: string]: To
   }
 }
 
-function sanitizeConfig(data: any): TorigoyaPluginConfigSchema {
-  return {
-    ...sanitize({
-      ...BASE_CONFIG,
-      ...data,
-    }),
-    version: data.version || '0.0.0',
-  };
-}
-
-async function parseYAMLConfig(inputPath: string) {
-  const file = await readFile(inputPath, 'utf-8');
-  const data = YAML.parse(file, { merge: true });
+function sanitizeConfig(data: any): { [key: string]: TorigoyaPluginConfigSchema } {
   const result: { [key: string]: TorigoyaPluginConfigSchema } = {};
 
   Object.keys(data).forEach((key) => {
     // 大文字始まりでないkeyは除外(extends用)
     if (!key.match(/^[A-Z]/)) return;
+    const item = data[key];
 
-    result[key] = sanitizeConfig(data[key]);
+    result[key] = {
+      ...sanitize({
+        ...BASE_CONFIG,
+        ...item,
+      }),
+      version: item.version || '0.0.0',
+    };
   });
 
   return result;
+}
+
+async function parseYAMLConfig(inputPath: string) {
+  const file = await readFile(inputPath, 'utf-8');
+  const data = YAML.parse(file, { merge: true });
+
+  return sanitizeConfig(data);
 }
 
 async function parseJSONConfig(inputPath: string) {
   const file = await readFile(inputPath, 'utf-8');
   const data = JSON.parse(file);
 
-  const result: { [key: string]: TorigoyaPluginConfigSchema } = {};
+  return sanitizeConfig(data);
+}
 
-  Object.keys(data).forEach((key) => {
-    result[key] = sanitizeConfig(data[key]);
-  });
+async function parseTSConfig(inputPath: string) {
+  const __filename = fileURLToPath(import.meta.url);
 
-  return result;
+  // @ts-ignore
+  const jiti: JITI = createJITI(__filename);
+  const data = jiti(resolve(inputPath));
+
+  return sanitizeConfig(data);
 }
 
 async function parseJSConfig(inputPath: string) {
   const data = await import(pathToFileURL(inputPath).href);
 
-  const result: { [key: string]: TorigoyaPluginConfigSchema } = {};
-
-  Object.keys(data).forEach((key) => {
-    result[key] = sanitizeConfig(data[key]);
-  });
-
-  return result;
+  return sanitizeConfig(data);
 }

@@ -1,9 +1,10 @@
-import { Torigoya } from '../../../common/Torigoya';
-import { getPluginName } from '../../../common/getPluginName';
-import { readParameter } from './_build/Torigoya_Achievement2_AddonRewardPicture_parameter';
-import { checkPlugin } from '../../../../scripts/utils/checkPlugin';
+import { Torigoya, getPluginName, checkExistPlugin } from '@rutan/torigoya-plugin-common';
+import { readParameter } from './_build/TorigoyaMZ_Achievement2_AddonRewardPicture_parameter.js';
 
-checkPlugin(Torigoya.Achievement2, '「実績アドオン:ご褒美ピクチャー」より上に「実績プラグイン」が導入されていません。');
+checkExistPlugin(
+  Torigoya.Achievement2,
+  '「実績アドオン:ご褒美ピクチャー」より上に「実績プラグイン」が導入されていません。',
+);
 
 Torigoya.Achievement2.Addons = Torigoya.Achievement2.Addons || {};
 Torigoya.Achievement2.Addons.RewardPicture = {
@@ -23,8 +24,8 @@ Torigoya.Achievement2.Addons.RewardPicture = {
   // Window_AchievementReward
 
   class Window_AchievementReward extends Window_Selectable {
-    initialize(x, y, width, height) {
-      super.initialize(x, y, width, height);
+    initialize(rect) {
+      super.initialize(rect);
       this.opacity = 0;
       this._pageIndex = 0;
     }
@@ -33,17 +34,19 @@ Torigoya.Achievement2.Addons.RewardPicture = {
       return 1;
     }
 
-    itemHeight() {
-      return this.height - this.padding * 2;
-    }
-
     itemPadding() {
       return 0;
+    }
+
+    itemHeight() {
+      return this.innerHeight;
     }
 
     setReward(reward) {
       this._reward = reward;
       this._pageIndex = 0;
+      this.forceSelect(0);
+      this.setCursorFixed(true);
       this.refresh();
     }
 
@@ -84,6 +87,7 @@ Torigoya.Achievement2.Addons.RewardPicture = {
       const r = Math.min(1, this.itemWidth() / bitmap.width, this.itemHeight() / bitmap.height);
       const drawWidth = Math.round(bitmap.width * r);
       const drawHeight = Math.round(bitmap.height * r);
+
       this.contents.blt(
         bitmap,
         0,
@@ -97,8 +101,8 @@ Torigoya.Achievement2.Addons.RewardPicture = {
       );
     }
 
-    _updateCursor() {
-      this._windowCursorSprite.visible = false;
+    _makeCursorAlpha() {
+      return 0;
     }
   }
 
@@ -122,11 +126,19 @@ Torigoya.Achievement2.Addons.RewardPicture = {
   Torigoya.Achievement2.Scene_Achievement.prototype.create = function () {
     upstream_Scene_Achievement_create.apply(this);
 
-    this._rewardWindow = new Window_AchievementReward(0, 0, Graphics.boxWidth, Graphics.boxHeight);
+    this._rewardWindow = new Window_AchievementReward(this.rewardWindowRect());
     this._rewardWindow.setHandler('ok', this.onRewardOk.bind(this));
     this._rewardWindow.setHandler('cancel', this.onRewardCancel.bind(this));
     this._rewardWindow.hide();
     this.addWindow(this._rewardWindow);
+  };
+
+  Torigoya.Achievement2.Scene_Achievement.prototype.rewardWindowRect = function () {
+    const wx = 0;
+    const wy = this.mainAreaTop();
+    const ww = Graphics.boxWidth;
+    const wh = Graphics.boxHeight - wy;
+    return new Rectangle(wx, wy, ww, wh);
   };
 
   Torigoya.Achievement2.Scene_Achievement.prototype.onRewardOk = function () {

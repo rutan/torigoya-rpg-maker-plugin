@@ -1,10 +1,7 @@
-import { Torigoya } from '../../../common/Torigoya';
-import { getPluginName } from '../../../common/getPluginName';
-import { readParameter } from './_build/Torigoya_Achievement2_AddonRewardEvent_parameter';
-import { checkPlugin } from '../../../../scripts/utils/checkPlugin';
-import { checkPluginVersion } from '../../../common/utils/checkPlugin';
+import { Torigoya, getPluginName, checkExistPlugin, checkPluginVersion } from '@rutan/torigoya-plugin-common';
+import { readParameter } from './_build/TorigoyaMZ_Achievement2_AddonRewardEvent_parameter.js';
 
-checkPlugin(
+checkExistPlugin(
   Torigoya.Achievement2,
   '「実績アドオン:ご褒美コモンイベント」より上に「実績プラグイン」が導入されていません。',
 );

@@ -1,4 +1,4 @@
-import { Torigoya } from '../../../../common/Torigoya';
+import { Torigoya } from '@rutan/torigoya-plugin-common';
 
 export class AchievementPopupManager {
   get options() {

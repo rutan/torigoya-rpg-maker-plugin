@@ -1,9 +1,10 @@
-import { Torigoya } from '../../../common/Torigoya';
-import { getPluginName } from '../../../common/getPluginName';
-import { readParameter } from './_build/TorigoyaMZ_Achievement2_AddonCategory_parameter';
-import { checkPlugin } from '../../../../scripts/utils/checkPlugin';
+import { Torigoya, getPluginName, checkExistPlugin } from '@rutan/torigoya-plugin-common';
+import { readParameter } from './_build/TorigoyaMZ_Achievement2_AddonCategory_parameter.js';
 
-checkPlugin(Torigoya.Achievement2, '「実績アドオン:カテゴリ設定」より上に「実績プラグイン」が導入されていません。');
+checkExistPlugin(
+  Torigoya.Achievement2,
+  '「実績アドオン:カテゴリ設定」より上に「実績プラグイン」が導入されていません。',
+);
 
 Torigoya.Achievement2.Addons = Torigoya.Achievement2.Addons || {};
 Torigoya.Achievement2.Addons.Category = {
@@ -12,9 +13,11 @@ Torigoya.Achievement2.Addons.Category = {
 };
 
 class Window_AchievementCategory extends Window_Command {
-  constructor(rect) {
-    super(rect);
+  constructor(x, y, width, height) {
+    super(x, y);
     this._listWindow = null;
+    this.width = width;
+    this.refresh();
   }
 
   maxCols() {
@@ -32,6 +35,10 @@ class Window_AchievementCategory extends Window_Command {
     Torigoya.Achievement2.Addons.Category.parameter.categories.forEach((category) => {
       this.addCommand(category.name, `category_${category.name}`, true, category);
     });
+
+    if (Torigoya.Achievement2.parameter.achievementMenuCancelMessage) {
+      this.addCommand(Torigoya.Achievement2.parameter.achievementMenuCancelMessage, 'cancel');
+    }
   }
 
   update() {
@@ -69,6 +76,10 @@ Torigoya.Achievement2.Addons.Category.readCategoryName = readCategoryName;
 (() => {
   const Window_AchievementList = Torigoya.Achievement2.Window_AchievementList;
 
+  Window_AchievementList.prototype.isRequireCancel = function () {
+    return false;
+  };
+
   const upstream_Window_AchievementList_makeItemList = Window_AchievementList.prototype.makeItemList;
   Window_AchievementList.prototype.makeItemList = function () {
     upstream_Window_AchievementList_makeItemList.apply(this);
@@ -81,7 +92,6 @@ Torigoya.Achievement2.Addons.Category.readCategoryName = readCategoryName;
     if (this._category === category) return;
     this._category = category;
     this.refresh();
-    this.scrollTo(0, 0);
   };
 })();
 
@@ -92,7 +102,8 @@ Torigoya.Achievement2.Addons.Category.readCategoryName = readCategoryName;
   Scene_Achievement.prototype.create = function () {
     upstream_Scene_Achievement_create.apply(this);
 
-    this._categoryWindow = new Window_AchievementCategory(this.categoryWindowRect());
+    const rect = this.categoryWindowRect();
+    this._categoryWindow = new Window_AchievementCategory(rect.x, rect.y, rect.width, rect.height);
     this._categoryWindow.setHandler('ok', this.onCategoryOk.bind(this));
     this._categoryWindow.setHandler('cancel', this.onCategoryCancel.bind(this));
     this._categoryWindow.setListWindow(this._listWindow);
@@ -130,15 +141,15 @@ Torigoya.Achievement2.Addons.Category.readCategoryName = readCategoryName;
           Torigoya.Achievement2.Addons.Category.parameter.maxCols,
       );
       const wx = 0;
-      const wy = this.mainAreaTop();
+      const wy = this._helpWindow.y + this._helpWindow.height;
       const ww = Graphics.boxWidth;
-      const wh = this.calcWindowHeight(length, true);
+      const wh = Window_Selectable.prototype.fittingHeight(length);
       return new Rectangle(wx, wy, ww, wh);
     } else {
-      const ww = this.mainCommandWidth();
-      const wh = this.mainAreaHeight();
+      const ww = 240;
       const wx = position === 'left' ? 0 : Graphics.boxWidth - ww;
-      const wy = this.mainAreaTop();
+      const wy = this._helpWindow.y + this._helpWindow.height;
+      const wh = Graphics.boxHeight - wy;
       return new Rectangle(wx, wy, ww, wh);
     }
   };
@@ -171,28 +182,28 @@ Torigoya.Achievement2.Addons.Category.readCategoryName = readCategoryName;
   // -------------------------------------------------------------------------
   // プラグインコマンド
 
-  function commandGainAchievementCategory({ category }) {
-    Torigoya.Achievement2.Manager.achievements.forEach((achievement) => {
-      if (readCategoryName(achievement) !== category) return;
-      Torigoya.Achievement2.Manager.unlock(achievement.key);
-    });
-  }
-
-  function commandRemoveAchievementCategory({ category }) {
-    Torigoya.Achievement2.Manager.achievements.forEach((achievement) => {
-      if (readCategoryName(achievement) !== category) return;
-      Torigoya.Achievement2.Manager.remove(achievement.key);
-    });
-  }
-
-  PluginManager.registerCommand(
-    Torigoya.Achievement2.Addons.Category.name,
-    'gainAchievementCategory',
-    commandGainAchievementCategory,
-  );
-  PluginManager.registerCommand(
-    Torigoya.Achievement2.Addons.Category.name,
-    'removeAchievementCategory',
-    commandRemoveAchievementCategory,
-  );
+  const upstream_Game_Interpreter_pluginCommand = Game_Interpreter.prototype.pluginCommand;
+  Game_Interpreter.prototype.pluginCommand = function (command, args) {
+    switch (command) {
+      case 'GetAchievementCategory':
+      case 'カテゴリ内実績獲得': {
+        const category = `${args[0]}`.trim();
+        Torigoya.Achievement2.Manager.achievements.forEach((achievement) => {
+          if (readCategoryName(achievement) !== category) return;
+          Torigoya.Achievement2.Manager.unlock(achievement.key);
+        });
+        return;
+      }
+      case 'RemoveAchievementCategory':
+      case 'カテゴリ内実績削除': {
+        const category = `${args[0]}`.trim();
+        Torigoya.Achievement2.Manager.achievements.forEach((achievement) => {
+          if (readCategoryName(achievement) !== category) return;
+          Torigoya.Achievement2.Manager.remove(achievement.key);
+        });
+        return;
+      }
+    }
+    upstream_Game_Interpreter_pluginCommand.apply(this, arguments);
+  };
 })();

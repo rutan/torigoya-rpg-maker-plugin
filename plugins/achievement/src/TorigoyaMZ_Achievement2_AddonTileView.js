@@ -1,9 +1,7 @@
-import { Torigoya } from '../../../common/Torigoya';
-import { getPluginName } from '../../../common/getPluginName';
-import { readParameter } from './_build/TorigoyaMZ_Achievement2_AddonTileView_parameter';
-import { checkPlugin } from '../../../../scripts/utils/checkPlugin';
+import { Torigoya, getPluginName, checkExistPlugin } from '@rutan/torigoya-plugin-common';
+import { readParameter } from './_build/TorigoyaMZ_Achievement2_AddonTileView_parameter.js';
 
-checkPlugin(Torigoya.Achievement2, '「実績アドオン:タイル表示」より上に「実績プラグイン」が導入されていません。');
+checkExistPlugin(Torigoya.Achievement2, '「実績アドオン:タイル表示」より上に「実績プラグイン」が導入されていません。');
 
 Torigoya.Achievement2.Addons = Torigoya.Achievement2.Addons || {};
 Torigoya.Achievement2.Addons.TileView = {

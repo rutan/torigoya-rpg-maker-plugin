@@ -1,9 +1,10 @@
-import { Torigoya } from '../../../common/Torigoya';
-import { getPluginName } from '../../../common/getPluginName';
-import { readParameter } from './_build/TorigoyaMZ_Achievement2_AddonUseSaveSlot_parameter';
-import { checkPlugin } from '../../../../scripts/utils/checkPlugin';
+import { Torigoya, getPluginName, checkExistPlugin } from '@rutan/torigoya-plugin-common';
+import { readParameter } from './_build/Torigoya_Achievement2_AddonUseSaveSlot_parameter.js';
 
-checkPlugin(Torigoya.Achievement2, '「実績アドオン:セーブ別実績」より上に「実績プラグイン」が導入されていません。');
+checkExistPlugin(
+  Torigoya.Achievement2,
+  '「実績アドオン:セーブ別実績」より上に「実績プラグイン」が導入されていません。',
+);
 
 Torigoya.Achievement2.Addons = Torigoya.Achievement2.Addons || {};
 Torigoya.Achievement2.Addons.UseSaveSlot = {
