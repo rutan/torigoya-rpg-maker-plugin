@@ -10,6 +10,7 @@
     "copy": "node ./scripts/copy-to-projects.js",
     "copy:watch": "node ./scripts/copy-to-projects.js -w",
     "format": "prettier -w ./",
+    "scaffold": "scaffdog generate plugin",
     "prepare": "husky install",
     "precommit": "lint-staged"
   },
@@ -38,6 +39,7 @@
     "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
     "rollup": "^4.9.1",
+    "scaffdog": "^3.0.0",
     "simple-git": "^3.21.0",
     "turbo": "^1.11.2",
     "typescript": "^5.3.3",
