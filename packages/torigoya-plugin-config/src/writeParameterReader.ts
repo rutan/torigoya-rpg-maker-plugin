@@ -4,7 +4,7 @@ import { TorigoyaPluginConfigSchema } from './types.js';
 import { PluginParameter } from '@rutan/rpgmaker-plugin-annotation';
 
 export async function writeParameterReader(config: TorigoyaPluginConfigSchema, outputPath: string) {
-  const pickFuncList = Array.from(new Set([...config.params.map((param) => detectFuncNameFromType(param.type))]))
+  const pickFuncList = Array.from(new Set([...config.params.map((param) => detectFuncNameFromType(param))]))
     .filter(Boolean)
     .sort();
 
@@ -52,14 +52,14 @@ function generateParameterReaderCode(param: PluginParameter) {
       param.default,
     )} : parameters[${JSON.stringify(param.name)}].map(readStruct${param.struct})`;
   } else {
-    return `${param.name}: ${detectFuncNameFromType(param.type)}(parameters, '${param.name}', ${JSON.stringify(
+    return `${param.name}: ${detectFuncNameFromType(param)}(parameters, '${param.name}', ${JSON.stringify(
       param.default,
     )})`;
   }
 }
 
-const detectFuncNameFromType = (type: PluginParameter['type']) => {
-  switch (type) {
+const detectFuncNameFromType = (param: PluginParameter) => {
+  switch (param.type) {
     case 'boolean':
       return 'pickBooleanValueFromParameter';
     case 'boolean[]':
@@ -95,9 +95,11 @@ const detectFuncNameFromType = (type: PluginParameter['type']) => {
     case 'common_event[]':
       return 'pickIntegerValueFromParameterList';
     case 'number':
-      return 'pickNumberValueFromParameter';
+      if (param.decimals && param.decimals > 0) return 'pickNumberValueFromParameter';
+      else return 'pickIntegerValueFromParameter';
     case 'number[]':
-      return 'pickNumberValueFromParameterList';
+      if (param.decimals && param.decimals > 0) return 'pickNumberValueFromParameterList';
+      else return 'pickIntegerValueFromParameterList';
     case 'note':
       return 'pickNoteStringValueFromParameter';
     case 'note[]':
@@ -117,8 +119,8 @@ const detectFuncNameFromType = (type: PluginParameter['type']) => {
     case 'struct[]':
       return '';
     default: {
-      const error: never = type;
-      throw `unknown type: ${error}`;
+      const error: never = param;
+      throw `unknown parameter: ${error}`;
     }
   }
 };
