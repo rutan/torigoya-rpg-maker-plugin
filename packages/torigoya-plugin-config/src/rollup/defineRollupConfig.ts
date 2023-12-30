@@ -34,7 +34,7 @@ export function defineRollupConfig({
         isMZ ? null : babel({ babelHelpers: 'bundled' }),
         // @ts-ignore
         replace({
-          __entryFileName: JSON.stringify(basename(input).replace(/\.[^\.]+$/, '')),
+          'process.env.FILE_NAME': JSON.stringify(basename(input).replace(/\.[^\.]+$/, '')),
           preventAssignment: false,
         }),
         pluginRPGMakerConfig({

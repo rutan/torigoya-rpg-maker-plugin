@@ -142,7 +142,8 @@ Torigoya_Achievement2:
         実績獲得ポップアップに表示される
         獲得メッセージの内容
       parent: popup
-      default: 実績を獲得しました
+      default:
+        ja: 実績を獲得しました
     - name: popupMessageFontSize
       type: number
       text: メッセージの文字サイズ
@@ -484,7 +485,8 @@ TorigoyaMZ_Achievement2:
         実績獲得ポップアップに表示される
         獲得メッセージの内容
       parent: popup
-      default: 実績を獲得しました
+      default:
+        ja: 実績を獲得しました
     - name: popupMessageFontSize
       type: number
       text: メッセージの文字サイズ

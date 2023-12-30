@@ -49,27 +49,53 @@ export function readParameter() {
 }
 
 function generateParameterReaderCode(param: PluginParameter) {
+  const defaultValue = readDefaultValue(param.default);
+
   if (param.type === 'struct') {
-    return `${param.name}: readStruct${param.struct}(pickStructObject(parameters, '${param.name}', ${JSON.stringify(
-      param.default,
+    return `${param.name}: readStruct${param.struct}(parseStructObjectParam(parameters[${JSON.stringify(param.name)}], ${JSON.stringify(
+      defaultValue,
     )}))`;
   } else if (param.type === 'struct[]') {
-    return `${param.name}: pickStructObject(parameters, '${param.name}', ${JSON.stringify(
-      param.default,
+    return `${param.name}: parseStructObjectParam(parameters[${JSON.stringify(param.name)}], ${JSON.stringify(
+      defaultValue,
     )}).map(readStruct${param.struct})`;
   } else {
-    return `${param.name}: ${detectFuncNameFromType(param)}(parameters, '${param.name}', ${JSON.stringify(
-      param.default,
+    return `${param.name}: ${detectFuncNameFromType(param)}(parameters[${JSON.stringify(param.name)}], ${JSON.stringify(
+      defaultValue,
     )})`;
   }
 }
 
-const detectFuncNameFromType = (param: PluginParameter) => {
+type I18nObject<T> = {
+  [key: string]: T;
+}
+
+function isI18nObject<T>(obj: I18nObject<T> | T): obj is I18nObject<T> {
+  if (typeof obj !== 'object') return false;
+
+  obj = obj as I18nObject<T>;
+
+  const keys = Object.keys(obj);
+  if (keys.length === 0) return false;
+
+  return keys.every((key) => key.match(/^[a-z]{2}(_[A-Z]{2})?$/));
+}
+
+function readDefaultValue<T>(value: T | I18nObject<T>) {
+  if (isI18nObject(value)) {
+    const keys = Object.keys(value);
+    return value[keys[0]];
+  } else {
+    return value;
+  }
+}
+
+function detectFuncNameFromType(param: PluginParameter) {
   switch (param.type) {
     case 'boolean':
-      return 'pickBooleanValueFromParameter';
+      return 'parseBooleanParam';
     case 'boolean[]':
-      return 'pickBooleanValueFromParameterList';
+      return 'parseBooleanParamList';
     case 'variable':
     case 'switch':
     case 'actor':
@@ -84,7 +110,7 @@ const detectFuncNameFromType = (param: PluginParameter) => {
     case 'animation':
     case 'tileset':
     case 'common_event':
-      return 'pickIntegerValueFromParameter';
+      return 'parseIntegerParam';
     case 'variable[]':
     case 'switch[]':
     case 'actor[]':
@@ -99,31 +125,31 @@ const detectFuncNameFromType = (param: PluginParameter) => {
     case 'animation[]':
     case 'tileset[]':
     case 'common_event[]':
-      return 'pickIntegerValueFromParameterList';
+      return 'parseIntegerParamList';
     case 'number':
-      if (param.decimals && param.decimals > 0) return 'pickNumberValueFromParameter';
-      else return 'pickIntegerValueFromParameter';
+      if (param.decimals && param.decimals > 0) return 'parseNumberParam';
+      else return 'parseIntegerParam';
     case 'number[]':
-      if (param.decimals && param.decimals > 0) return 'pickNumberValueFromParameterList';
-      else return 'pickIntegerValueFromParameterList';
+      if (param.decimals && param.decimals > 0) return 'parseNumberParamList';
+      else return 'parseIntegerParamList';
     case 'note':
-      return 'pickNoteStringValueFromParameter';
+      return 'parseNoteStringParam';
     case 'note[]':
-      return 'pickNoteStringValueFromParameterList';
+      return 'parseNoteStringParamList';
     case 'select':
     case 'combo':
     case 'string':
     case 'multiline_string':
     case 'file':
-      return 'pickStringValueFromParameter';
+      return 'parseStringParam';
     case 'select[]':
     case 'string[]':
     case 'multiline_string[]':
     case 'file[]':
-      return 'pickStringValueFromParameterList';
+      return 'parseStringParamList';
     case 'struct':
     case 'struct[]':
-      return 'pickStructObject';
+      return 'parseStructObjectParam';
     default: {
       const error: never = param;
       throw `unknown parameter: ${error}`;
