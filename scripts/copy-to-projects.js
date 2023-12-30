@@ -3,12 +3,12 @@ import * as path from 'path';
 import cpx from 'cpx2';
 import { glob } from 'glob';
 import { fileURLToPath } from 'node:url';
+import { watch } from 'chokidar';
+import { consola } from 'consola';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
-
-const srcMvPlugins = path.join(dirname, '..', '_dist', 'Torigoya_*.js');
-const srcMzPlugins = path.join(dirname, '..', '_dist', 'TorigoyaMZ_*.js');
-const isWatch = process.argv.some((n) => n === '-w');
+const rootDir = path.join(dirname, '..');
+const projectsDir = path.join(rootDir, 'projects');
 
 function isMvProject(projectDir) {
   try {
@@ -28,24 +28,39 @@ function isMzProject(projectDir) {
   }
 }
 
-glob.sync(path.join(dirname, '..', 'projects', '*')).forEach((projectDir) => {
-  try {
-    if (isMvProject(projectDir)) {
-      const distDir = path.join(projectDir, 'js', 'plugins');
-      if (isWatch) {
-        cpx.watch(srcMvPlugins, distDir);
-      } else {
-        cpx.copy(srcMvPlugins, distDir);
-      }
-    } else if (isMzProject(projectDir)) {
-      const distDir = path.join(projectDir, 'js', 'plugins', 'torigoya');
-      if (isWatch) {
-        cpx.watch(srcMzPlugins, distDir);
-      } else {
-        cpx.copy(srcMzPlugins, distDir);
-      }
+function copyFile(filePath, projects) {
+  const fileName = path.basename(filePath);
+  projects.forEach(({ dir, type }) => {
+    if (fileName.startsWith('Torigoya_') && type === 'mv') {
+      cpx.copySync(filePath, path.join(dir, 'js', 'plugins'));
+      consola.success(`Copy ${fileName} to ${dir}`);
+    } else if (fileName.startsWith('TorigoyaMZ_') && type === 'mz') {
+      cpx.copySync(filePath, path.join(dir, 'js', 'plugins', 'torigoya'));
+      consola.success(`Copy ${fileName} to ${dir}`);
     }
-  } catch (e) {
-    console.error(e);
+  });
+}
+
+(() => {
+  const isWatch = process.argv.some((n) => n === '-w');
+  const projects = glob
+    .sync(path.join(projectsDir, '*'))
+    .map((projectDir) => {
+      if (isMvProject(projectDir)) {
+        return { dir: projectDir, type: 'mv' };
+      } else if (isMzProject(projectDir)) {
+        return { dir: projectDir, type: 'mz' };
+      } else {
+        return null;
+      }
+    })
+    .filter(Boolean);
+
+  if (isWatch) {
+    const watcher = watch(path.join(rootDir, '_dist'));
+    watcher.on('add', (filePath) => copyFile(filePath, projects));
+    watcher.on('change', (filePath) => copyFile(filePath, projects));
+  } else {
+    glob.sync(path.join(rootDir, '_dist', '*.js')).forEach((filePath) => copyFile(filePath, projects));
   }
-});
+})();

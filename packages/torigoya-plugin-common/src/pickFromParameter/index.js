@@ -9,3 +9,4 @@ export * from './pickNumberValueFromParameter';
 export * from './pickNumberValueFromParameterList';
 export * from './pickStringValueFromParameter';
 export * from './pickStringValueFromParameterList';
+export * from './pickStructObject';

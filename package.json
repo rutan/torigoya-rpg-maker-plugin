@@ -24,7 +24,7 @@
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
-    "@rutan/rpgmaker-plugin-annotation": "^0.1.0",
+    "@rutan/rpgmaker-plugin-annotation": "^0.2.0",
     "@types/node": "^20.10.5",
     "chokidar": "^3.5.3",
     "consola": "^3.2.3",

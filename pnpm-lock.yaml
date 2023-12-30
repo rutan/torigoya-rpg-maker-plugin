@@ -28,8 +28,8 @@ importers:
         specifier: ^5.0.5
         version: 5.0.5(rollup@4.9.1)
       '@rutan/rpgmaker-plugin-annotation':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^0.2.0
+        version: 0.2.0
       '@types/node':
         specifier: ^20.10.5
         version: 20.10.5
@@ -1792,8 +1792,8 @@ packages:
     engines: {node: '>=16.12.0'}
     dev: false
 
-  /@rutan/rpgmaker-plugin-annotation@0.1.0:
-    resolution: {integrity: sha512-cTxOdBu8EZS2biYk4rzVuJ7PiZ9mCrA/SM7fyqSAJ00fgYRgtRiH+NFH2CDCXVbZpMPZM1y9pJ08TrcMGcMOdA==}
+  /@rutan/rpgmaker-plugin-annotation@0.2.0:
+    resolution: {integrity: sha512-RiWJUjpcS9bVrjh2jagV+B+Y8ooGlvy88p2SIrmlfun/6VXG+UOwm8cathcDrjgC6TyYmQ4dtEk8T26tsUnBoA==}
     hasBin: true
     dependencies:
       commander: 8.3.0

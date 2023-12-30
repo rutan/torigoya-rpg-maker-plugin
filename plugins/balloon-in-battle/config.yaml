@@ -319,6 +319,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithTroop
+          default: []
         - name: talkVictory
           type: struct[]
           text: '[セリフ] 勝利'
@@ -327,6 +328,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithTroop
+          default: []
         - name: talkInput
           type: struct[]
           text: '[セリフ] 行動選択中'
@@ -335,6 +337,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithTroop
+          default: []
         - name: talkUseSkill
           type: struct[]
           text: '[セリフ] スキル'
@@ -343,6 +346,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemForSkill
+          default: []
         - name: talkUseItem
           type: struct[]
           text: '[セリフ] アイテム'
@@ -351,6 +355,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemForItem
+          default: []
         - name: talkDamage
           type: struct[]
           text: '[セリフ] ダメージ'
@@ -359,6 +364,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithFrom
+          default: []
         - name: talkDead
           type: struct[]
           text: '[セリフ] 戦闘不能'
@@ -367,6 +373,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithTroop
+          default: []
         - name: talkSubstitute
           type: struct[]
           text: '[セリフ] 身代わりした'
@@ -375,6 +382,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithFrom
+          default: []
         - name: talkProtected
           type: struct[]
           text: '[セリフ] 身代わりされた'
@@ -383,6 +391,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithFrom
+          default: []
         - name: talkRecovery
           type: struct[]
           text: '[セリフ] 回復'
@@ -391,6 +400,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithFrom
+          default: []
         - name: talkRemoveState
           type: struct[]
           text: '[セリフ] ステート回復'
@@ -399,6 +409,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemForState
+          default: []
         - name: talkMissed
           type: struct[]
           text: '[セリフ] 敵攻撃がミス'
@@ -407,6 +418,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithFrom
+          default: []
         - name: talkEvasion
           type: struct[]
           text: '[セリフ] 敵攻撃を回避'
@@ -415,6 +427,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithFrom
+          default: []
         - name: talkCounter
           type: struct[]
           text: '[セリフ] カウンター'
@@ -423,6 +436,7 @@ TorigoyaMZ_BalloonInBattle2:
             複数登録時はどれか1つがランダムに表示されます
           parent: talk
           struct: TalkItemWithFrom
+          default: []
         - name: advanced
           type: string
           text: ■ 拡張用
@@ -434,6 +448,7 @@ TorigoyaMZ_BalloonInBattle2:
             プラグインコマンドや別プラグイン等から利用されます。
           parent: advanced
           struct: TalkItemAdvanced
+          default: []
         - name: note
           type: multiline_string
           text: メモ欄

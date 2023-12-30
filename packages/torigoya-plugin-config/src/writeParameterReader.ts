@@ -4,7 +4,12 @@ import { TorigoyaPluginConfigSchema } from './types.js';
 import { PluginParameter } from '@rutan/rpgmaker-plugin-annotation';
 
 export async function writeParameterReader(config: TorigoyaPluginConfigSchema, outputPath: string) {
-  const pickFuncList = Array.from(new Set([...config.params.map((param) => detectFuncNameFromType(param))]))
+  const pickFuncList = Array.from(
+    new Set([
+      ...config.params.map((param) => detectFuncNameFromType(param)),
+      ...config.structs.map((struct) => struct.params.map((param) => detectFuncNameFromType(param))).flat(),
+    ]),
+  )
     .filter(Boolean)
     .sort();
 
@@ -12,6 +17,7 @@ export async function writeParameterReader(config: TorigoyaPluginConfigSchema, o
     .map((struct) => {
       return `
 function readStruct${struct.name}(parameters) {
+  parameters = typeof parameters === 'string' ? JSON.parse(parameters) : parameters;
   return {
     ${struct.params.map(generateParameterReaderCode).join(',\n    ')}
   };
@@ -44,13 +50,13 @@ export function readParameter() {
 
 function generateParameterReaderCode(param: PluginParameter) {
   if (param.type === 'struct') {
-    return `${param.name}: parameters[${JSON.stringify(param.name)}] === undefined ? ${JSON.stringify(
+    return `${param.name}: readStruct${param.struct}(pickStructObject(parameters, '${param.name}', ${JSON.stringify(
       param.default,
-    )} : readStruct${param.struct}(parameters[${JSON.stringify(param.name)}])`;
+    )}))`;
   } else if (param.type === 'struct[]') {
-    return `${param.name}: parameters[${JSON.stringify(param.name)}] === undefined ? ${JSON.stringify(
+    return `${param.name}: pickStructObject(parameters, '${param.name}', ${JSON.stringify(
       param.default,
-    )} : parameters[${JSON.stringify(param.name)}].map(readStruct${param.struct})`;
+    )}).map(readStruct${param.struct})`;
   } else {
     return `${param.name}: ${detectFuncNameFromType(param)}(parameters, '${param.name}', ${JSON.stringify(
       param.default,
@@ -117,7 +123,7 @@ const detectFuncNameFromType = (param: PluginParameter) => {
       return 'pickStringValueFromParameterList';
     case 'struct':
     case 'struct[]':
-      return '';
+      return 'pickStructObject';
     default: {
       const error: never = param;
       throw `unknown parameter: ${error}`;
