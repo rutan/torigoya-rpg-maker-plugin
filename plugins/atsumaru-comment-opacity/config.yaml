@@ -1,0 +1,62 @@
+base: &base
+  version: '1.0.0'
+  title:
+    ja: 'アツマールコメント不透明度変更プラグイン'
+  help:
+    ja: |
+      ※このプラグインはゲームアツマール用の非公式プラグインです
+      ゲームアツマールに表示されるコメントの不透明度を変更します。
+
+      ------------------------------------------------------------
+      ■ Q&A
+      ------------------------------------------------------------
+      Q. ゲーム中に不透明度を変更できますか？
+      A. プラグインコマンドで変更できます。
+      　 なお、セーブデータには反映されないため、
+      　 タイトル画面に戻ったりするともとに戻ります。
+      　 （イベントシーン的な部分で使うことを想定しているよ）
+
+      Q. ギフトの不透明度は変わりますか？
+      A. ギフトはゲーム本体とは別のレイヤーにあるため
+      　 どうやっても変更できません。
+  params:
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: defaultOpacity
+      type: number
+      text: 不透明度
+      description: |-
+        コメントの不透明度を設定します。
+        0～255で設定してください。0だと完全に透明になります。
+      parent: base
+      min: 0
+      max: 255
+      default: 255
+
+Torigoya_AtsumaruCommentOpacity:
+  <<: *base
+  target:
+    - MV
+
+TorigoyaMZ_AtsumaruCommentOpacity:
+  <<: *base
+  target:
+    - MZ
+  commands:
+    - name: changeOpacity
+      text: コメント不透明度の変更
+      description: |
+        アツマールのコメントの不透明度を変更します。
+      args:
+        - name: opacity
+          type: number
+          text: 不透明度
+          description: |-
+            コメントの不透明度を設定します。
+            0～255で設定してください。0だと完全に透明になります。
+    - name: resetOpacity
+      text: コメント不透明度の初期化
+      description: |
+        コメントの不透明度を初期値に戻します。
+      args: []

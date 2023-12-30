@@ -1,0 +1,159 @@
+TorigoyaMZ_EnemyHpBar:
+  version: 1.3.2
+  title:
+    ja: 敵にHPバーを表示プラグイン
+  target:
+    - MZ
+  help:
+    ja: |
+      敵キャラにHPバーを表示します
+
+      ------------------------------------------------------------
+      ■ 使い方
+      ------------------------------------------------------------
+      このプラグインを入れるだけでOK！
+      細かい表示はプラグイン設定で変更できます。
+
+      ------------------------------------------------------------
+      ■ 敵キャラ個別にいろいろ設定したい！
+      ------------------------------------------------------------
+      いくつかの設定は、敵キャラのメモ欄に指定を書くことで変更できます。
+
+      ▼ 特定の敵キャラにはHPを表示したくない場合
+      <HPバー非表示>
+
+      ▼ 特定の敵キャラのHPゲージを横にずらしたい場合
+      <HPバーX: 100>
+
+      ※100の部分をずらす量に変えよう。マイナスだと左にいくよ
+
+      ▼ 特定の敵キャラのHPゲージを上下にずらしたい場合
+      <HPバーY: 100>
+
+      ※100の部分をずらす量に変えよう。マイナスだと上にいくよ
+
+      ▼ 特定の敵キャラのHPゲージの幅を変えたい場合
+      <HPバー幅: 320>
+
+      ▼ 特定の敵キャラのHPゲージの太さを変えたい場合
+      <HPバー高さ: 30>
+
+      ▼ 敵キャラのHPの数値を「????」にしたい場合
+
+      <HP表示条件: false>
+
+      ▼ いや、HPが半分切ったら「????」じゃなくしたいな
+
+      <HP表示条件: a.hp < a.mhp * 0.5>
+
+      ダメージ計算式のような形式で条件を書くことができます。
+      （a には敵の情報が入ります。ただし b はありません）
+      条件が真になるとHPが数値で表示され、
+      偽の場合はプラグイン設定で指定したマスク文字（?????等）で表示されます。
+
+      ▼ 一度「????」じゃなくなったら、条件が解けても戻さないで！
+
+      <HP表示条件: a.hp < a.mhp * 0.5>
+      <HP表示状態継続>
+
+      このように <HP表示状態継続> というのを追加することで、
+      その戦闘中は一度HP表示状態になると、
+      ずっとHPが表示されるようになります。
+  params:
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: basePosition
+      type: select
+      text: 表示場所
+      description: ゲージを表示する場所を選択します
+      parent: base
+      default: top
+      options:
+        - name: 敵画像の上
+          value: top
+        - name: 敵画像の下
+          value: bottom
+    - name: basePosX
+      type: number
+      text: 位置:X
+      description: |-
+        ゲージの横方向の位置を調整します
+        マイナスだと左、プラスだと右にずれます
+      parent: base
+      min: -10000
+      max: 10000
+      default: 0
+    - name: basePosY
+      type: number
+      text: 位置:Y
+      description: |-
+        ゲージの縦方向の位置を調整します
+        マイナスだと上、プラスだと下にずれます
+      parent: base
+      min: -10000
+      max: 10000
+      default: 0
+    - name: customize
+      type: string
+      text: ■ 表示カスタマイズ
+    - name: customizeCondition
+      type: select
+      text: 表示条件
+      description: いつゲージを表示するかを選択します
+      parent: customize
+      default: always
+      options:
+        - name: 常に表示
+          value: always
+        - name: 選択中・ダメージ中のみ
+          value: selectOrDamage
+    - name: customizeGaugeWidth
+      type: number
+      text: バーの幅
+      description: HPバーの幅
+      parent: customize
+      min: 1
+      default: 100
+    - name: customizeGaugeHeight
+      type: number
+      text: バーの高さ
+      description: HPバーの高さ
+      parent: customize
+      min: 1
+      default: 10
+    - name: customizeDrawLabel
+      type: boolean
+      text: HP数値
+      description: HP数値を表示するか？
+      parent: customize
+      on: 表示する
+      off: 表示しない
+      default: true
+    - name: customizeLabelWidth
+      type: number
+      text: HPラベルの横幅
+      description: HPのラベルエリアの横幅
+      parent: customize
+      min: 0
+      default: 20
+    - name: customizeLabelFontSize
+      type: number
+      text: HPラベルの文字サイズ
+      description: HPのラベルの文字サイズ
+      parent: customize
+      min: 1
+      default: 16
+    - name: customizeValueFontSize
+      type: number
+      text: HP数値の文字サイズ
+      description: HPの値の文字サイズ
+      parent: customize
+      min: 1
+      default: 20
+    - name: customizeMaskHpValue
+      type: string
+      text: HPのマスク表記
+      description: HP数値を秘密にする場合の表示
+      parent: customize
+      default: ?????

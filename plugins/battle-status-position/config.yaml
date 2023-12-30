@@ -1,0 +1,13 @@
+TorigoyaMZ_BattleStatusPosition:
+  target:
+    - MZ
+  version: 1.0.0
+  title:
+    ja: 戦闘画面のステータス表示の位置を人数で調節プラグイン
+  help:
+    ja: |
+      戦闘画面に表示されるステータス表示について、
+      戦闘メンバーの人数が少ない場合は中央寄せで表示するように変更します。
+
+      このプラグインに特に設定はありません。
+  params: []

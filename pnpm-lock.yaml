@@ -112,11 +112,245 @@ importers:
         specifier: workspace:*
         version: link:../../packages/torigoya-plugin-config
 
+  plugins/actor-enemy:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/add-state-skill:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/atsumaru-comment-opacity:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/balloon-in-battle:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/battle-status-position:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/bookshelf:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/common-menu:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/custom-regenerate:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/display-animation-in-front-view:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/draw-skill-cost:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/easy-staff-roll:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/enemy-hp-bar:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/fix-load-image-mz:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/fix-mute-audio-mv:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
   plugins/frame-tween:
     dependencies:
       '@rutan/frame-tween':
         specifier: 0.6.1
         version: 0.6.1
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/jump-variable-label:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/max-items:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/max-slip-damage-setting:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/niconiko-bar:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/not-remove-weapon:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/notify-message:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/quick-skill:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/same-equip-type:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/save-command:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/skill-change-to:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/skill-cut-in:
+    dependencies:
+      '@rutan/torigoya-plugin-common':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-common
+      '@rutan/torigoya-plugin-config':
+        specifier: workspace:*
+        version: link:../../packages/torigoya-plugin-config
+
+  plugins/smooth-value-gauge:
+    dependencies:
       '@rutan/torigoya-plugin-common':
         specifier: workspace:*
         version: link:../../packages/torigoya-plugin-common

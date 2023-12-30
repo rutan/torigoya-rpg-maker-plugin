@@ -10,14 +10,14 @@ questions:
     initial: false
 ---
 
-# `{{ inputs.pluginName }}/.gitignore`
+# `{{ inputs.pluginName | kebab }}/.gitignore`
 
 ```.gitignore
 /.turbo
 /src/_build
 ```
 
-# `{{ inputs.pluginName }}/package.json`
+# `{{ inputs.pluginName | kebab }}/package.json`
 
 ```json
 {
@@ -37,7 +37,7 @@ questions:
 }
 ```
 
-# `{{ inputs.pluginName }}/rollup.config.js`
+# `{{ inputs.pluginName | kebab }}/rollup.config.js`
 
 ```javascript
 import { defineRollupConfig } from '@rutan/torigoya-plugin-config';
@@ -51,7 +51,7 @@ export default defineRollupConfig({
 });
 ```
 
-# `{{ inputs.isLegacy || "!" }}{{ inputs.pluginName }}/config.yaml`
+# `{{ inputs.isLegacy || "!" }}{{ inputs.pluginName | kebab }}/config.yaml`
 
 ```yaml
 base: &base
@@ -64,8 +64,8 @@ base: &base
       Plugin Description
     ja: |
       プラグインの説明
-  params: [ ]
-  structs: [ ]
+  params: []
+  structs: []
 
 Torigoya_{{ inputs.pluginName | pascal }}:
   <<: *base
@@ -78,13 +78,13 @@ TorigoyaMZ_{{ inputs.pluginName | pascal }}:
     - 'MZ'
 ```
 
-# `{{ !inputs.isLegacy || "!" }}{{ inputs.pluginName }}/config.ts`
+# `{{ !inputs.isLegacy || "!" }}{{ inputs.pluginName | kebab }}/config.ts`
 
 ```typescript
 // TODO: write config
 ```
 
-# `{{ inputs.pluginName }}/src/Torigoya_{{ inputs.pluginName | pascal }}.js`
+# `{{ inputs.pluginName | kebab }}/src/Torigoya_{{ inputs.pluginName | pascal }}.js`
 
 ```javascript
 import { Torigoya, getPluginName } from '@rutan/torigoya-plugin-common';
@@ -100,7 +100,7 @@ Torigoya.{{ inputs.pluginName | pascal }} = {
 })();
 ```
 
-# `{{ inputs.pluginName }}/src/TorigoyaMZ_{{ inputs.pluginName | pascal }}.js`
+# `{{ inputs.pluginName | kebab }}/src/TorigoyaMZ_{{ inputs.pluginName | pascal }}.js`
 
 ```javascript
 import { Torigoya, getPluginName } from '@rutan/torigoya-plugin-common';

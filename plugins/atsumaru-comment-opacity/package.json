@@ -1,0 +1,15 @@
+{
+  "name": "@rutan/torigoya-plugin-atsumaru-comment-opacity",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "watch": "rollup -c -w",
+    "clean": "rimraf ./_dist && rimraf ./src/_build"
+  },
+  "dependencies": {
+    "@rutan/torigoya-plugin-common": "workspace:*",
+    "@rutan/torigoya-plugin-config": "workspace:*"
+  }
+}

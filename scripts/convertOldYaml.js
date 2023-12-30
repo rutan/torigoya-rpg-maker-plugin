@@ -52,8 +52,19 @@ function convertParameter(obj) {
     if (type && type.match(/^[A-Z]/)) {
       value['struct'] = type;
       type = 'struct';
+    }
+
+    if (type === 'integer') {
+      type = 'number';
+    }
+
+    if (type !== 'string') {
       if (typeof value['default'] === 'string') {
-        value['default'] = JSON.parse(value['default']);
+        try {
+          value['default'] = JSON.parse(value['default']);
+        } catch (_e) {
+          // ignore
+        }
       }
     }
 
