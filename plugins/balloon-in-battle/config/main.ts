@@ -15,8 +15,8 @@ import {
 } from '@rutan/torigoya-plugin-config';
 import dedent from 'dedent';
 
-const structSound = createStruct('Sound')([
-  createFileParam('name')({
+const structSound = createStruct('Sound', [
+  createFileParam('name', {
     text: {
       ja: '再生する音声',
     },
@@ -28,7 +28,7 @@ const structSound = createStruct('Sound')([
     },
     dir: 'audio/se',
   }),
-  createNumberParam('volume')({
+  createNumberParam('volume', {
     text: {
       ja: '音量',
     },
@@ -42,7 +42,7 @@ const structSound = createStruct('Sound')([
     max: 100,
     default: 90,
   }),
-  createNumberParam('pitch')({
+  createNumberParam('pitch', {
     text: {
       ja: 'ピッチ',
     },
@@ -56,7 +56,7 @@ const structSound = createStruct('Sound')([
     max: 200,
     default: 100,
   }),
-  createNumberParam('pan')({
+  createNumberParam('pan', {
     text: {
       ja: 'パン',
     },
@@ -72,7 +72,7 @@ const structSound = createStruct('Sound')([
   }),
 ]);
 
-const paramMessage = createStringParam('message')({
+const paramMessage = createStringParam('message', {
   text: {
     ja: 'セリフ',
   },
@@ -84,8 +84,8 @@ const paramMessage = createStringParam('message')({
   },
 });
 
-const paramSound = createStructParam('sound')<typeof structSound>({
-  struct: 'Sound',
+const paramSound = createStructParam('sound', {
+  struct: structSound,
   text: {
     ja: '再生する音声',
   },
@@ -103,7 +103,7 @@ const paramSound = createStructParam('sound')<typeof structSound>({
   },
 });
 
-const paramNote = createMultiLineStringParam('note')({
+const paramNote = createMultiLineStringParam('note', {
   text: {
     ja: 'メモ欄',
   },
@@ -115,14 +115,14 @@ const paramNote = createMultiLineStringParam('note')({
   },
 });
 
-const structTalkItemWithTroop = createStruct('TalkItemWithTroop')([
+const structTalkItemWithTroop = createStruct('TalkItemWithTroop', [
   paramMessage,
-  ...createParamGroup('optional')({
+  ...createParamGroup('optional', {
     text: {
       ja: '■ オプション',
     },
     children: [
-      createDatabaseParam('troopId')({
+      createDatabaseParam('troopId', {
         type: 'troop',
         text: {
           ja: '対象のトループ',
@@ -140,14 +140,14 @@ const structTalkItemWithTroop = createStruct('TalkItemWithTroop')([
   }),
 ]);
 
-const structTalkItemWithFrom = createStruct('TalkItemWithFrom')([
+const structTalkItemWithFrom = createStruct('TalkItemWithFrom', [
   paramMessage,
-  ...createParamGroup('optional')({
+  ...createParamGroup('optional', {
     text: {
       ja: '■ オプション',
     },
     children: [
-      createDatabaseParam('actorId')({
+      createDatabaseParam('actorId', {
         type: 'actor',
         text: {
           ja: '対象の相手(味方)',
@@ -159,7 +159,7 @@ const structTalkItemWithFrom = createStruct('TalkItemWithFrom')([
           `,
         },
       }),
-      createDatabaseParam('enemyId')({
+      createDatabaseParam('enemyId', {
         type: 'enemy',
         text: {
           ja: '対象の相手(敵)',
@@ -177,8 +177,8 @@ const structTalkItemWithFrom = createStruct('TalkItemWithFrom')([
   }),
 ]);
 
-const structTalkItemForSkill = createStruct('TalkItemForSkill')([
-  createDatabaseParam('skillId')({
+const structTalkItemForSkill = createStruct('TalkItemForSkill', [
+  createDatabaseParam('skillId', {
     type: 'skill',
     text: {
       ja: 'スキルのID',
@@ -191,12 +191,12 @@ const structTalkItemForSkill = createStruct('TalkItemForSkill')([
     },
   }),
   paramMessage,
-  ...createParamGroup('optional')({
+  ...createParamGroup('optional', {
     text: {
       ja: '■ オプション',
     },
     children: [
-      createDatabaseParam('actorId')({
+      createDatabaseParam('actorId', {
         type: 'actor',
         text: {
           ja: '対象の相手(味方)',
@@ -208,7 +208,7 @@ const structTalkItemForSkill = createStruct('TalkItemForSkill')([
           `,
         },
       }),
-      createDatabaseParam('enemyId')({
+      createDatabaseParam('enemyId', {
         type: 'enemy',
         text: {
           ja: '対象の相手(敵)',
@@ -226,8 +226,8 @@ const structTalkItemForSkill = createStruct('TalkItemForSkill')([
   }),
 ]);
 
-const structTalkItemForItem = createStruct('TalkItemForItem')([
-  createDatabaseParam('itemId')({
+const structTalkItemForItem = createStruct('TalkItemForItem', [
+  createDatabaseParam('itemId', {
     type: 'item',
     text: {
       ja: 'アイテムのID',
@@ -240,12 +240,12 @@ const structTalkItemForItem = createStruct('TalkItemForItem')([
     },
   }),
   paramMessage,
-  ...createParamGroup('optional')({
+  ...createParamGroup('optional', {
     text: {
       ja: '■ オプション',
     },
     children: [
-      createDatabaseParam('actorId')({
+      createDatabaseParam('actorId', {
         type: 'actor',
         text: {
           ja: '対象の相手(味方)',
@@ -257,7 +257,7 @@ const structTalkItemForItem = createStruct('TalkItemForItem')([
           `,
         },
       }),
-      createDatabaseParam('enemyId')({
+      createDatabaseParam('enemyId', {
         type: 'enemy',
         text: {
           ja: '対象の相手(敵)',
@@ -275,8 +275,8 @@ const structTalkItemForItem = createStruct('TalkItemForItem')([
   }),
 ]);
 
-const structTalkItemForState = createStruct('TalkItemForState')([
-  createDatabaseParam('stateId')({
+const structTalkItemForState = createStruct('TalkItemForState', [
+  createDatabaseParam('stateId', {
     type: 'state',
     text: {
       ja: 'ステートのID',
@@ -289,12 +289,12 @@ const structTalkItemForState = createStruct('TalkItemForState')([
     },
   }),
   paramMessage,
-  ...createParamGroup('optional')({
+  ...createParamGroup('optional', {
     text: {
       ja: '■ オプション',
     },
     children: [
-      createDatabaseParam('actorId')({
+      createDatabaseParam('actorId', {
         type: 'actor',
         text: {
           ja: '対象の相手(味方)',
@@ -306,7 +306,7 @@ const structTalkItemForState = createStruct('TalkItemForState')([
           `,
         },
       }),
-      createDatabaseParam('enemyId')({
+      createDatabaseParam('enemyId', {
         type: 'enemy',
         text: {
           ja: '対象の相手(敵)',
@@ -324,8 +324,8 @@ const structTalkItemForState = createStruct('TalkItemForState')([
   }),
 ]);
 
-const structTalkItemAdvanced = createStruct('TalkItemAdvanced')([
-  createStringParam('type')({
+const structTalkItemAdvanced = createStruct('TalkItemAdvanced', [
+  createStringParam('type', {
     text: {
       ja: '拡張タイプ',
     },
@@ -340,8 +340,8 @@ const structTalkItemAdvanced = createStruct('TalkItemAdvanced')([
   paramNote,
 ]);
 
-const structTalkSet = createStruct('TalkSet')([
-  createStringParam('id')({
+const structTalkSet = createStruct('TalkSet', [
+  createStringParam('id', {
     text: {
       ja: 'セリフセットID',
     },
@@ -352,13 +352,13 @@ const structTalkSet = createStruct('TalkSet')([
       `,
     },
   }),
-  ...createParamGroup('talk')({
+  ...createParamGroup('talk', {
     text: {
       ja: '■ セリフ',
     },
     children: [
-      createStructParamArray('talkBattleStart')<typeof structTalkItemWithTroop>({
-        struct: 'TalkItemWithTroop',
+      createStructParamArray('talkBattleStart', {
+        struct: structTalkItemWithTroop,
         text: {
           ja: '[セリフ] 戦闘開始',
         },
@@ -369,8 +369,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkVictory')<typeof structTalkItemWithTroop>({
-        struct: 'TalkItemWithTroop',
+      createStructParamArray('talkVictory', {
+        struct: structTalkItemWithTroop,
         text: {
           ja: '[セリフ] 勝利',
         },
@@ -381,8 +381,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkInput')<typeof structTalkItemWithTroop>({
-        struct: 'TalkItemWithTroop',
+      createStructParamArray('talkInput', {
+        struct: structTalkItemWithTroop,
         text: {
           ja: '[セリフ] 行動選択中',
         },
@@ -393,8 +393,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkUseSkill')<typeof structTalkItemForSkill>({
-        struct: 'TalkItemForSkill',
+      createStructParamArray('talkUseSkill', {
+        struct: structTalkItemForSkill,
         text: {
           ja: '[セリフ] スキル',
         },
@@ -405,8 +405,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkUseItem')<typeof structTalkItemForItem>({
-        struct: 'TalkItemForItem',
+      createStructParamArray('talkUseItem', {
+        struct: structTalkItemForItem,
         text: {
           ja: '[セリフ] アイテム',
         },
@@ -417,8 +417,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkDamage')<typeof structTalkItemWithFrom>({
-        struct: 'TalkItemWithFrom',
+      createStructParamArray('talkDamage', {
+        struct: structTalkItemWithFrom,
         text: {
           ja: '[セリフ] ダメージ',
         },
@@ -429,8 +429,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkDead')<typeof structTalkItemWithFrom>({
-        struct: 'TalkItemWithFrom',
+      createStructParamArray('talkDead', {
+        struct: structTalkItemWithFrom,
         text: {
           ja: '[セリフ] 戦闘不能',
         },
@@ -441,8 +441,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkSubstitute')<typeof structTalkItemWithFrom>({
-        struct: 'TalkItemWithFrom',
+      createStructParamArray('talkSubstitute', {
+        struct: structTalkItemWithFrom,
         text: {
           ja: '[セリフ] 身代わりした',
         },
@@ -453,8 +453,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkProtected')<typeof structTalkItemWithFrom>({
-        struct: 'TalkItemWithFrom',
+      createStructParamArray('talkProtected', {
+        struct: structTalkItemWithFrom,
         text: {
           ja: '[セリフ] 身代わりされた',
         },
@@ -465,8 +465,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkRecovery')<typeof structTalkItemWithFrom>({
-        struct: 'TalkItemWithFrom',
+      createStructParamArray('talkRecovery', {
+        struct: structTalkItemWithFrom,
         text: {
           ja: '[セリフ] 回復',
         },
@@ -477,8 +477,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkRemoveState')<typeof structTalkItemWithFrom>({
-        struct: 'TalkItemWithFrom',
+      createStructParamArray('talkRemoveState', {
+        struct: structTalkItemWithFrom,
         text: {
           ja: '[セリフ] ステート回復',
         },
@@ -489,8 +489,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkMissed')<typeof structTalkItemWithFrom>({
-        struct: 'TalkItemWithFrom',
+      createStructParamArray('talkMissed', {
+        struct: structTalkItemWithFrom,
         text: {
           ja: '[セリフ] 敵攻撃がミス',
         },
@@ -501,8 +501,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkEvasion')<typeof structTalkItemWithFrom>({
-        struct: 'TalkItemWithFrom',
+      createStructParamArray('talkEvasion', {
+        struct: structTalkItemWithFrom,
         text: {
           ja: '[セリフ] 敵攻撃を回避',
         },
@@ -513,8 +513,8 @@ const structTalkSet = createStruct('TalkSet')([
           `,
         },
       }),
-      createStructParamArray('talkCounter')<typeof structTalkItemWithFrom>({
-        struct: 'TalkItemWithFrom',
+      createStructParamArray('talkCounter', {
+        struct: structTalkItemWithFrom,
         text: {
           ja: '[セリフ] カウンター',
         },
@@ -527,13 +527,13 @@ const structTalkSet = createStruct('TalkSet')([
       }),
     ],
   }),
-  ...createParamGroup('advanced')({
+  ...createParamGroup('advanced', {
     text: {
       ja: '■ 拡張用',
     },
     children: [
-      createStructParamArray('talkAdvanced')<typeof structTalkItemAdvanced>({
-        struct: 'TalkItemAdvanced',
+      createStructParamArray('talkAdvanced', {
+        struct: structTalkItemAdvanced,
         text: {
           ja: '拡張データ',
         },
@@ -730,13 +730,13 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
     `,
   },
   params: [
-    ...createParamGroup('base')({
+    ...createParamGroup('base', {
       text: {
         ja: '■ 基本設定',
       },
       children: [
-        createStructParamArray('talkConfig')<typeof structTalkSet>({
-          struct: 'TalkSet',
+        createStructParamArray('talkConfig', {
+          struct: structTalkSet,
           text: {
             ja: 'セリフセットの登録',
           },
@@ -744,12 +744,12 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
       ],
     }),
 
-    ...createParamGroup('balloon')({
+    ...createParamGroup('balloon', {
       text: {
         ja: '■ 表示設定',
       },
       children: [
-        createFileParam('balloonImage')({
+        createFileParam('balloonImage', {
           text: {
             ja: '吹き出し用の画像',
           },
@@ -761,7 +761,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           dir: 'img/system',
           default: 'Window',
         }),
-        createNumberParam('balloonFontSize')({
+        createNumberParam('balloonFontSize', {
           text: {
             ja: '文字サイズ',
           },
@@ -773,7 +773,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           min: 1,
           default: 22,
         }),
-        createNumberParam('balloonPadding')({
+        createNumberParam('balloonPadding', {
           text: {
             ja: 'ウィンドウの余白',
           },
@@ -785,7 +785,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           min: 0,
           default: 8,
         }),
-        createBooleanParam('balloonTail')({
+        createBooleanParam('balloonTail', {
           text: {
             ja: 'ウィンドウのしっぽ',
           },
@@ -802,7 +802,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           },
           default: true,
         }),
-        createNumberParam('balloonTailY')({
+        createNumberParam('balloonTailY', {
           text: {
             ja: 'しっぽの位置調整',
           },
@@ -816,7 +816,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           max: 10000,
           default: 4,
         }),
-        createNumberParam('balloonActorY')({
+        createNumberParam('balloonActorY', {
           text: {
             ja: '味方吹き出しの位置調整',
           },
@@ -830,7 +830,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           max: 10000,
           default: 0,
         }),
-        createNumberParam('balloonEnemyY')({
+        createNumberParam('balloonEnemyY', {
           text: {
             ja: '敵の吹き出しの位置調整',
           },
@@ -847,12 +847,12 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
       ],
     }),
 
-    ...createParamGroup('advanced')({
+    ...createParamGroup('advanced', {
       text: {
         ja: '■ 上級者設定',
       },
       children: [
-        createNumberParam('advancedLifeTime')({
+        createNumberParam('advancedLifeTime', {
           text: {
             ja: '表示時間：通常',
           },
@@ -865,7 +865,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           min: -1,
           default: 90,
         }),
-        createNumberParam('advancedDamageLifeTime')({
+        createNumberParam('advancedDamageLifeTime', {
           text: {
             ja: '表示時間：被ダメ',
           },
@@ -878,7 +878,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           min: -1,
           default: 30,
         }),
-        createNumberParam('advancedInputLifeTime')({
+        createNumberParam('advancedInputLifeTime', {
           text: {
             ja: '表示時間：行動選択',
           },
@@ -891,7 +891,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           min: -1,
           default: -1,
         }),
-        createNumberParam('advancedVictoryLifeTime')({
+        createNumberParam('advancedVictoryLifeTime', {
           text: {
             ja: '表示時間：勝利',
           },
@@ -904,7 +904,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           min: -1,
           default: -1,
         }),
-        createSelectParam('advancedLayerPosition')({
+        createSelectParam('advancedLayerPosition', {
           text: {
             ja: '表示レイヤー位置',
           },
@@ -933,7 +933,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
     structTalkItemAdvanced,
   ],
   commands: [
-    createCommand('changeTalkSet')({
+    createCommand('changeTalkSet', {
       text: {
         ja: 'セリフセットの変更',
       },
@@ -944,7 +944,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         `,
       },
       args: [
-        createDatabaseParam('actorId')({
+        createDatabaseParam('actorId', {
           type: 'actor',
           text: {
             ja: 'アクター',
@@ -955,7 +955,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             `,
           },
         }),
-        createStringParam('actorId')({
+        createStringParam('actorId', {
           text: {
             ja: 'セリフセットID',
           },
@@ -968,7 +968,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         }),
       ],
     }),
-    createCommand('resetTalkSet')({
+    createCommand('resetTalkSet', {
       text: {
         ja: 'セリフセットの初期化',
       },
@@ -978,7 +978,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         `,
       },
       args: [
-        createDatabaseParam('actorId')({
+        createDatabaseParam('actorId', {
           type: 'actor',
           text: {
             ja: 'アクター',
@@ -991,7 +991,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         }),
       ],
     }),
-    createCommand('talkActorByText')({
+    createCommand('talkActorByText', {
       text: {
         ja: '[戦闘中のみ] 指定文章の味方セリフを表示',
       },
@@ -1001,7 +1001,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         `,
       },
       args: [
-        createDatabaseParam('actorId')({
+        createDatabaseParam('actorId', {
           type: 'actor',
           text: {
             ja: 'セリフを表示するアクター',
@@ -1013,7 +1013,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             `,
           },
         }),
-        createStringParam('text')({
+        createStringParam('text', {
           text: {
             ja: 'セリフ本文',
           },
@@ -1026,7 +1026,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         }),
       ],
     }),
-    createCommand('talkEnemyByText')({
+    createCommand('talkEnemyByText', {
       text: {
         ja: '[戦闘中のみ] 指定文章の敵セリフを表示',
       },
@@ -1036,7 +1036,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         `,
       },
       args: [
-        createNumberParam('enemyIndex')({
+        createNumberParam('enemyIndex', {
           text: {
             ja: 'セリフを表示する敵',
           },
@@ -1047,7 +1047,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             `,
           },
         }),
-        createStringParam('text')({
+        createStringParam('text', {
           text: {
             ja: 'セリフ本文',
           },
@@ -1060,7 +1060,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         }),
       ],
     }),
-    createCommand('talkActorByType')({
+    createCommand('talkActorByType', {
       text: {
         ja: '[戦闘中のみ] 指定タイプの味方セリフを表示',
       },
@@ -1071,7 +1071,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         `,
       },
       args: [
-        createDatabaseParam('actorId')({
+        createDatabaseParam('actorId', {
           type: 'actor',
           text: {
             ja: 'セリフを表示するアクター',
@@ -1083,7 +1083,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             `,
           },
         }),
-        createStringParam('text')({
+        createStringParam('text', {
           text: {
             ja: 'メッセージタイプ',
           },
@@ -1095,7 +1095,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         }),
       ],
     }),
-    createCommand('talkEnemyByType')({
+    createCommand('talkEnemyByType', {
       text: {
         ja: '[戦闘中のみ] 指定タイプの敵セリフを表示',
       },
@@ -1106,7 +1106,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         `,
       },
       args: [
-        createNumberParam('enemyIndex')({
+        createNumberParam('enemyIndex', {
           text: {
             ja: 'セリフを表示する敵',
           },
@@ -1117,7 +1117,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             `,
           },
         }),
-        createStringParam('text')({
+        createStringParam('text', {
           text: {
             ja: 'メッセージタイプ',
           },

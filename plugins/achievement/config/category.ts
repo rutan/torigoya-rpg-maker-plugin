@@ -5,32 +5,33 @@ import {
   createStringParam,
   createStruct,
   createStructParamArray,
+  defineLabel,
   TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
 import dedent from 'dedent';
 
-const structCategory = createStruct('Category')([
-  createStringParam('name')({
-    text: {
-      ja: 'カテゴリ名',
-    },
-    description: {
-      ja: dedent`
-        カテゴリの名前。
-        ここで設定した名前をメモ欄で指定してください。
-      `,
-    },
+const structCategory = createStruct('Category', [
+  createStringParam('name', {
+    ...defineLabel({
+      ja: {
+        text: 'カテゴリ名',
+        description: dedent`
+          カテゴリの名前。
+          ここで設定した名前をメモ欄で指定してください。
+        `,
+      },
+    }),
   }),
-  createStringParam('prefix')({
-    text: {
-      ja: '自動割当のID命名規則',
-    },
-    description: {
-      ja: dedent`
-        ここに設定した文字列で始まるIDの実績を
-        このカテゴリに自動割当します（空欄の場合は無し）
-      `,
-    },
+  createStringParam('prefix', {
+    ...defineLabel({
+      ja: {
+        text: '自動割当のID命名規則',
+        description: dedent`
+          ここに設定した文字列で始まるIDの実績を
+          このカテゴリに自動割当します（空欄の場合は無し）
+        `,
+      },
+    }),
   }),
 ]);
 
@@ -78,33 +79,33 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
     `,
   },
   params: [
-    ...createParamGroup('base')({
+    ...createParamGroup('base', {
       text: {
         ja: '■ 基本設定',
       },
       children: [
-        createStructParamArray('categories')<typeof structCategory>({
-          struct: 'Category',
-          text: {
-            ja: 'カテゴリ設定',
-          },
-          description: {
-            ja: dedent`
-              カテゴリを設定します。
-              必要な個数追加してください。
-            `,
-          },
+        createStructParamArray('categories', {
+          struct: structCategory,
+          ...defineLabel({
+            ja: {
+              text: 'カテゴリ設定',
+              description: dedent`
+                カテゴリを設定します。
+                必要な個数追加してください。
+              `,
+            },
+          }),
           default: [],
         }),
-        createSelectParam('position')({
-          text: {
-            ja: 'カテゴリ位置',
-          },
-          description: {
-            ja: dedent`
-              カテゴリリストの表示位置を設定します。
-            `,
-          },
+        createSelectParam('position', {
+          ...defineLabel({
+            ja: {
+              text: 'カテゴリ位置',
+              description: dedent`
+                カテゴリリストの表示位置を設定します。
+              `,
+            },
+          }),
           options: [
             { value: 'left', name: { ja: '左（縦向き）' } },
             { value: 'top', name: { ja: '上（横向き）' } },
@@ -112,16 +113,16 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
           ] as const,
           default: 'top',
         }),
-        createNumberParam('maxCols')({
-          text: {
-            ja: '最大列数',
-          },
-          description: {
-            ja: dedent`
-              一度に表示するカテゴリの最大数
-              ※カテゴリ位置が「上」のときだけ有効
-            `,
-          },
+        createNumberParam('maxCols', {
+          ...defineLabel({
+            ja: {
+              text: '最大列数',
+              description: dedent`
+                一度に表示するカテゴリの最大数
+                ※カテゴリ位置が「上」のときだけ有効
+              `,
+            },
+          }),
           min: 1,
           default: 4,
         }),

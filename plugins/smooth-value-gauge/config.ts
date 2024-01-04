@@ -26,12 +26,12 @@ export const TorigoyaMZ_SmoothValueGauge: Partial<TorigoyaPluginConfigSchema> = 
     `,
   },
   params: [
-    ...createParamGroup('advanced')({
+    ...createParamGroup('advanced', {
       text: {
         ja: '■ 上級者向け設定',
       },
       children: [
-        createStringParamArray('advancedTargetClassList')({
+        createStringParamArray('advancedTargetClassList', {
           text: {
             ja: '設定先スプライト名',
           },

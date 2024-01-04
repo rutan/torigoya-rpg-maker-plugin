@@ -16,12 +16,12 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
     `,
   },
   params: [
-    ...createParamGroup('base')({
+    ...createParamGroup('base', {
       text: {
         ja: '■ 基本設定',
       },
       children: [
-        createNumberParam('colsSize')({
+        createNumberParam('colsSize', {
           text: {
             ja: '表示数（横）',
           },
@@ -33,7 +33,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
           min: 1,
           default: 5,
         }),
-        createNumberParam('itemPadding')({
+        createNumberParam('itemPadding', {
           text: {
             ja: 'アイコンの余白',
           },

@@ -15,13 +15,137 @@ import {
   TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
 
+const structColor = createStruct('Color', [
+  createNumberParam('red', {
+    text: {
+      ja: '赤',
+    },
+    description: {
+      ja: dedent`
+        赤色の強さを設定します。
+        -255から255の範囲で指定してください。
+      `,
+    },
+    min: -255,
+    max: 255,
+    default: 0,
+  }),
+  createNumberParam('green', {
+    text: {
+      ja: '緑',
+    },
+    description: {
+      ja: dedent`
+        緑色の強さを設定します。
+        -255から255の範囲で指定してください。
+      `,
+    },
+    min: -255,
+    max: 255,
+    default: 0,
+  }),
+  createNumberParam('blue', {
+    text: {
+      ja: '青',
+    },
+    description: {
+      ja: dedent`
+        青色の強さを設定します。
+        -255から255の範囲で指定してください。
+      `,
+    },
+    min: -255,
+    max: 255,
+    default: 0,
+  }),
+]);
+
+const structColorCustomize = createStruct('ColorCustomize', [
+  createBooleanParam('isUse', {
+    text: {
+      ja: '使用するか？',
+    },
+    description: {
+      ja: dedent`
+        個別設定を使用するか指定します。
+        使用しない場合は共通設定の色になります。
+      `,
+    },
+    on: {
+      ja: '使用する',
+    },
+    off: {
+      ja: '使用しない',
+    },
+    default: false,
+  }),
+  ...structColor.params,
+]);
+
+const structSound = createStruct('Sound', [
+  createFileParam('name', {
+    text: {
+      ja: '効果音ファイル',
+    },
+    description: {
+      ja: dedent`
+        効果音ファイルを選択します。
+      `,
+    },
+    dir: 'audio/se',
+    default: '',
+  }),
+  createNumberParam('volume', {
+    text: {
+      ja: '音量',
+    },
+    description: {
+      ja: dedent`
+        効果音の音量を指定します。
+        0から100の範囲で指定してください。
+      `,
+    },
+    min: 0,
+    max: 100,
+    default: 90,
+  }),
+  createNumberParam('pitch', {
+    text: {
+      ja: 'ピッチ',
+    },
+    description: {
+      ja: dedent`
+        効果音のピッチを指定します。
+        100が通常です。
+      `,
+    },
+    min: 0,
+    max: 200,
+    default: 100,
+  }),
+  createNumberParam('pan', {
+    text: {
+      ja: 'パン',
+    },
+    description: {
+      ja: dedent`
+        効果音のパンを指定します。
+        0が通常です。
+      `,
+    },
+    min: -100,
+    max: 100,
+    default: 0,
+  }),
+]);
+
 const cutinSetCommonParams = [
-  ...createParamGroup('render')({
+  ...createParamGroup('render', {
     text: {
       ja: '■ キャラ画像設定',
     },
     children: [
-      createFileParam('picture')({
+      createFileParam('picture', {
         text: {
           ja: 'キャラ画像',
         },
@@ -34,7 +158,7 @@ const cutinSetCommonParams = [
         dir: 'img/pictures',
         default: '',
       }),
-      createNumberParam('pictureX')({
+      createNumberParam('pictureX', {
         text: {
           ja: 'キャラ画像位置:X',
         },
@@ -48,7 +172,7 @@ const cutinSetCommonParams = [
         max: 10000,
         default: 0,
       }),
-      createNumberParam('pictureY')({
+      createNumberParam('pictureY', {
         text: {
           ja: 'キャラ画像位置:Y',
         },
@@ -62,7 +186,7 @@ const cutinSetCommonParams = [
         max: 10000,
         default: 0,
       }),
-      createNumberParam('pictureScale')({
+      createNumberParam('pictureScale', {
         text: {
           ja: 'キャラ画像:拡大率',
         },
@@ -79,12 +203,12 @@ const cutinSetCommonParams = [
     ],
   }),
 
-  ...createParamGroup('advanced')({
+  ...createParamGroup('advanced', {
     text: {
       ja: '■ 個別設定（省略可）',
     },
     children: [
-      createStringParam('backColor1')({
+      createStringParam('backColor1', {
         text: {
           ja: '背景色1',
         },
@@ -96,7 +220,7 @@ const cutinSetCommonParams = [
         },
         default: '',
       }),
-      createStringParam('backColor2')({
+      createStringParam('backColor2', {
         text: {
           ja: '背景色2',
         },
@@ -108,8 +232,8 @@ const cutinSetCommonParams = [
         },
         default: '',
       }),
-      createStructParam('backTone')<typeof structColorCustomize>({
-        struct: 'ColorCustomize',
+      createStructParam('backTone', {
+        struct: structColorCustomize,
         text: {
           ja: 'エフェクト色調1',
         },
@@ -126,8 +250,8 @@ const cutinSetCommonParams = [
           blue: 128,
         },
       }),
-      createStructParam('borderTone')<typeof structColorCustomize>({
-        struct: 'ColorCustomize',
+      createStructParam('borderTone', {
+        struct: structColorCustomize,
         text: {
           ja: 'エフェクト色調2',
         },
@@ -144,7 +268,7 @@ const cutinSetCommonParams = [
           blue: 0,
         },
       }),
-      createFileParam('backImage1')({
+      createFileParam('backImage1', {
         text: {
           ja: '背景画像1',
         },
@@ -157,7 +281,7 @@ const cutinSetCommonParams = [
         dir: 'img/pictures',
         default: '',
       }),
-      createFileParam('backImage2')({
+      createFileParam('backImage2', {
         text: {
           ja: '背景画像2',
         },
@@ -170,7 +294,7 @@ const cutinSetCommonParams = [
         dir: 'img/pictures',
         default: '',
       }),
-      createFileParam('borderImage')({
+      createFileParam('borderImage', {
         text: {
           ja: '境界線画像',
         },
@@ -183,7 +307,7 @@ const cutinSetCommonParams = [
         dir: 'img/pictures',
         default: '',
       }),
-      createSelectParam('borderBlendMode')({
+      createSelectParam('borderBlendMode', {
         text: {
           ja: '境界線画像のブレンド',
         },
@@ -215,8 +339,8 @@ const cutinSetCommonParams = [
         ],
         default: '',
       }),
-      createStructParam('sound')<typeof structSound>({
-        struct: 'Sound',
+      createStructParam('sound', {
+        struct: structSound,
         text: {
           ja: '効果音',
         },
@@ -236,7 +360,7 @@ const cutinSetCommonParams = [
     ],
   }),
 
-  createNoteParam('note')({
+  createNoteParam('note', {
     text: {
       ja: 'メモ欄',
     },
@@ -250,13 +374,13 @@ const cutinSetCommonParams = [
   }),
 ] as const;
 
-const structActorCutinSet = createStruct('ActorCutinSet')([
-  ...createParamGroup('base')({
+const structActorCutinSet = createStruct('ActorCutinSet', [
+  ...createParamGroup('base', {
     text: {
       ja: '■ 対象設定',
     },
     children: [
-      createDatabaseParam('actorId')({
+      createDatabaseParam('actorId', {
         type: 'actor',
         text: {
           ja: 'アクターのID',
@@ -268,7 +392,7 @@ const structActorCutinSet = createStruct('ActorCutinSet')([
         },
         default: 0,
       }),
-      createDatabaseParam('skillId')({
+      createDatabaseParam('skillId', {
         type: 'skill',
         text: {
           ja: 'スキルのID',
@@ -286,13 +410,13 @@ const structActorCutinSet = createStruct('ActorCutinSet')([
   ...cutinSetCommonParams,
 ]);
 
-const structEnemyCutinSet = createStruct('EnemyCutinSet')([
-  ...createParamGroup('base')({
+const structEnemyCutinSet = createStruct('EnemyCutinSet', [
+  ...createParamGroup('base', {
     text: {
       ja: '■ 対象設定',
     },
     children: [
-      createDatabaseParam('enemyId')({
+      createDatabaseParam('enemyId', {
         type: 'enemy',
         text: {
           ja: '敵のID',
@@ -304,7 +428,7 @@ const structEnemyCutinSet = createStruct('EnemyCutinSet')([
         },
         default: 0,
       }),
-      createDatabaseParam('skillId')({
+      createDatabaseParam('skillId', {
         type: 'skill',
         text: {
           ja: 'スキルのID',
@@ -321,130 +445,6 @@ const structEnemyCutinSet = createStruct('EnemyCutinSet')([
 
   ...cutinSetCommonParams,
 ] as const);
-
-const structColor = createStruct('Color')([
-  createNumberParam('red')({
-    text: {
-      ja: '赤',
-    },
-    description: {
-      ja: dedent`
-        赤色の強さを設定します。
-        -255から255の範囲で指定してください。
-      `,
-    },
-    min: -255,
-    max: 255,
-    default: 0,
-  }),
-  createNumberParam('green')({
-    text: {
-      ja: '緑',
-    },
-    description: {
-      ja: dedent`
-        緑色の強さを設定します。
-        -255から255の範囲で指定してください。
-      `,
-    },
-    min: -255,
-    max: 255,
-    default: 0,
-  }),
-  createNumberParam('blue')({
-    text: {
-      ja: '青',
-    },
-    description: {
-      ja: dedent`
-        青色の強さを設定します。
-        -255から255の範囲で指定してください。
-      `,
-    },
-    min: -255,
-    max: 255,
-    default: 0,
-  }),
-]);
-
-const structColorCustomize = createStruct('ColorCustomize')([
-  createBooleanParam('isUse')({
-    text: {
-      ja: '使用するか？',
-    },
-    description: {
-      ja: dedent`
-        個別設定を使用するか指定します。
-        使用しない場合は共通設定の色になります。
-      `,
-    },
-    on: {
-      ja: '使用する',
-    },
-    off: {
-      ja: '使用しない',
-    },
-    default: false,
-  }),
-  ...structColor.params,
-]);
-
-const structSound = createStruct('Sound')([
-  createFileParam('name')({
-    text: {
-      ja: '効果音ファイル',
-    },
-    description: {
-      ja: dedent`
-        効果音ファイルを選択します。
-      `,
-    },
-    dir: 'audio/se',
-    default: '',
-  }),
-  createNumberParam('volume')({
-    text: {
-      ja: '音量',
-    },
-    description: {
-      ja: dedent`
-        効果音の音量を指定します。
-        0から100の範囲で指定してください。
-      `,
-    },
-    min: 0,
-    max: 100,
-    default: 90,
-  }),
-  createNumberParam('pitch')({
-    text: {
-      ja: 'ピッチ',
-    },
-    description: {
-      ja: dedent`
-        効果音のピッチを指定します。
-        100が通常です。
-      `,
-    },
-    min: 0,
-    max: 200,
-    default: 100,
-  }),
-  createNumberParam('pan')({
-    text: {
-      ja: 'パン',
-    },
-    description: {
-      ja: dedent`
-        効果音のパンを指定します。
-        0が通常です。
-      `,
-    },
-    min: -100,
-    max: 100,
-    default: 0,
-  }),
-]);
 
 const common: Partial<TorigoyaPluginConfigSchema> = {
   version: '1.3.2',
@@ -568,13 +568,13 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
     `,
   },
   params: [
-    ...createParamGroup('base')({
+    ...createParamGroup('base', {
       text: {
         ja: '■ カットイン設定',
       },
       children: [
-        createStructParamArray('actorConfig')<typeof structActorCutinSet>({
-          struct: 'ActorCutinSet',
+        createStructParamArray('actorConfig', {
+          struct: structActorCutinSet,
           text: {
             ja: '味方のカットイン設定',
           },
@@ -586,8 +586,8 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           },
           default: [],
         }),
-        createStructParamArray('enemyConfig')<typeof structEnemyCutinSet>({
-          struct: 'EnemyCutinSet',
+        createStructParamArray('enemyConfig', {
+          struct: structEnemyCutinSet,
           text: {
             ja: '敵のカットイン設定',
           },
@@ -602,12 +602,12 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
       ],
     }),
 
-    ...createParamGroup('common')({
+    ...createParamGroup('common', {
       text: {
         ja: '■ 共通設定',
       },
       children: [
-        createFileParam('commonBackImage1')({
+        createFileParam('commonBackImage1', {
           text: {
             ja: '背景画像1',
           },
@@ -619,7 +619,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           dir: 'img/pictures',
           default: 'CutIn_back1',
         }),
-        createFileParam('commonBackImage2')({
+        createFileParam('commonBackImage2', {
           text: {
             ja: '背景画像2',
           },
@@ -631,7 +631,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           dir: 'img/pictures',
           default: 'CutIn_back2',
         }),
-        createFileParam('commonBorderImage')({
+        createFileParam('commonBorderImage', {
           text: {
             ja: '境界線画像',
           },
@@ -643,7 +643,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           dir: 'img/pictures',
           default: 'CutIn_border',
         }),
-        createSelectParam('commonBorderBlendMode')({
+        createSelectParam('commonBorderBlendMode', {
           text: {
             ja: '境界線画像のブレンド',
           },
@@ -669,7 +669,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           ],
           default: 'add',
         }),
-        createNumberParam('commonBorderSpeed')({
+        createNumberParam('commonBorderSpeed', {
           text: {
             ja: '境界線画像の移動速度',
           },
@@ -680,8 +680,8 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           },
           default: 30,
         }),
-        createStructParam('commonSound')<typeof structSound>({
-          struct: 'Sound',
+        createStructParam('commonSound', {
+          struct: structSound,
           text: {
             ja: '効果音',
           },
@@ -698,7 +698,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             pan: 0,
           },
         }),
-        createSelectParam('cutInLayer')({
+        createSelectParam('cutInLayer', {
           text: {
             ja: 'カットインの表示レイヤー',
           },
@@ -730,7 +730,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           ],
           default: 'foreground',
         }),
-        createNumberParam('cutInOpenAndCloseTime')({
+        createNumberParam('cutInOpenAndCloseTime', {
           text: {
             ja: 'カットイン表示開始/終了アニメーション時間',
           },
@@ -742,7 +742,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           },
           default: 25,
         }),
-        createNumberParam('cutInStopTime')({
+        createNumberParam('cutInStopTime', {
           text: {
             ja: 'カットイン停止時間',
           },
@@ -757,12 +757,12 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
       ],
     }),
 
-    ...createParamGroup('commonActor')({
+    ...createParamGroup('commonActor', {
       text: {
         ja: '■ 味方用の共通設定',
       },
       children: [
-        createStringParam('actorBackColor1')({
+        createStringParam('actorBackColor1', {
           text: {
             ja: '味方: 背景色1',
           },
@@ -773,7 +773,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           },
           default: '#000033',
         }),
-        createStringParam('actorBackColor2')({
+        createStringParam('actorBackColor2', {
           text: {
             ja: '味方: 背景色2',
           },
@@ -785,8 +785,8 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           },
           default: '#6666ff',
         }),
-        createStructParam('actorBackTone')<typeof structColor>({
-          struct: 'Color',
+        createStructParam('actorBackTone', {
+          struct: structColor,
           text: {
             ja: '味方: エフェクト色調1',
           },
@@ -802,8 +802,8 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             blue: 128,
           },
         }),
-        createStructParam('actorBorderTone')<typeof structColor>({
-          struct: 'Color',
+        createStructParam('actorBorderTone', {
+          struct: structColor,
           text: {
             ja: '味方: エフェクト色調2',
           },
@@ -822,12 +822,12 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
       ],
     }),
 
-    ...createParamGroup('commonEnemy')({
+    ...createParamGroup('commonEnemy', {
       text: {
         ja: '■ 敵用の共通設定',
       },
       children: [
-        createStringParam('enemyBackColor1')({
+        createStringParam('enemyBackColor1', {
           text: {
             ja: '敵: 背景色1',
           },
@@ -838,7 +838,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           },
           default: '#330000',
         }),
-        createStringParam('enemyBackColor2')({
+        createStringParam('enemyBackColor2', {
           text: {
             ja: '敵: 背景色2',
           },
@@ -850,8 +850,8 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
           },
           default: '#ff6666',
         }),
-        createStructParam('enemyBackTone')<typeof structColor>({
-          struct: 'Color',
+        createStructParam('enemyBackTone', {
+          struct: structColor,
           text: {
             ja: '敵: エフェクト色調1',
           },
@@ -867,8 +867,8 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             blue: -128,
           },
         }),
-        createStructParam('enemyBorderTone')<typeof structColor>({
-          struct: 'Color',
+        createStructParam('enemyBorderTone', {
+          struct: structColor,
           text: {
             ja: '敵: エフェクト色調2',
           },
@@ -899,11 +899,11 @@ export const TorigoyaMZ_SkillCutIn: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
   ...common,
   commands: [
-    createCommand('showActorCutIn')({
+    createCommand('showActorCutIn', {
       text: '味方カットインの表示',
       description: '味方のカットインを表示します。',
       args: [
-        createStringParam('name')({
+        createStringParam('name', {
           text: '使用カットイン名',
           description: dedent`
             カットイン設定のメモ欄で指定した呼び出し名を指定します。
@@ -912,11 +912,11 @@ export const TorigoyaMZ_SkillCutIn: Partial<TorigoyaPluginConfigSchema> = {
         }),
       ],
     }),
-    createCommand('showEnemyCutIn')({
+    createCommand('showEnemyCutIn', {
       text: '敵カットインの表示',
       description: '敵のカットインを表示します。',
       args: [
-        createStringParam('name')({
+        createStringParam('name', {
           text: '使用カットイン名',
           description: dedent`
             カットイン設定のメモ欄で指定した呼び出し名を指定します。

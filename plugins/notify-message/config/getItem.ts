@@ -1,0 +1,182 @@
+import {
+  createBooleanParam,
+  createDatabaseParam,
+  createNumberParam,
+  createParamGroup,
+  createStringParam,
+  createStruct,
+  createStructParam,
+  defineLabel,
+  TorigoyaPluginConfigSchema,
+} from '@rutan/torigoya-plugin-config';
+import dedent from 'dedent';
+import { structSound } from './_share.js';
+
+const structCustomSound = createStruct('CustomSound', [
+  createBooleanParam('overwrite', {
+    ...defineLabel({
+      ja: {
+        text: '効果音設定の上書き',
+        description: dedent`
+          通知表示時に再生する効果音を
+          デフォルトから上書き設定するか指定します。
+        `,
+      },
+    }),
+    on: {
+      ja: '上書きする',
+    },
+    off: {
+      ja: '上書きしない',
+    },
+    default: false,
+  }),
+  createStructParam('sound', {
+    struct: structSound,
+    ...defineLabel({
+      ja: {
+        text: '効果音',
+        description: dedent`
+          上書き設定する効果音の内容を指定します。
+          上書きしない場合、この設定は無視されます。
+        `,
+      },
+    }),
+    default: {
+      name: '',
+      volume: 90,
+      pitch: 100,
+      pan: 0,
+    },
+  }),
+]);
+
+export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfigSchema> = {
+  target: ['MZ'],
+  version: '1.2.0',
+  title: {
+    ja: '通知メッセージアドオン: アイテム獲得表示',
+  },
+  help: {
+    ja: dedent`
+      以下のイベントコマンド実行時に自動的に通知メッセージを表示します。
+      ※増やす場合のみ表示されます
+
+      ・所持金の増減
+      ・アイテムの増減
+      ・武器の増減
+      ・防具の増減
+
+      ------------------------------------------------------------
+      ■ 表示したくない場合
+      ------------------------------------------------------------
+      例えばお金の入手メッセージはいらない！という場合は、
+      お金の入手メッセージの内容を空欄にしてください。
+    `,
+  },
+  base: ['TorigoyaMZ_NotifyMessage'],
+  orderAfter: ['TorigoyaMZ_NotifyMessage'],
+  params: [
+    ...createParamGroup('base', {
+      text: {
+        ja: '■ 基本設定',
+      },
+      children: [
+        createStringParam('baseGainSingleMessage', {
+          ...defineLabel({
+            ja: {
+              text: 'アイテム入手メッセージ（1つ）',
+              description: dedent`
+                アイテムを1つ入手したときのメッセージを設定します。（\\\\name : アイテム名）
+              `,
+            },
+          }),
+          default: {
+            ja: '\\c[2]\\name\\c[0] を手に入れた！',
+          },
+        }),
+        createStringParam('baseGainMultiMessage', {
+          ...defineLabel({
+            ja: {
+              text: 'アイテム入手メッセージ（複数）',
+              description: dedent`
+                アイテムを複数入手したときのメッセージを設定します。（\\\\name : アイテム名  \\\\count : 個数）
+              `,
+            },
+          }),
+          default: {
+            ja: '\\c[2]\\name\\c[0] ×\\count を手に入れた！',
+          },
+        }),
+        createStringParam('baseGainMoneyMessage', {
+          ...defineLabel({
+            ja: {
+              text: 'お金入手メッセージ',
+              description: dedent`
+                お金を入手したときのメッセージを設定します。（\\\\gold : 獲得金額）
+              `,
+            },
+          }),
+          default: {
+            ja: '\\gold\\c[4]\\G\\c[0] を手に入れた！',
+          },
+        }),
+        createNumberParam('baseGainMoneyIcon', {
+          ...defineLabel({
+            ja: {
+              text: 'お金入手アイコン',
+              description: dedent`
+                お金を入手したときのアイコンIDを設定します。0の場合はアイコンを表示しません。
+              `,
+            },
+          }),
+          default: 0,
+        }),
+      ],
+    }),
+
+    ...createParamGroup('advanced', {
+      text: {
+        ja: '■ 上級者設定',
+      },
+      children: [
+        createDatabaseParam('advancedSwitch', {
+          type: 'switch',
+          ...defineLabel({
+            ja: {
+              text: '有効スイッチ',
+              description: dedent`
+                このスイッチがONのときのみ画面に通知するようにします。「なし」の場合は常に通知されます。
+              `,
+            },
+          }),
+        }),
+        createStructParam('advancedGainItemSound', {
+          struct: structCustomSound,
+          ...defineLabel({
+            ja: {
+              text: 'アイテム入手効果音の上書き',
+              description: dedent`
+                アイテムを入手したときに再生する効果音を指定します。
+                上書き設定をしない場合は通常の通知音が再生されます。
+              `,
+            },
+          }),
+        }),
+        createStructParam('advancedGainMoneySound', {
+          struct: structCustomSound,
+          ...defineLabel({
+            ja: {
+              text: 'お金入手効果音の上書き',
+              description: dedent`
+                お金を入手したときに再生する効果音を指定します。
+                上書き設定をしない場合は通常の通知音が再生されます。
+              `,
+            },
+          }),
+        }),
+      ],
+    }),
+  ],
+  structs: [structSound],
+};

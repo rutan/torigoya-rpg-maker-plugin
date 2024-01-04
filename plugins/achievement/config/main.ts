@@ -16,8 +16,8 @@ import {
 } from '@rutan/torigoya-plugin-config';
 import dedent from 'dedent';
 
-const structAchievement = createStruct('Achievement')([
-  createStringParam('key')({
+const structAchievement = createStruct('Achievement', [
+  createStringParam('key', {
     text: {
       ja: '管理ID',
     },
@@ -28,7 +28,7 @@ const structAchievement = createStruct('Achievement')([
       `,
     },
   }),
-  createStringParam('title')({
+  createStringParam('title', {
     text: {
       ja: '表示名',
     },
@@ -39,7 +39,7 @@ const structAchievement = createStruct('Achievement')([
       `,
     },
   }),
-  createMultiLineStringParam('description')({
+  createMultiLineStringParam('description', {
     text: {
       ja: '実績の説明文',
     },
@@ -49,7 +49,7 @@ const structAchievement = createStruct('Achievement')([
       `,
     },
   }),
-  createNumberParam('icon')({
+  createNumberParam('icon', {
     text: {
       ja: '実績のアイコンID',
     },
@@ -59,7 +59,7 @@ const structAchievement = createStruct('Achievement')([
       `,
     },
   }),
-  createMultiLineStringParam('hint')({
+  createMultiLineStringParam('hint', {
     text: {
       ja: '実績獲得のヒント',
     },
@@ -70,7 +70,7 @@ const structAchievement = createStruct('Achievement')([
       `,
     },
   }),
-  createBooleanParam('isSecret')({
+  createBooleanParam('isSecret', {
     text: {
       ja: '秘密実績フラグ',
     },
@@ -88,7 +88,7 @@ const structAchievement = createStruct('Achievement')([
     },
     default: false,
   }),
-  createNoteParam('note')({
+  createNoteParam('note', {
     text: {
       ja: 'メモ',
     },
@@ -101,8 +101,8 @@ const structAchievement = createStruct('Achievement')([
   }),
 ]);
 
-const structSound = createStruct('Sound')([
-  createFileParam('soundName')({
+const structSound = createStruct('Sound', [
+  createFileParam('soundName', {
     text: {
       ja: '効果音ファイル名',
     },
@@ -115,7 +115,7 @@ const structSound = createStruct('Sound')([
     dir: 'audio/se',
     default: 'Saint5',
   }),
-  createNumberParam('soundVolume')({
+  createNumberParam('soundVolume', {
     text: {
       ja: '効果音の音量',
     },
@@ -160,19 +160,19 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
   },
   params: [
     // 基本設定
-    ...createParamGroup('base')({
+    ...createParamGroup('base', {
       text: {
         ja: '■ 基本設定',
       },
       children: [
-        createStructParamArray('baseAchievementData')<typeof structAchievement>({
-          struct: 'Achievement',
+        createStructParamArray('baseAchievementData', {
+          struct: structAchievement,
           text: {
             ja: '実績情報の登録',
           },
           default: [],
         }),
-        createStringParam('baseSaveSlot')({
+        createStringParam('baseSaveSlot', {
           text: {
             ja: 'セーブデータのスロット名',
           },
@@ -182,12 +182,12 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
     }),
 
     // ポップアップ設定
-    ...createParamGroup('popup')({
+    ...createParamGroup('popup', {
       text: {
         ja: '■ ポップアップ設定',
       },
       children: [
-        createBooleanParam('popupEnable')({
+        createBooleanParam('popupEnable', {
           text: {
             ja: 'ポップアップ表示のON/OFF',
           },
@@ -204,7 +204,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           },
           default: true,
         }),
-        createSelectParam('popupPosition')({
+        createSelectParam('popupPosition', {
           text: {
             ja: '表示位置',
           },
@@ -219,7 +219,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           ] as const,
           default: 'leftUp',
         }),
-        createNumberParam('popupTopY')({
+        createNumberParam('popupTopY', {
           text: {
             ja: '表示位置: 上端',
           },
@@ -231,7 +231,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           min: 0,
           default: 10,
         }),
-        createSelectParam('popupAnimationType')({
+        createSelectParam('popupAnimationType', {
           text: {
             ja: 'アニメーション',
           },
@@ -247,7 +247,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           ] as const,
           default: 'tween',
         }),
-        createNumberParam('popupWait')({
+        createNumberParam('popupWait', {
           text: {
             ja: '表示時間',
           },
@@ -261,7 +261,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           min: 0,
           default: 1.25,
         }),
-        createNumberParam('popupWidth')({
+        createNumberParam('popupWidth', {
           text: {
             ja: 'ポップアップの横幅',
           },
@@ -274,7 +274,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           min: 200,
           default: 300,
         }),
-        createNumberParam('popupPadding')({
+        createNumberParam('popupPadding', {
           text: {
             ja: 'ポップアップの余白',
           },
@@ -286,7 +286,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           min: 0,
           default: 10,
         }),
-        createNumberParam('popupTitleFontSize')({
+        createNumberParam('popupTitleFontSize', {
           text: {
             ja: '実績名の文字サイズ',
           },
@@ -299,7 +299,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           min: 16,
           default: 20,
         }),
-        createNumberParam('popupTitleColor')({
+        createNumberParam('popupTitleColor', {
           text: {
             ja: '実績名の文字の色番号',
           },
@@ -312,7 +312,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           min: 0,
           default: 1,
         }),
-        createStringParam('popupMessage')({
+        createStringParam('popupMessage', {
           text: {
             ja: 'メッセージの内容',
           },
@@ -326,7 +326,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '実績を獲得しました',
           },
         }),
-        createNumberParam('popupMessageFontSize')({
+        createNumberParam('popupMessageFontSize', {
           text: {
             ja: 'メッセージの文字サイズ',
           },
@@ -339,8 +339,8 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           min: 12,
           default: 16,
         }),
-        createStructParam('popupSound')<typeof structSound>({
-          struct: 'Sound',
+        createStructParam('popupSound', {
+          struct: structSound,
           text: {
             ja: '効果音',
           },
@@ -354,7 +354,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             soundVolume: 90,
           },
         }),
-        createFileParam('popupWindowImage')({
+        createFileParam('popupWindowImage', {
           text: {
             ja: 'ウィンドウ画像',
           },
@@ -366,7 +366,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           dir: 'img/system',
           default: 'Window',
         }),
-        createNumberParam('popupOpacity')({
+        createNumberParam('popupOpacity', {
           text: {
             ja: 'ウィンドウ背景の透明度',
           },
@@ -384,12 +384,12 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
     }),
 
     // タイトル / メニュー画面設定
-    ...createParamGroup('titleMenu')({
+    ...createParamGroup('titleMenu', {
       text: {
         ja: 'ポップアップ表示のON/OFF',
       },
       children: [
-        createBooleanParam('titleMenuUseInTitle')({
+        createBooleanParam('titleMenuUseInTitle', {
           text: {
             ja: 'タイトル画面に表示',
           },
@@ -406,7 +406,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           },
           default: true,
         }),
-        createBooleanParam('titleMenuUseInMenu')({
+        createBooleanParam('titleMenuUseInMenu', {
           text: {
             ja: 'メニュー画面に表示',
           },
@@ -423,7 +423,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           },
           default: true,
         }),
-        createStringParam('titleMenuText')({
+        createStringParam('titleMenuText', {
           text: {
             ja: '項目名',
           },
@@ -441,12 +441,12 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
     }),
 
     // 実績画面設定
-    ...createParamGroup('achievementMenu')({
+    ...createParamGroup('achievementMenu', {
       text: {
         ja: '■ 実績画面設定',
       },
       children: [
-        createStringParam('achievementMenuHiddenTitle')({
+        createStringParam('achievementMenuHiddenTitle', {
           text: {
             ja: '未獲得実績の表示名',
           },
@@ -460,7 +460,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '？？？？？',
           },
         }),
-        createNumberParam('achievementMenuHiddenIcon')({
+        createNumberParam('achievementMenuHiddenIcon', {
           text: {
             ja: '未獲得実績のアイコンID',
           },
@@ -476,12 +476,12 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
     }),
 
     // 上級者向け設定
-    ...createParamGroup('advanced')({
+    ...createParamGroup('advanced', {
       text: {
         ja: '■ 上級者向け設定',
       },
       children: [
-        createStringParam('advancedFontFace')({
+        createStringParam('advancedFontFace', {
           text: {
             ja: 'ポップアップのフォント',
           },
@@ -493,7 +493,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
           },
           default: '',
         }),
-        createBooleanParam('advancedOverwritable')({
+        createBooleanParam('advancedOverwritable', {
           text: {
             ja: '獲得済み実績の再取得',
           },
@@ -537,7 +537,7 @@ export const TorigoyaMZ_Achievement2: Partial<TorigoyaPluginConfigSchema> = {
     `,
   }),
   commands: [
-    createCommand('gainAchievement')({
+    createCommand('gainAchievement', {
       text: {
         ja: '実績の獲得',
       },
@@ -547,7 +547,7 @@ export const TorigoyaMZ_Achievement2: Partial<TorigoyaPluginConfigSchema> = {
         `,
       },
       args: [
-        createStringParam('key')({
+        createStringParam('key', {
           text: {
             ja: '実績の管理ID',
           },
@@ -559,7 +559,7 @@ export const TorigoyaMZ_Achievement2: Partial<TorigoyaPluginConfigSchema> = {
         }),
       ],
     }),
-    createCommand('openSceneAchievement')({
+    createCommand('openSceneAchievement', {
       text: {
         ja: '実績画面の表示',
       },
@@ -570,7 +570,7 @@ export const TorigoyaMZ_Achievement2: Partial<TorigoyaPluginConfigSchema> = {
       },
       args: [],
     }),
-    createCommand('resetAchievement')({
+    createCommand('resetAchievement', {
       text: {
         ja: '全実績の削除（注意！）',
       },

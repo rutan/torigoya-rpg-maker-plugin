@@ -9,8 +9,8 @@ import {
 } from '@rutan/torigoya-plugin-config';
 import dedent from 'dedent';
 
-const structRewardPicture = createStruct('rewardPicture')([
-  createStringParam('key')({
+const structRewardPicture = createStruct('rewardPicture', [
+  createStringParam('key', {
     text: {
       ja: '実績ID',
     },
@@ -21,7 +21,7 @@ const structRewardPicture = createStruct('rewardPicture')([
       `,
     },
   }),
-  createFileParamArray('picture')({
+  createFileParamArray('picture', {
     text: {
       ja: 'ご褒美の画像',
     },
@@ -60,13 +60,13 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
     `,
   },
   params: [
-    ...createParamGroup('base')({
+    ...createParamGroup('base', {
       text: {
         ja: '■ 基本設定',
       },
       children: [
-        createStructParamArray('baseRewardData')<typeof structRewardPicture>({
-          struct: 'rewardPicture',
+        createStructParamArray('baseRewardData', {
+          struct: structRewardPicture,
           text: {
             ja: 'ご褒美ピクチャーの登録',
           },
