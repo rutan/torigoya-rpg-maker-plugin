@@ -52,9 +52,9 @@ function generateParameterReaderCode(param: PluginParameter) {
   const defaultValue = readDefaultValue(param.default);
 
   if (param.type === 'struct') {
-    return `${param.name}: readStruct${param.struct}(parseStructObjectParam(parameters[${JSON.stringify(param.name)}], ${JSON.stringify(
-      defaultValue,
-    )}))`;
+    return `${param.name}: readStruct${param.struct}(parseStructObjectParam(parameters[${JSON.stringify(
+      param.name,
+    )}], ${JSON.stringify(defaultValue)}))`;
   } else if (param.type === 'struct[]') {
     return `${param.name}: parseStructObjectParam(parameters[${JSON.stringify(param.name)}], ${JSON.stringify(
       defaultValue,
@@ -68,7 +68,7 @@ function generateParameterReaderCode(param: PluginParameter) {
 
 type I18nObject<T> = {
   [key: string]: T;
-}
+};
 
 function isI18nObject<T>(obj: I18nObject<T> | T): obj is I18nObject<T> {
   if (typeof obj !== 'object') return false;
@@ -155,4 +155,4 @@ function detectFuncNameFromType(param: PluginParameter) {
       throw `unknown parameter: ${error}`;
     }
   }
-};
+}

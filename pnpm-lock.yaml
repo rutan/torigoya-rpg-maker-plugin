@@ -45,6 +45,9 @@ importers:
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
+      dedent:
+        specifier: ^1.5.1
+        version: 1.5.1
       ejs:
         specifier: ^3.1.9
         version: 3.1.9
@@ -2457,6 +2460,15 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       mimic-response: 3.1.0
+    dev: true
+
+  /dedent@1.5.1:
+    resolution: {integrity: sha512-+LxW+KLWxu3HW3M2w2ympwtqPrqYRzU8fqi6Fhd18fBALe15blJPI/I4+UHveMVG6lJqB4JNd4UG0S5cnVHwIg==}
+    peerDependencies:
+      babel-plugin-macros: ^3.1.0
+    peerDependenciesMeta:
+      babel-plugin-macros:
+        optional: true
     dev: true
 
   /deep-extend@0.6.0:
