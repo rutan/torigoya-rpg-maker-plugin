@@ -39,7 +39,6 @@
     "rimraf": "^5.0.5",
     "rollup": "^4.9.1",
     "scaffdog": "^3.0.0",
-    "simple-git": "^3.21.0",
     "turbo": "^1.11.2",
     "typescript": "^5.3.3",
     "yaml": "^2.3.4"

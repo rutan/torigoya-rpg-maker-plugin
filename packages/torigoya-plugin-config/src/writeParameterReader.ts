@@ -16,7 +16,7 @@ export async function writeParameterReader(config: TorigoyaPluginConfigSchema, o
   const structCode = config.structs
     .map((struct) => {
       return `
-function readStruct${struct.name}(parameters) {
+export function readStruct${struct.name}(parameters) {
   parameters = typeof parameters === 'string' ? JSON.parse(parameters) : parameters;
   return {
     ${struct.params.map(generateParameterReaderCode).join(',\n    ')}

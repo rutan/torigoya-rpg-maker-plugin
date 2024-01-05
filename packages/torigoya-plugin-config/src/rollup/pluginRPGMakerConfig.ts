@@ -1,40 +1,22 @@
 import { readFileSync } from 'fs';
 import * as path from 'path';
 import ejs from 'ejs';
-import { simpleGit, LogResult } from 'simple-git';
 import { loadConfig } from '../loadConfig.js';
 import { writeAnnotation } from '../writeAnnotation.js';
 import { writeParameterReader } from '../writeParameterReader.js';
-import { Plugin, RenderedChunk } from 'rollup';
+import { Plugin } from 'rollup';
 import { mkdirp } from 'mkdirp';
 import { format } from 'prettier';
 
-const git = simpleGit();
-
-function formatDate(date: Date) {
-  return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(
-    2,
-    '0',
-  )} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
-}
-
-async function getLatestDate(chunk: RenderedChunk) {
-  const dates = (
-    await Promise.all(
-      Object.keys(chunk.modules).map((file) => {
-        return new Promise<LogResult | null>((resolve) => {
-          git
-            .log({ file, multiLine: false })
-            .then((result) => resolve(result))
-            .catch(() => resolve(null));
-        });
-      }),
-    )
-  )
-    .map((date) => new Date(date?.latest?.date || 0))
-    .sort((a, b) => a.getTime() - b.getTime());
-
-  return dates.length > 0 ? dates[dates.length - 1] : new Date();
+function formatJSTDate(date: Date) {
+  return date.toLocaleString('ja-JP', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
 }
 
 async function buildConfig(config: string, buildDir: string) {
@@ -48,10 +30,10 @@ async function buildConfig(config: string, buildDir: string) {
 
         return [
           writeAnnotation(config, `${buildDir}/${key}_header.js`),
-          writeParameterReader(config, `${buildDir}/${key}_parameter.js`),
+          writeParameterReader(config, `${buildDir}/${key}_parameter.js`)
         ];
       })
-      .flat(),
+      .flat()
   );
 
   return configData;
@@ -79,27 +61,26 @@ export default async function pluginRPGMakerConfig(options: {
     async renderChunk(code, chunk, _options, _meta) {
       if (chunk.facadeModuleId) {
         const name = path.basename(chunk.facadeModuleId, '.js');
-        const date = process.env.NODE_ENV === 'production' ? await getLatestDate(chunk) : new Date();
         const help = readFileSync(path.resolve(chunk.facadeModuleId, '..', '_build', `${name}_header.js`), 'utf-8');
 
         return format(
           template({
             name,
             version: configData[name]?.version || '',
-            date: formatDate(date),
+            date: formatJSTDate(new Date()),
             help,
-            code,
+            code
           }),
           {
             parser: 'babel',
             printWidth: 120,
             tabWidth: 4,
-            singleQuote: true,
-          },
+            singleQuote: true
+          }
         );
       } else {
         return code;
       }
-    },
+    }
   };
 }
