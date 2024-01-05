@@ -8,16 +8,16 @@ import {
   createStringParam,
   createStruct,
   createStructParamArray,
+  dd,
   TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
 
 const paramFileName = createStringParam('fileName', {
   text: {
     ja: '本棚のファイル名',
   },
   description: {
-    ja: dedent`
+    ja: dd`
       読み込むテキストのファイル名を指定してください。
       フォルダ(bookshelf)の名前は含める必要ありません。
     `,
@@ -30,7 +30,7 @@ const structMenuItem = createStruct('MenuItem', [
       ja: '項目名',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         メニューに表示される項目の名前
       `,
     },
@@ -42,7 +42,7 @@ const structMenuItem = createStruct('MenuItem', [
       ja: '有効スイッチ',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         このスイッチがONのときのみ選択できるようにします。
         なしの場合は、常に選択できます。
       `,
@@ -53,7 +53,7 @@ const structMenuItem = createStruct('MenuItem', [
       ja: '無効時に表示するか',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         有効スイッチがONじゃないときに
         項目をメニューに表示するか設定できます。
       `,
@@ -71,7 +71,7 @@ const structMenuItem = createStruct('MenuItem', [
       ja: 'メモ欄',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         メモ欄です。
         ツクールのメモ欄同様に使えます。
       `,
@@ -85,7 +85,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
     ja: 'テキスト本棚プラグイン',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       テキストファイルから本棚シーンを作成します。
       使い方の詳細は解説ページをご覧ください。
       https://torigoya-plugin.rutan.dev/system/bookshelf/
@@ -183,7 +183,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '本棚名の文字サイズ',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               本棚の名前のフォントサイズを指定します。
             `,
           },
@@ -195,7 +195,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '本の一覧の横幅',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               本棚画面の本の一覧の横幅を指定します。
               0の場合、UI領域をすべて使用します。
             `,
@@ -208,7 +208,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '本の一覧の最大縦幅',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               本棚画面の本の一覧の最大縦幅を指定します。
               0の場合、UI領域をすべて使用します。
             `,
@@ -221,7 +221,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '本の中身の文字サイズ',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               本の中身ウィンドウのフォントサイズを指定します。
             `,
           },
@@ -233,7 +233,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '本の中身の横幅',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               本の中身ウィンドウの横幅を指定します。
               0の場合、UI領域をすべて使用します。
             `,
@@ -246,7 +246,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '本の中身の縦幅',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               本の中身ウィンドウの縦幅を指定します。
               0の場合、UI領域をすべて使用します。
             `,
@@ -288,7 +288,7 @@ export const TorigoyaMZ_Bookshelf: Partial<TorigoyaPluginConfigSchema> = {
         ja: '本棚の表示',
       },
       description: {
-        ja: dedent`
+        ja: dd`
           指定ファイルを読み込み、本棚を表示します
         `,
       },

@@ -6,9 +6,9 @@ import {
   createStringParam,
   createStruct,
   createStructParamArray,
+  dd,
   TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
 
 const structMenuItem = createStruct('MenuItem', [
   createStringParam('name', {
@@ -34,7 +34,7 @@ const structMenuItem = createStruct('MenuItem', [
       ja: '有効スイッチ',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         このスイッチがONのときのみ選択できるようにします。
         なしの場合は、常に選択できます。
       `,
@@ -45,7 +45,7 @@ const structMenuItem = createStruct('MenuItem', [
       ja: '無効時に表示するか',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         有効スイッチがONじゃないときに
         項目をメニューに表示するか設定できます。
       `,
@@ -63,7 +63,7 @@ const structMenuItem = createStruct('MenuItem', [
       ja: 'メモ',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         メモ欄です。
         ツクールのメモ欄同様に使えます。
       `,
@@ -87,17 +87,29 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
           text: {
             ja: 'メニューに追加する項目',
           },
+          default: {
+            ja: [
+              {
+                name: 'コモンイベント1',
+                commonEvent: 1,
+                switchId: 0,
+                visibility: true,
+                note: '',
+              },
+            ],
+          },
         }),
       ],
     }),
   ],
+  structs: [structMenuItem],
 };
 
 export const Torigoya_CommonMenu: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MV'],
   ...base,
   help: {
-    ja: dedent`
+    ja: dd`
       メニューにコモンイベントを呼び出す項目を追加します
 
       ------------------------------------------------------------
@@ -114,7 +126,7 @@ export const TorigoyaMZ_CommonMenu: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
   ...base,
   help: {
-    ja: dedent`
+    ja: dd`
       メニューにコモンイベントを呼び出す項目を追加します
 
       ------------------------------------------------------------

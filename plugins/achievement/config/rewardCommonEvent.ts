@@ -1,5 +1,4 @@
-import { TorigoyaPluginConfigSchema } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
+import { dd, TorigoyaPluginConfigSchema } from '@rutan/torigoya-plugin-config';
 
 const base: Partial<TorigoyaPluginConfigSchema> = {
   version: '1.0.0',
@@ -7,7 +6,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
     ja: '実績プラグインアドオン: ご褒美コモンイベント',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       このプラグインは「実績プラグイン」のアドオンです。
       実績プラグインより下に導入してください。
 

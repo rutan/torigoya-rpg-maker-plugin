@@ -21,6 +21,11 @@ import {
   PluginStruct,
   PluginCommand,
 } from '@rutan/rpgmaker-plugin-annotation';
+import { dedent } from '@qnighy/dedent';
+
+export function dd(str: TemplateStringsArray, ...substitutions: unknown[]) {
+  return dedent(str, ...substitutions).trim();
+}
 
 export type I18nText = {
   en?: string;
@@ -76,7 +81,7 @@ export function createParamGroup<T extends string, U extends PluginParameter[]>(
       default: '',
       isParamGroupHeader: true,
     } as const,
-    ...children,
+    ...(children.map((child) => ({ ...child, parent: name })) as any as U),
   ];
 }
 
@@ -282,6 +287,7 @@ export function createBooleanParam<T extends string>(
   return {
     name,
     type: 'boolean',
+    text: props.text,
     description: props.description,
     on: props.on,
     off: props.off,
@@ -508,7 +514,12 @@ export function createStructParamArray<T extends string, U extends PluginStruct>
     struct: U;
     text: string | I18nText;
     description?: string | I18nText;
-    default?: StructDefaultValueType<U['params']>[];
+    default?:
+      | StructDefaultValueType<U['params']>[]
+      | {
+          en?: StructDefaultValueType<U['params']>[];
+          ja?: StructDefaultValueType<U['params']>[];
+        };
   },
 ): PluginParameterStructArray & {
   name: T;

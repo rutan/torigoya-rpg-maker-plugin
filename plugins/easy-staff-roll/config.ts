@@ -1,5 +1,6 @@
 import {
   createBooleanParam,
+  createCommand,
   createFileParam,
   createMultiLineStringParam,
   createNumberParam,
@@ -9,9 +10,10 @@ import {
   createStruct,
   createStructParam,
   createStructParamArray,
+  dd,
+  defineLabel,
   TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
 
 const structItem = createStruct('Item', [
   createMultiLineStringParam('title', {
@@ -19,7 +21,7 @@ const structItem = createStruct('Item', [
       ja: 'スタッフ名',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         スタッフロールに表示するスタッフ名を入力します。
       `,
     },
@@ -29,7 +31,7 @@ const structItem = createStruct('Item', [
       ja: '補足文章',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         スタッフ名の下に表示する補足文章を入力します。
         URLなどを入力することを想定しています。
       `,
@@ -40,7 +42,7 @@ const structItem = createStruct('Item', [
       ja: '画像',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         スタッフ名の上に表示するピクチャー画像を入力します。
         省略した場合は画像を表示しません。
       `,
@@ -55,7 +57,7 @@ const structSection = createStruct('Section', [
       ja: '見出し',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         見出し部分の文字列を指定します。
       `,
     },
@@ -66,7 +68,7 @@ const structSection = createStruct('Section', [
       ja: 'スタッフ名',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         スタッフロールに表示するスタッフ名を入力します。
       `,
     },
@@ -79,7 +81,7 @@ const structTextConfig = createStruct('TextConfig', [
       ja: '文字サイズ',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         文字サイズを指定します(px)
       `,
     },
@@ -92,7 +94,7 @@ const structTextConfig = createStruct('TextConfig', [
       ja: '文字色',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         文字色をCSSの書式で指定します。
         （例：#ffffff）
       `,
@@ -104,7 +106,7 @@ const structTextConfig = createStruct('TextConfig', [
       ja: '太字',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         文字を太字にするか指定します。
         （※フォントによっては反映されない場合があります）
       `,
@@ -118,7 +120,7 @@ const structTextConfig = createStruct('TextConfig', [
       ja: '斜体',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         文字を斜体にするか指定します。
         （※フォントによっては反映されない場合があります）
       `,
@@ -132,7 +134,7 @@ const structTextConfig = createStruct('TextConfig', [
       ja: '縁取りの色',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         文字の縁取りの色をCSSの書式で指定します。
         （例：#ffffff）
       `,
@@ -144,7 +146,7 @@ const structTextConfig = createStruct('TextConfig', [
       ja: '縁取りのサイズ',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         文字の縁取りの太さを指定します。
       `,
     },
@@ -160,7 +162,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
     ja: 'お手軽スタッフロールプラグイン',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       このプラグインは「実績プラグイン」のアドオンです。
       実績プラグインより下に導入してください。
 
@@ -230,7 +232,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: 'スタッフロールの内容',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               スタッフロールの内容を設定します。
             `,
           },
@@ -249,7 +251,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '見出し部分の文字設定',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               スタッフロールの見出し部分の文字設定です。
             `,
           },
@@ -267,7 +269,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '各セクション間の余白',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               各セクション（見出しごとのブロック）の間の余白の大きさを指定します。
             `,
           },
@@ -281,7 +283,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: 'スタッフ名の文字設定',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               スタッフロールのスタッフ名部分の文字設定です。
             `,
           },
@@ -300,7 +302,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '補足文章の文字設定',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               スタッフロールの補足文章部分の文字設定です。
             `,
           },
@@ -318,7 +320,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '各スタッフ名間の余白',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               各スタッフ名の間の余白の大きさを指定します。
             `,
           },
@@ -331,7 +333,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '文字の水平配置位置',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               見出しやスタッフ名の文字の水平方向の配置位置を指定します。
             `,
           },
@@ -347,7 +349,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '文字の水平方向の余白',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               文字の両側の余白サイズを指定します。
             `,
           },
@@ -358,13 +360,14 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
       ],
     }),
   ],
+  structs: [structSection, structItem, structTextConfig],
 };
 
 export const Torigoya_EasyStaffRoll: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MV'],
   ...base,
   help: {
-    ja: dedent`
+    ja: dd`
       スタッフロールを表示する機能を追加します。
 
       ------------------------------------------------------------
@@ -408,7 +411,7 @@ export const TorigoyaMZ_EasyStaffRoll: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
   ...base,
   help: {
-    ja: dedent`
+    ja: dd`
       スタッフロールを表示する機能を追加します。
 
       ------------------------------------------------------------
@@ -433,4 +436,65 @@ export const TorigoyaMZ_EasyStaffRoll: Partial<TorigoyaPluginConfigSchema> = {
       このコマンドを実行すると、そのタイミングで画像類の読み込み＆生成が実行されます。
     `,
   },
+  commands: [
+    createCommand('displayStaffRoll', {
+      ...defineLabel({
+        ja: {
+          text: 'スタッフロールの表示',
+          description: 'スタッフロールを表示します。',
+        },
+      }),
+      args: [
+        createNumberParam('displayFrame', {
+          ...defineLabel({
+            ja: {
+              text: '表示フレーム（1/60秒）',
+              description: dd`
+                スタッフロールを表示するフレーム数を指定します。
+                60＝1秒です。
+              `,
+            },
+          }),
+          min: 1,
+          max: 100000,
+          default: 600,
+        }),
+        createBooleanParam('isWait', {
+          ...defineLabel({
+            ja: {
+              text: '完了するまでウェイト',
+              description: dd`
+                スタッフロールの表示が終了するまでイベントを停止するか指定します。
+              `,
+            },
+          }),
+          on: {
+            ja: 'ウェイトする',
+          },
+          off: {
+            ja: 'ウェイトしない',
+          },
+          default: true,
+        }),
+      ],
+    }),
+    createCommand('removeStaffRoll', {
+      ...defineLabel({
+        ja: {
+          text: 'スタッフロールの消去',
+          description: '現在表示中のスタッフロールを消去します。',
+        },
+      }),
+      args: [],
+    }),
+    createCommand('preloadStaffRoll', {
+      ...defineLabel({
+        ja: {
+          text: 'スタッフロールのプリロード',
+          description: 'スタッフロール内で使用する画像の事前読み込みを実行します。',
+        },
+      }),
+      args: [],
+    }),
+  ],
 };

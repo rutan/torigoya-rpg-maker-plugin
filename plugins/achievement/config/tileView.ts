@@ -1,5 +1,4 @@
-import { createNumberParam, createParamGroup, TorigoyaPluginConfigSchema } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
+import { createNumberParam, createParamGroup, dd, TorigoyaPluginConfigSchema } from '@rutan/torigoya-plugin-config';
 
 const base: Partial<TorigoyaPluginConfigSchema> = {
   version: '1.2.1',
@@ -7,7 +6,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
     ja: '実績プラグインアドオン: タイル表示',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       このプラグインは「実績プラグイン」のアドオンです。
       実績プラグインより下に導入してください。
 
@@ -26,7 +25,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: '表示数（横）',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               一列に表示するアイコンの個数
             `,
           },
@@ -38,7 +37,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
             ja: 'アイコンの余白',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               アイコンの周囲の余白(px)
             `,
           },

@@ -1,5 +1,9 @@
-import { createParamGroup, createStringParamArray, TorigoyaPluginConfigSchema } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
+import {
+  createParamGroup,
+  createStringParamArray,
+  dd,
+  TorigoyaPluginConfigSchema,
+} from '@rutan/torigoya-plugin-config';
 
 export const TorigoyaMZ_SmoothValueGauge: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
@@ -8,7 +12,7 @@ export const TorigoyaMZ_SmoothValueGauge: Partial<TorigoyaPluginConfigSchema> = 
     ja: 'ゲージ数値アニメーションプラグイン',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       HPゲージなどの数字を一気に変更するのではなく
       ゲージ本体と同じように徐々に変わるようにします。
       ※それなりに重い処理なのでご注意ください
@@ -36,7 +40,7 @@ export const TorigoyaMZ_SmoothValueGauge: Partial<TorigoyaPluginConfigSchema> = 
             ja: '設定先スプライト名',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               特定のスプライトにのみ適用したい場合に名称を指定してください
             `,
           },

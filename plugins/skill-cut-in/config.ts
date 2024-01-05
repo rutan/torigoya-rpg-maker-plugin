@@ -1,4 +1,3 @@
-import dedent from 'dedent';
 import {
   createParamGroup,
   createBooleanParam,
@@ -7,12 +6,13 @@ import {
   createFileParam,
   createSelectParam,
   createDatabaseParam,
-  createNoteParam,
   createStruct,
   createStructParam,
   createStructParamArray,
   createCommand,
+  dd,
   TorigoyaPluginConfigSchema,
+  createMultiLineStringParam,
 } from '@rutan/torigoya-plugin-config';
 
 const structColor = createStruct('Color', [
@@ -21,7 +21,7 @@ const structColor = createStruct('Color', [
       ja: '赤',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         赤色の強さを設定します。
         -255から255の範囲で指定してください。
       `,
@@ -35,7 +35,7 @@ const structColor = createStruct('Color', [
       ja: '緑',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         緑色の強さを設定します。
         -255から255の範囲で指定してください。
       `,
@@ -49,7 +49,7 @@ const structColor = createStruct('Color', [
       ja: '青',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         青色の強さを設定します。
         -255から255の範囲で指定してください。
       `,
@@ -66,7 +66,7 @@ const structColorCustomize = createStruct('ColorCustomize', [
       ja: '使用するか？',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         個別設定を使用するか指定します。
         使用しない場合は共通設定の色になります。
       `,
@@ -88,7 +88,7 @@ const structSound = createStruct('Sound', [
       ja: '効果音ファイル',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         効果音ファイルを選択します。
       `,
     },
@@ -100,7 +100,7 @@ const structSound = createStruct('Sound', [
       ja: '音量',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         効果音の音量を指定します。
         0から100の範囲で指定してください。
       `,
@@ -114,7 +114,7 @@ const structSound = createStruct('Sound', [
       ja: 'ピッチ',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         効果音のピッチを指定します。
         100が通常です。
       `,
@@ -128,7 +128,7 @@ const structSound = createStruct('Sound', [
       ja: 'パン',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         効果音のパンを指定します。
         0が通常です。
       `,
@@ -150,7 +150,7 @@ const cutinSetCommonParams = [
           ja: 'キャラ画像',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             カットインで表示するキャラクターの画像を設定します。
             画像はピクチャー用のフォルダに入れてください。
           `,
@@ -163,7 +163,7 @@ const cutinSetCommonParams = [
           ja: 'キャラ画像位置:X',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             キャラ画像の表示位置（横方向）を調整します。
             マイナスだと左、プラスだと右にずらします。
           `,
@@ -177,7 +177,7 @@ const cutinSetCommonParams = [
           ja: 'キャラ画像位置:Y',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             キャラ画像の表示位置（縦方向）を調整します。
             マイナスだと上、プラスだと下にずらします。
           `,
@@ -191,7 +191,7 @@ const cutinSetCommonParams = [
           ja: 'キャラ画像:拡大率',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             キャラ画像の拡大率を指定します。
             1を指定した場合は1倍なのでそのまま表示されます。
           `,
@@ -213,7 +213,7 @@ const cutinSetCommonParams = [
           ja: '背景色1',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             カットイン表示領域の背景色を設定します。
             省略した場合は共通設定が使用されます。
           `,
@@ -225,7 +225,7 @@ const cutinSetCommonParams = [
           ja: '背景色2',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             カットイン表示領域の背景色を設定します。
             空欄の場合は背景色1と一緒になります。
           `,
@@ -238,7 +238,7 @@ const cutinSetCommonParams = [
           ja: 'エフェクト色調1',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             背景エフェクトの色調を設定します。
             ※RPGツクールMZのみ有効
           `,
@@ -256,7 +256,7 @@ const cutinSetCommonParams = [
           ja: 'エフェクト色調2',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             境界線エフェクトの色調を設定します。
             ※RPGツクールMZのみ有効
           `,
@@ -273,7 +273,7 @@ const cutinSetCommonParams = [
           ja: '背景画像1',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             背景全体に表示される画像を指定します。
             空欄の場合は共通設定を使用します。
           `,
@@ -286,7 +286,7 @@ const cutinSetCommonParams = [
           ja: '背景画像2',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             キャラクターの背景部分に表示される画像を指定します。
             空欄の場合は共通設定を使用します。
           `,
@@ -299,7 +299,7 @@ const cutinSetCommonParams = [
           ja: '境界線画像',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             カットインの境界線部分に表示される画像を指定します。
             空欄の場合は共通設定を使用します。
           `,
@@ -312,7 +312,7 @@ const cutinSetCommonParams = [
           ja: '境界線画像のブレンド',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             境界線画像のブレンドモードを指定します。
             省略の場合は共通設定を使用します。
           `,
@@ -345,7 +345,7 @@ const cutinSetCommonParams = [
           ja: '効果音',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             カットイン表示時の効果音を設定します。
             指定しない場合は共通設定を使用します。
           `,
@@ -360,12 +360,12 @@ const cutinSetCommonParams = [
     ],
   }),
 
-  createNoteParam('note', {
+  createMultiLineStringParam('note', {
     text: {
       ja: 'メモ欄',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         メモ欄です。
         ツクールのメモ欄同様に使えます。
       `,
@@ -386,7 +386,7 @@ const structActorCutinSet = createStruct('ActorCutinSet', [
           ja: 'アクターのID',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             カットイン対象のアクターを設定します。
           `,
         },
@@ -398,7 +398,7 @@ const structActorCutinSet = createStruct('ActorCutinSet', [
           ja: 'スキルのID',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             カットイン対象のスキルを設定します。
           `,
         },
@@ -422,7 +422,7 @@ const structEnemyCutinSet = createStruct('EnemyCutinSet', [
           ja: '敵のID',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             カットイン対象の敵を設定します。
           `,
         },
@@ -434,7 +434,7 @@ const structEnemyCutinSet = createStruct('EnemyCutinSet', [
           ja: 'スキルのID',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             カットイン対象のスキルを設定します。
           `,
         },
@@ -452,7 +452,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
     ja: 'スキル発動前カットイン表示プラグイン',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       このプラグインは「Tweenアニメーションプラグイン」が必要です。
       Tweenアニメーションプラグインより下に入れてください。
       
@@ -579,7 +579,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '味方のカットイン設定',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               アクター用のカットイン設定です。
               上にあるものから優先されます。
             `,
@@ -592,7 +592,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '敵のカットイン設定',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               敵用のカットイン設定です。
               上にあるものから優先されます。
             `,
@@ -612,7 +612,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '背景画像1',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               背景全体に表示される画像を指定します。
             `,
           },
@@ -624,7 +624,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '背景画像2',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               キャラクターの背景部分に表示される画像を指定します。
             `,
           },
@@ -636,7 +636,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '境界線画像',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               カットインの境界線部分に表示される画像を指定します。
             `,
           },
@@ -648,7 +648,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '境界線画像のブレンド',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               境界線画像のブレンドモードを指定します
               ※RPGツクールMZのみ有効
             `,
@@ -674,7 +674,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '境界線画像の移動速度',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               境界線画像が移動する速度を指定します
             `,
           },
@@ -686,7 +686,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '効果音',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               カットイン表示時の効果音を設定します。
               各カットイン内で指定がある場合は、そちらを優先します。
             `,
@@ -703,7 +703,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: 'カットインの表示レイヤー',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               カットインが表示されるレイヤーを指定します。
               省略の場合は共通設定を使用します。
             `,
@@ -735,7 +735,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: 'カットイン表示開始/終了アニメーション時間',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               カットインの表示開始/終了アニメーションの再生時間を指定します。
               60＝1秒です。
             `,
@@ -747,7 +747,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: 'カットイン停止時間',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               カットイン表示が画面にとどまる時間を指定します。
               60＝1秒です。
             `,
@@ -767,7 +767,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '味方: 背景色1',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               味方のカットイン表示領域の背景色を設定します。
             `,
           },
@@ -778,7 +778,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '味方: 背景色2',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               味方のカットイン表示領域の背景色を設定します。
               空欄の場合は背景色1と一緒になります。
             `,
@@ -791,7 +791,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '味方: エフェクト色調1',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               味方の背景エフェクトの色調を設定します。
               ※RPGツクールMZのみ有効
             `,
@@ -808,7 +808,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '味方: エフェクト色調2',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               味方の境界線エフェクトの色調を設定します。
               ※RPGツクールMZのみ有効
             `,
@@ -832,7 +832,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '敵: 背景色1',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               敵のカットイン表示領域の背景色を設定します。
             `,
           },
@@ -843,7 +843,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '敵: 背景色2',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               敵のカットイン表示領域の背景色を設定します。
               空欄の場合は背景色1と一緒になります。
             `,
@@ -856,7 +856,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '敵: エフェクト色調1',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               敵の背景エフェクトの色調を設定します。
               ※RPGツクールMZのみ有効
             `,
@@ -873,7 +873,7 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             ja: '敵: エフェクト色調2',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               敵の境界線エフェクトの色調を設定します。
               ※RPGツクールMZのみ有効
             `,
@@ -905,7 +905,7 @@ export const TorigoyaMZ_SkillCutIn: Partial<TorigoyaPluginConfigSchema> = {
       args: [
         createStringParam('name', {
           text: '使用カットイン名',
-          description: dedent`
+          description: dd`
             カットイン設定のメモ欄で指定した呼び出し名を指定します。
             条件判定はすべてスキップされます
           `,
@@ -918,7 +918,7 @@ export const TorigoyaMZ_SkillCutIn: Partial<TorigoyaPluginConfigSchema> = {
       args: [
         createStringParam('name', {
           text: '使用カットイン名',
-          description: dedent`
+          description: dd`
             カットイン設定のメモ欄で指定した呼び出し名を指定します。
             条件判定はすべてスキップされます
           `,

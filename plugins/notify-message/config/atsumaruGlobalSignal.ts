@@ -1,23 +1,25 @@
 import {
   createBooleanParam,
   createCommand,
+  createDatabaseParam,
   createMultiLineStringParam,
+  createNoteParam,
   createNumberParam,
   createParamGroup,
   createStringParam,
   createStruct,
   createStructParamArray,
+  dd,
   defineLabel,
   TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
 
 const structEventLog = createStruct('EventLog', [
   createStringParam('key', {
     ...defineLabel({
       ja: {
         text: '種別キー',
-        description: dedent`
+        description: dd`
           イベント種別の識別名です。
           ここで設定した文字列をログ送信時に指定します。
         `,
@@ -28,7 +30,7 @@ const structEventLog = createStruct('EventLog', [
     ...defineLabel({
       ja: {
         text: 'ログ文章',
-        description: dedent`
+        description: dd`
           ログとして表示するメッセージを指定します。
           一部特殊な記法があります。説明を読んでね。
         `,
@@ -39,18 +41,18 @@ const structEventLog = createStruct('EventLog', [
     ...defineLabel({
       ja: {
         text: 'アイコンID',
-        description: dedent`
+        description: dd`
           通知に表示するアイコンのIDを指定します。
           0の場合は表示しません。
         `,
       },
     }),
   }),
-  createMultiLineStringParam('note', {
+  createNoteParam('note', {
     ...defineLabel({
       ja: {
         text: 'メモ欄',
-        description: dedent`
+        description: dd`
           メモ欄です。
           ツクールのメモ欄と同様に利用できます。
         `,
@@ -66,7 +68,7 @@ export const TorigoyaMZ_NotifyMessage_AddonAtsumaruGlobalSignal: Partial<Torigoy
     ja: '通知メッセージアドオン: アツマールグローバルシグナル通知ログ',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       ※このプラグインはゲームアツマール用の非公式プラグインです
 
       ゲームアツマールのグローバルシグナルAPIを利用して
@@ -146,7 +148,7 @@ export const TorigoyaMZ_NotifyMessage_AddonAtsumaruGlobalSignal: Partial<Torigoy
           ...defineLabel({
             ja: {
               text: 'イベントログ種別',
-              description: dedent`
+              description: dd`
                 イベントログの種類を定義します。
               `,
             },
@@ -156,7 +158,7 @@ export const TorigoyaMZ_NotifyMessage_AddonAtsumaruGlobalSignal: Partial<Torigoy
           ...defineLabel({
             ja: {
               text: '起動時に過去ログを最大何件取得するか？',
-              description: dedent`
+              description: dd`
                 起動時に最大何件のログを取得するか指定します。
               `,
             },
@@ -176,14 +178,14 @@ export const TorigoyaMZ_NotifyMessage_AddonAtsumaruGlobalSignal: Partial<Torigoy
           ...defineLabel({
             ja: {
               text: '効果音を強制無効化',
-              description: dedent`
+              description: dd`
                 通知の効果音を強制的に無効化するか選択できます。
                 うるさいので無効化がオススメ。
               `,
             },
           }),
           on: {
-            ja: '無効化する',
+            ja: '強制無効化する',
           },
           off: {
             ja: '無効化しない',
@@ -194,7 +196,7 @@ export const TorigoyaMZ_NotifyMessage_AddonAtsumaruGlobalSignal: Partial<Torigoy
           ...defineLabel({
             ja: {
               text: 'グローバルシグナルの取得間隔(秒)',
-              description: dedent`
+              description: dd`
                 グローバルシグナルを何秒おきに取得するか設定します。
                 短くしすぎるとAPI上限に引っかかるため注意。
               `,
@@ -211,7 +213,7 @@ export const TorigoyaMZ_NotifyMessage_AddonAtsumaruGlobalSignal: Partial<Torigoy
       ...defineLabel({
         ja: {
           text: 'イベントログの送信',
-          description: dedent`
+          description: dd`
             指定のイベントログを送信します。
           `,
         },
@@ -221,18 +223,19 @@ export const TorigoyaMZ_NotifyMessage_AddonAtsumaruGlobalSignal: Partial<Torigoy
           ...defineLabel({
             ja: {
               text: '種別キー',
-              description: dedent`
+              description: dd`
                 送信するイベント種別の識別名です。
                 プラグイン設定で指定したものを指定してください。
               `,
             },
           }),
         }),
-        createNumberParam('variable', {
+        createDatabaseParam('iconVariable', {
+          type: 'variable',
           ...defineLabel({
             ja: {
               text: 'アイコンID（変数指定）',
-              description: dedent`
+              description: dd`
                 通知に表示するアイコンIDが設定された変数を指定します。
                 「なし」の場合はデフォルトのアイコンを使用します。
               `,

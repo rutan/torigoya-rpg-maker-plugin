@@ -12,6 +12,8 @@
     "clean": "rimraf ./lib"
   },
   "dependencies": {
+    "@qnighy/dedent": "^0.1.1",
+    "@rutan/rpgmaker-plugin-annotation": "workspace:*",
     "@rutan/torigoya-plugin-common": "workspace:*",
     "jiti": "^1.21.0"
   },

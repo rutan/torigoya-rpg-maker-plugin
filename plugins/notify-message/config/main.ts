@@ -4,13 +4,14 @@ import {
   createDatabaseParam,
   createMultiLineStringParam,
   createNumberParam,
+  createNoteParam,
   createParamGroup,
   createStringParam,
   createStructParam,
   defineLabel,
+  dd,
   TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
 import { structSound } from './_share.js';
 
 export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
@@ -20,7 +21,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
     ja: '通知メッセージプラグイン',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       画面の左下から通知メッセージを表示する機能を追加します。
       通知メッセージはプラグインコマンドで表示できます。
 
@@ -46,7 +47,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '登場/退場時間',
-              description: dedent`
+              description: dd`
                 通知が画面にスクロールイン/アウトする時間（フレーム数/60＝1秒）を指定します。
               `,
             },
@@ -58,7 +59,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '表示時間',
-              description: dedent`
+              description: dd`
                 通知の表示時間（フレーム数/60＝1秒）を指定します。0にすると画面外に押し出されるまで消えなくなります。
               `,
             },
@@ -70,7 +71,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '文字サイズ',
-              description: dedent`
+              description: dd`
                 通知メッセージの文字サイズを指定します
               `,
             },
@@ -82,7 +83,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '余白サイズ',
-              description: dedent`
+              description: dd`
                 通知メッセージの全体的な余白サイズを指定します
               `,
             },
@@ -94,7 +95,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '左側の追加余白サイズ',
-              description: dedent`
+              description: dd`
                 通知メッセージの左側の余白サイズを指定します。
                 全体の余白サイズに加え、この分が余白に追加されます。
               `,
@@ -107,7 +108,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '右側の追加余白サイズ',
-              description: dedent`
+              description: dd`
                 通知メッセージの右側の余白サイズを指定します。
                 全体の余白サイズに加え、この分が余白に追加されます。
               `,
@@ -120,7 +121,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: 'アイコンと文章の余白',
-              description: dedent`
+              description: dd`
                 通知アイコンとメッセージの間の余白サイズを指定します。
               `,
             },
@@ -133,7 +134,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '効果音',
-              description: dedent`
+              description: dd`
                 通知表示時の効果音を指定します。
               `,
             },
@@ -158,7 +159,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '有効スイッチ',
-              description: dedent`
+              description: dd`
                 このスイッチがONのときのみ画面に通知を表示するようにします。「なし」の場合は常に表示されます。
               `,
             },
@@ -168,7 +169,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '背景グラデーション:左端',
-              description: dedent`
+              description: dd`
                 背景グラデーションの左端の色を指定します。
                 色はCSSの記法で指定できます。
               `,
@@ -180,7 +181,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '背景グラデーション:右端',
-              description: dedent`
+              description: dd`
                 背景グラデーションの右端の色を指定します。
                 色はCSSの記法で指定できます。
               `,
@@ -192,7 +193,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: 'UIエリア余白: 下端',
-              description: dedent`
+              description: dd`
                 通知メッセージ表示位置の下側の余白を指定します。
               `,
             },
@@ -203,7 +204,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: 'シーン遷移しても表示をキープ',
-              description: dedent`
+              description: dd`
                 【危険：環境によってはONにすると不具合の原因となります】シーン遷移してもメッセージを全消ししないようにします。
               `,
             },
@@ -221,7 +222,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
       ...defineLabel({
         ja: {
           text: '通知の表示',
-          description: dedent`
+          description: dd`
             指定内容の通知を表示します
           `,
         },
@@ -231,7 +232,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: 'メッセージ',
-              description: dedent`
+              description: dd`
                 通知に表示する文章を指定します。「文章の表示」のコマンドが一部利用できます。
               `,
             },
@@ -241,18 +242,18 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: 'アイコンID',
-              description: dedent`
+              description: dd`
                 通知に表示するアイコンのIDを指定します。
                 0の場合は表示しません。
               `,
             },
           }),
         }),
-        createMultiLineStringParam('note', {
+        createNoteParam('note', {
           ...defineLabel({
             ja: {
               text: 'メモ欄',
-              description: dedent`
+              description: dd`
                 メモ欄です。
                 ツクールのメモ欄と同様に利用できます。
               `,
@@ -265,7 +266,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
       ...defineLabel({
         ja: {
           text: '通知の表示(アイコン変数指定)',
-          description: dedent`
+          description: dd`
             指定内容の通知を表示します。アイコンのIDを変数で指定します。
           `,
         },
@@ -275,7 +276,7 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: 'メッセージ',
-              description: dedent`
+              description: dd`
                 通知に表示する文章を指定します。「文章の表示」のコマンドが一部利用できます。
               `,
             },
@@ -286,18 +287,18 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: 'アイコンID（変数指定）',
-              description: dedent`
+              description: dd`
                 通知に表示するアイコンIDが設定された変数を指定します。
                 変数の中身が0またはマイナスの場合は表示しません。
               `,
             },
           }),
         }),
-        createMultiLineStringParam('note', {
+        createNoteParam('note', {
           ...defineLabel({
             ja: {
               text: 'メモ欄',
-              description: dedent`
+              description: dd`
                 メモ欄です。
                 ツクールのメモ欄と同様に利用できます。
               `,

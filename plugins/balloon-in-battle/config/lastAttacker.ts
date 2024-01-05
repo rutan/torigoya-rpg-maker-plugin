@@ -1,5 +1,4 @@
-import { TorigoyaPluginConfigSchema } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
+import { dd, TorigoyaPluginConfigSchema } from '@rutan/torigoya-plugin-config';
 
 export const TorigoyaMZ_BalloonInBattle2_AddonLastAttacker: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
@@ -8,7 +7,7 @@ export const TorigoyaMZ_BalloonInBattle2_AddonLastAttacker: Partial<TorigoyaPlug
     ja: '戦闘中セリフ表示プラグインアドオン: 勝利セリフをトドメキャラに',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       このプラグインは「戦闘中セリフ表示プラグイン」のアドオンです。
       戦闘中セリフ表示プラグインより下に入れてください。
 

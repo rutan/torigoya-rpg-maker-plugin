@@ -7,9 +7,9 @@ import {
   createStruct,
   createStructParam,
   defineLabel,
+  dd,
   TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
 import { structSound } from './_share.js';
 
 const structCustomSound = createStruct('CustomSound', [
@@ -17,7 +17,7 @@ const structCustomSound = createStruct('CustomSound', [
     ...defineLabel({
       ja: {
         text: '効果音設定の上書き',
-        description: dedent`
+        description: dd`
           通知表示時に再生する効果音を
           デフォルトから上書き設定するか指定します。
         `,
@@ -36,7 +36,7 @@ const structCustomSound = createStruct('CustomSound', [
     ...defineLabel({
       ja: {
         text: '効果音',
-        description: dedent`
+        description: dd`
           上書き設定する効果音の内容を指定します。
           上書きしない場合、この設定は無視されます。
         `,
@@ -58,7 +58,7 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
     ja: '通知メッセージアドオン: アイテム獲得表示',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       以下のイベントコマンド実行時に自動的に通知メッセージを表示します。
       ※増やす場合のみ表示されます
 
@@ -86,8 +86,8 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
           ...defineLabel({
             ja: {
               text: 'アイテム入手メッセージ（1つ）',
-              description: dedent`
-                アイテムを1つ入手したときのメッセージを設定します。（\\\\name : アイテム名）
+              description: dd`
+                アイテムを1つ入手したときのメッセージを設定します。（\\name : アイテム名）
               `,
             },
           }),
@@ -99,8 +99,8 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
           ...defineLabel({
             ja: {
               text: 'アイテム入手メッセージ（複数）',
-              description: dedent`
-                アイテムを複数入手したときのメッセージを設定します。（\\\\name : アイテム名  \\\\count : 個数）
+              description: dd`
+                アイテムを複数入手したときのメッセージを設定します。（\\name : アイテム名  \\count : 個数）
               `,
             },
           }),
@@ -112,8 +112,8 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
           ...defineLabel({
             ja: {
               text: 'お金入手メッセージ',
-              description: dedent`
-                お金を入手したときのメッセージを設定します。（\\\\gold : 獲得金額）
+              description: dd`
+                お金を入手したときのメッセージを設定します。（\\gold : 獲得金額）
               `,
             },
           }),
@@ -125,7 +125,7 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
           ...defineLabel({
             ja: {
               text: 'お金入手アイコン',
-              description: dedent`
+              description: dd`
                 お金を入手したときのアイコンIDを設定します。0の場合はアイコンを表示しません。
               `,
             },
@@ -145,7 +145,7 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
           ...defineLabel({
             ja: {
               text: '有効スイッチ',
-              description: dedent`
+              description: dd`
                 このスイッチがONのときのみ画面に通知するようにします。「なし」の場合は常に通知されます。
               `,
             },
@@ -156,7 +156,7 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
           ...defineLabel({
             ja: {
               text: 'アイテム入手効果音の上書き',
-              description: dedent`
+              description: dd`
                 アイテムを入手したときに再生する効果音を指定します。
                 上書き設定をしない場合は通常の通知音が再生されます。
               `,
@@ -168,7 +168,7 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
           ...defineLabel({
             ja: {
               text: 'お金入手効果音の上書き',
-              description: dedent`
+              description: dd`
                 お金を入手したときに再生する効果音を指定します。
                 上書き設定をしない場合は通常の通知音が再生されます。
               `,
@@ -178,5 +178,5 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
       ],
     }),
   ],
-  structs: [structSound],
+  structs: [structCustomSound, structSound],
 };

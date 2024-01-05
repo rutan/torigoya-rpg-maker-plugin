@@ -1,13 +1,12 @@
 import {
   createFileParamArray,
-  createNumberParam,
   createParamGroup,
   createStringParam,
   createStruct,
   createStructParamArray,
+  dd,
   TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
 
 const structRewardPicture = createStruct('rewardPicture', [
   createStringParam('key', {
@@ -15,7 +14,7 @@ const structRewardPicture = createStruct('rewardPicture', [
       ja: '実績ID',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         ご褒美ピクチャーを設定する対象の
         実績プラグインで設定した実績IDを指定してください。
       `,
@@ -26,7 +25,7 @@ const structRewardPicture = createStruct('rewardPicture', [
       ja: 'ご褒美の画像',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         ご褒美として表示する画像を選択してください。
         画像は複数枚指定可能です。
       `,
@@ -41,7 +40,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
     ja: '実績プラグインアドオン: ご褒美ピクチャー',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       このプラグインは「実績プラグイン」のアドオンです。
       実績プラグインより下に導入してください。
 

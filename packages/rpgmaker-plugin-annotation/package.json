@@ -1,0 +1,55 @@
+{
+  "name": "@rutan/rpgmaker-plugin-annotation",
+  "version": "0.4.0",
+  "author": "ru_shalm",
+  "email": "ru_shalm@hazimu.com",
+  "license": "Unlicense",
+  "homepage": "https://github.com/rutan/rpgmaker-plugin-annotation",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "rmpab": "lib/cjs/src/cli.js",
+    "rpgmaker-plugin-annotation-builder": "lib/cjs/src/cli.js"
+  },
+  "main": "lib/cjs/src/index.js",
+  "types": "lib/cjs/src/index.d.ts",
+  "module": "lib/esm/src/index.js",
+  "files": [
+    "src/",
+    "lib/"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "npm run clean && run-p build:*",
+    "build:cjs": "tsc -p ./tsconfig.json",
+    "build:esm": "tsc -p ./tsconfig.esm.json",
+    "lint": "eslint src/**/*.ts test/**/*.ts",
+    "test": "jest --runInBand",
+    "format": "run-s format:*",
+    "format:eslint": "eslint --fix src/**/*.ts",
+    "format:prettier": "prettier --write ./src",
+    "update-snapshot": "jest --runInBand --updateSnapshot",
+    "clean": "rimraf ./lib",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.11",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "eslint": "^8.56.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.1"
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "prettier --write"
+    ]
+  }
+}

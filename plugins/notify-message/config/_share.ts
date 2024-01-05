@@ -1,12 +1,11 @@
-import { createFileParam, createNumberParam, createStruct, defineLabel } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
+import { createFileParam, createNumberParam, createStruct, dd, defineLabel } from '@rutan/torigoya-plugin-config';
 
 export const structSound = createStruct('Sound', [
   createFileParam('name', {
     ...defineLabel({
       ja: {
         text: '効果音ファイル名',
-        description: dedent`
+        description: dd`
           通知表示時に再生する効果音ファイル
           空っぽの場合は効果音なしになります
         `,
@@ -18,7 +17,7 @@ export const structSound = createStruct('Sound', [
     ...defineLabel({
       ja: {
         text: '効果音の音量',
-        description: dedent`
+        description: dd`
           通知表示時に再生する効果音の音量（%）
         `,
       },
@@ -31,7 +30,7 @@ export const structSound = createStruct('Sound', [
     ...defineLabel({
       ja: {
         text: '効果音のピッチ',
-        description: dedent`
+        description: dd`
           通知表示時に再生する効果音のピッチ（%）
         `,
       },
@@ -44,7 +43,7 @@ export const structSound = createStruct('Sound', [
     ...defineLabel({
       ja: {
         text: '効果音の位相',
-        description: dedent`
+        description: dd`
           通知表示時に再生する効果音の位相
         `,
       },

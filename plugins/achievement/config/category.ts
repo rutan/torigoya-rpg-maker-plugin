@@ -6,16 +6,17 @@ import {
   createStruct,
   createStructParamArray,
   defineLabel,
+  dd,
   TorigoyaPluginConfigSchema,
+  createCommand,
 } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
 
 const structCategory = createStruct('Category', [
   createStringParam('name', {
     ...defineLabel({
       ja: {
         text: 'カテゴリ名',
-        description: dedent`
+        description: dd`
           カテゴリの名前。
           ここで設定した名前をメモ欄で指定してください。
         `,
@@ -26,7 +27,7 @@ const structCategory = createStruct('Category', [
     ...defineLabel({
       ja: {
         text: '自動割当のID命名規則',
-        description: dedent`
+        description: dd`
           ここに設定した文字列で始まるIDの実績を
           このカテゴリに自動割当します（空欄の場合は無し）
         `,
@@ -41,7 +42,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
     ja: '実績プラグインアドオン: カテゴリ設定',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       このプラグインは「実績プラグイン」のアドオンです。
       実績プラグインより下に導入してください。
 
@@ -89,7 +90,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: 'カテゴリ設定',
-              description: dedent`
+              description: dd`
                 カテゴリを設定します。
                 必要な個数追加してください。
               `,
@@ -101,7 +102,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: 'カテゴリ位置',
-              description: dedent`
+              description: dd`
                 カテゴリリストの表示位置を設定します。
               `,
             },
@@ -117,7 +118,7 @@ const base: Partial<TorigoyaPluginConfigSchema> = {
           ...defineLabel({
             ja: {
               text: '最大列数',
-              description: dedent`
+              description: dd`
                 一度に表示するカテゴリの最大数
                 ※カテゴリ位置が「上」のときだけ有効
               `,
@@ -142,4 +143,51 @@ export const Torigoya_Achievement2_AddonCategory: Partial<TorigoyaPluginConfigSc
 export const TorigoyaMZ_Achievement2_AddonCategory: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
   ...base,
+  commands: [
+    createCommand('gainAchievementCategory', {
+      ...defineLabel({
+        ja: {
+          text: '指定カテゴリの全実績を獲得',
+          description: dd`
+            指定カテゴリの実績を獲得します。
+          `,
+        },
+      }),
+      args: [
+        createStringParam('category', {
+          ...defineLabel({
+            ja: {
+              text: 'カテゴリ名',
+              description: dd`
+                獲得したい実績に設定したカテゴリ名を指定します。
+              `,
+            },
+          }),
+        }),
+      ],
+    }),
+    createCommand('removeAchievementCategory', {
+      ...defineLabel({
+        ja: {
+          text: '指定カテゴリの全実績を削除',
+          description: dd`
+            指定カテゴリの実績を未獲得状態にします。
+            未獲得だった場合は何もしません。
+          `,
+        },
+      }),
+      args: [
+        createStringParam('category', {
+          ...defineLabel({
+            ja: {
+              text: 'カテゴリ名',
+              description: dd`
+                削除したい実績に設定したカテゴリ名を指定します。
+              `,
+            },
+          }),
+        }),
+      ],
+    }),
+  ],
 };

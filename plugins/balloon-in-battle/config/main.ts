@@ -12,8 +12,8 @@ import {
   TorigoyaPluginConfigSchema,
   createBooleanParam,
   createSelectParam,
+  dd,
 } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
 
 const structSound = createStruct('Sound', [
   createFileParam('name', {
@@ -21,7 +21,7 @@ const structSound = createStruct('Sound', [
       ja: '再生する音声',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         再生する音声（ボイスなど）を選択します。
         指定しない場合は何も再生されません。
       `,
@@ -33,7 +33,7 @@ const structSound = createStruct('Sound', [
       ja: '音量',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         効果音の音量を指定します。
          0～100で指定してください。
       `,
@@ -47,7 +47,7 @@ const structSound = createStruct('Sound', [
       ja: 'ピッチ',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         効果音のピッチを指定します。
         100が通常です。
       `,
@@ -61,7 +61,7 @@ const structSound = createStruct('Sound', [
       ja: 'パン',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         効果音のパンを指定します。
         0が通常です。
       `,
@@ -77,7 +77,31 @@ const paramMessage = createStringParam('message', {
     ja: 'セリフ',
   },
   description: {
-    ja: dedent`
+    ja: dd`
+      表示するセリフを入力してください。
+      \\n で改行ができます。
+    `,
+  },
+});
+
+const paramMessageWithSkill = createStringParam('message', {
+  text: {
+    ja: 'セリフ',
+  },
+  description: {
+    ja: dd`
+      表示するセリフを入力してください。
+      \\n : 改行   \\skill : スキル名
+    `,
+  },
+});
+
+const paramMessageWithItem = createStringParam('message', {
+  text: {
+    ja: 'セリフ',
+  },
+  description: {
+    ja: dd`
       表示するセリフを入力してください。
       \\n : 改行   \\item : アイテム名
     `,
@@ -90,7 +114,7 @@ const paramSound = createStructParam('sound', {
     ja: '再生する音声',
   },
   description: {
-    ja: dedent`
+    ja: dd`
       セリフと同時に再生する音声を指定します。
       ボイスなどを想定しています。
     `,
@@ -108,7 +132,7 @@ const paramNote = createMultiLineStringParam('note', {
     ja: 'メモ欄',
   },
   description: {
-    ja: dedent`
+    ja: dd`
       メモ欄です。
       ツクールのメモ欄同様に使えます。
     `,
@@ -128,7 +152,7 @@ const structTalkItemWithTroop = createStruct('TalkItemWithTroop', [
           ja: '対象のトループ',
         },
         description: {
-          ja: `
+          ja: dd`
             この戦闘でしか使用したくない！
             という場合は指定してください
           `,
@@ -153,7 +177,7 @@ const structTalkItemWithFrom = createStruct('TalkItemWithFrom', [
           ja: '対象の相手(味方)',
         },
         description: {
-          ja: `
+          ja: dd`
             この味方からの時にしか使いたくない！
             という場合は指定してください
           `,
@@ -165,7 +189,7 @@ const structTalkItemWithFrom = createStruct('TalkItemWithFrom', [
           ja: '対象の相手(敵)',
         },
         description: {
-          ja: `
+          ja: dd`
             この敵からの時にしか使いたくない！
             という場合は指定してください
           `,
@@ -184,13 +208,13 @@ const structTalkItemForSkill = createStruct('TalkItemForSkill', [
       ja: 'スキルのID',
     },
     description: {
-      ja: `
+      ja: dd`
         このセリフを出すスキルを選択します。
         なしの場合は未設定のスキルで使用します。
       `,
     },
   }),
-  paramMessage,
+  paramMessageWithSkill,
   ...createParamGroup('optional', {
     text: {
       ja: '■ オプション',
@@ -202,7 +226,7 @@ const structTalkItemForSkill = createStruct('TalkItemForSkill', [
           ja: '対象の相手(味方)',
         },
         description: {
-          ja: `
+          ja: dd`
             この味方がターゲットの時にしか使いたくない！
             という場合は指定してください
           `,
@@ -214,7 +238,7 @@ const structTalkItemForSkill = createStruct('TalkItemForSkill', [
           ja: '対象の相手(敵)',
         },
         description: {
-          ja: `
+          ja: dd`
             この敵がターゲットの時にしか使いたくない！
             という場合は指定してください
           `,
@@ -233,13 +257,13 @@ const structTalkItemForItem = createStruct('TalkItemForItem', [
       ja: 'アイテムのID',
     },
     description: {
-      ja: `
+      ja: dd`
         このセリフを出すアイテムを選択します。
         なしの場合は未設定のアイテムで使用します。
       `,
     },
   }),
-  paramMessage,
+  paramMessageWithItem,
   ...createParamGroup('optional', {
     text: {
       ja: '■ オプション',
@@ -251,7 +275,7 @@ const structTalkItemForItem = createStruct('TalkItemForItem', [
           ja: '対象の相手(味方)',
         },
         description: {
-          ja: `
+          ja: dd`
             この味方がターゲットの時にしか使いたくない！
             という場合は指定してください
           `,
@@ -263,7 +287,7 @@ const structTalkItemForItem = createStruct('TalkItemForItem', [
           ja: '対象の相手(敵)',
         },
         description: {
-          ja: `
+          ja: dd`
             この敵がターゲットの時にしか使いたくない！
             という場合は指定してください
           `,
@@ -282,7 +306,7 @@ const structTalkItemForState = createStruct('TalkItemForState', [
       ja: 'ステートのID',
     },
     description: {
-      ja: `
+      ja: dd`
         このセリフを出すステートを選択します。
         なしの場合は未設定のステートで使用します。
       `,
@@ -300,7 +324,7 @@ const structTalkItemForState = createStruct('TalkItemForState', [
           ja: '対象の相手(味方)',
         },
         description: {
-          ja: `
+          ja: dd`
             この味方からの時にしか使いたくない！
             という場合は指定してください
           `,
@@ -312,7 +336,7 @@ const structTalkItemForState = createStruct('TalkItemForState', [
           ja: '対象の相手(敵)',
         },
         description: {
-          ja: `
+          ja: dd`
             この敵からの時にしか使いたくない！
             という場合は指定してください
           `,
@@ -330,7 +354,7 @@ const structTalkItemAdvanced = createStruct('TalkItemAdvanced', [
       ja: '拡張タイプ',
     },
     description: {
-      ja: `
+      ja: dd`
         このセリフの拡張タイプIDを指定します。
       `,
     },
@@ -346,7 +370,7 @@ const structTalkSet = createStruct('TalkSet', [
       ja: 'セリフセットID',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         このセリフセットのIDを設定します(重複×)
         このIDをアクターのメモ欄で使用します
       `,
@@ -363,7 +387,7 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] 戦闘開始',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             戦闘開始時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -375,8 +399,8 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] 勝利',
         },
         description: {
-          ja: dedent`
-            戦闘開始時に表示するセリフを登録します
+          ja: dd`
+            戦闘勝利時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
         },
@@ -387,7 +411,7 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] 行動選択中',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             行動選択時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -399,7 +423,7 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] スキル',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             スキル使用時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -411,7 +435,7 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] アイテム',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             アイテム使用時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -423,19 +447,19 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] ダメージ',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             ダメージを受けた時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
         },
       }),
       createStructParamArray('talkDead', {
-        struct: structTalkItemWithFrom,
+        struct: structTalkItemWithTroop,
         text: {
           ja: '[セリフ] 戦闘不能',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             戦闘不能時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -447,7 +471,7 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] 身代わりした',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             味方を身代わりした時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -459,7 +483,7 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] 身代わりされた',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             味方に身代わりされた時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -471,19 +495,19 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] 回復',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             味方に回復された時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
         },
       }),
       createStructParamArray('talkRemoveState', {
-        struct: structTalkItemWithFrom,
+        struct: structTalkItemForState,
         text: {
           ja: '[セリフ] ステート回復',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             味方にステートを回復された時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -495,7 +519,7 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] 敵攻撃がミス',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             敵の攻撃がミス時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -507,7 +531,7 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] 敵攻撃を回避',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             敵の攻撃回避時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -519,7 +543,7 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '[セリフ] カウンター',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             敵にカウンター時に表示するセリフを登録します
             複数登録時はどれか1つがランダムに表示されます
           `,
@@ -538,7 +562,7 @@ const structTalkSet = createStruct('TalkSet', [
           ja: '拡張データ',
         },
         description: {
-          ja: dedent`
+          ja: dd`
             拡張用データです。通常利用では設定は不要です。
             プラグインコマンドや別プラグイン等から利用されます。
           `,
@@ -556,7 +580,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
     ja: '戦闘中セリフ表示プラグイン',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       戦闘中にセリフを吹き出しでキャラクターの上に表示します。
 
       ------------------------------------------------------------
@@ -754,7 +778,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: '吹き出し用の画像',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               吹き出しに使用するウィンドウ画像を指定します。
             `,
           },
@@ -766,7 +790,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: '文字サイズ',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               セリフの文字のサイズの標準値を指定します。
             `,
           },
@@ -778,7 +802,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'ウィンドウの余白',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               吹き出しの余白の大きさを指定します。
             `,
           },
@@ -790,7 +814,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'ウィンドウのしっぽ',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               しっぽ部分を表示するかどうか
             `,
           },
@@ -807,7 +831,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'しっぽの位置調整',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               しっぽ用の表示位置(高さ)を調整します。
               マイナスにすると上に移動します。
             `,
@@ -821,7 +845,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: '味方吹き出しの位置調整',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               味方側の吹き出しの表示位置(高さ)を調整します。
               マイナスにすると上に移動します。
             `,
@@ -835,7 +859,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: '敵の吹き出しの位置調整',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               敵側の吹き出しの表示位置(高さ)を調整します。
               マイナスにすると上に移動します。
             `,
@@ -857,7 +881,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: '表示時間：通常',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               通常のセリフの表示時間（ウェイト）を指定します。
               60＝1秒です。-1の場合は別のセリフが出るまで消えません。
             `,
@@ -870,7 +894,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: '表示時間：被ダメ',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               被ダメージ系セリフの表示時間（ウェイト）を指定します。
               60＝1秒です。-1の場合は別のセリフが出るまで消えません。
             `,
@@ -883,7 +907,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: '表示時間：行動選択',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               行動選択セリフの表示時間（ウェイト）を指定します。
               60＝1秒です。-1の場合は別のセリフが出るまで消えません。
             `,
@@ -896,7 +920,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: '表示時間：勝利',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               勝利セリフの表示時間（ウェイト）を指定します。
               60＝1秒です。-1の場合は別のセリフが出るまで消えません。
             `,
@@ -909,7 +933,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: '表示レイヤー位置',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               セリフ表示レイヤーの位置を変更します。
             `,
           },
@@ -923,7 +947,6 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
     }),
   ],
   structs: [
-    structSound,
     structTalkSet,
     structTalkItemWithTroop,
     structTalkItemWithFrom,
@@ -931,6 +954,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
     structTalkItemForItem,
     structTalkItemForState,
     structTalkItemAdvanced,
+    structSound,
   ],
   commands: [
     createCommand('changeTalkSet', {
@@ -938,7 +962,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         ja: 'セリフセットの変更',
       },
       description: {
-        ja: dedent`
+        ja: dd`
           セリフセットを別のものに変更します。
           変更内容はセーブデータに反映されます。
         `,
@@ -950,7 +974,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'アクター',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               セリフセットを変更するアクター
             `,
           },
@@ -960,7 +984,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'セリフセットID',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               変更後のセリフセットのID。
               プラグイン設定で登録したものを指定してください。
             `,
@@ -973,7 +997,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         ja: 'セリフセットの初期化',
       },
       description: {
-        ja: dedent`
+        ja: dd`
           セリフセットをメモ欄で指定しているものに戻します
         `,
       },
@@ -984,7 +1008,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'アクター',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               セリフセットをもとに戻すアクター
             `,
           },
@@ -996,7 +1020,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         ja: '[戦闘中のみ] 指定文章の味方セリフを表示',
       },
       description: {
-        ja: dedent`
+        ja: dd`
           指定した内容のセリフを表示します
         `,
       },
@@ -1007,7 +1031,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'セリフを表示するアクター',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               セリフを表示するアクターを選択します。
               0の場合は現在行動中のアクターに表示します。
             `,
@@ -1018,7 +1042,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'セリフ本文',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               表示するセリフを入力してください
               \\n : 改行
             `,
@@ -1031,7 +1055,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         ja: '[戦闘中のみ] 指定文章の敵セリフを表示',
       },
       description: {
-        ja: dedent`
+        ja: dd`
           指定した内容のセリフを表示します
         `,
       },
@@ -1041,7 +1065,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'セリフを表示する敵',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               セリフを表示する敵の番号を指定します。
               0の場合は現在行動中の敵に表示します。
             `,
@@ -1052,7 +1076,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'セリフ本文',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               表示するセリフを入力してください
               \\n : 改行
             `,
@@ -1065,7 +1089,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         ja: '[戦闘中のみ] 指定タイプの味方セリフを表示',
       },
       description: {
-        ja: dedent`
+        ja: dd`
           指定したタイプのセリフを表示します。
           事前に拡張用データを登録する必要があります。
         `,
@@ -1077,18 +1101,18 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'セリフを表示するアクター',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               セリフを表示するアクターを選択します。
               0の場合は現在行動中のアクターに表示します。
             `,
           },
         }),
-        createStringParam('text', {
+        createStringParam('type', {
           text: {
             ja: 'メッセージタイプ',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               拡張用データに登録した拡張タイプを指定します。
             `,
           },
@@ -1100,7 +1124,7 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
         ja: '[戦闘中のみ] 指定タイプの敵セリフを表示',
       },
       description: {
-        ja: dedent`
+        ja: dd`
           指定したタイプのセリフを表示します。
           事前に拡張用データを登録する必要があります。
         `,
@@ -1111,18 +1135,18 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
             ja: 'セリフを表示する敵',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               セリフを表示する敵の番号を指定します。
               0の場合は現在行動中の敵に表示します。
             `,
           },
         }),
-        createStringParam('text', {
+        createStringParam('type', {
           text: {
             ja: 'メッセージタイプ',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               拡張用データに登録した拡張タイプを指定します。
             `,
           },

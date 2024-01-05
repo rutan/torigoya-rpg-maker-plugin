@@ -3,7 +3,6 @@ import {
   createCommand,
   createFileParam,
   createMultiLineStringParam,
-  createNoteParam,
   createNumberParam,
   createParamGroup,
   createSelectParam,
@@ -12,9 +11,10 @@ import {
   createStructParamArray,
   createStructParam,
   I18nText,
+  dd,
   TorigoyaPluginConfigSchema,
+  defineLabel,
 } from '@rutan/torigoya-plugin-config';
-import dedent from 'dedent';
 
 const structAchievement = createStruct('Achievement', [
   createStringParam('key', {
@@ -22,7 +22,7 @@ const structAchievement = createStruct('Achievement', [
       ja: '管理ID',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         実績獲得時に指定する名前（例: ゲームクリア）
         数字でも日本語でもOK / 他の実績と被るのはNG
       `,
@@ -33,7 +33,7 @@ const structAchievement = createStruct('Achievement', [
       ja: '表示名',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         実績に画面に表示するときの実績名
         （例：激闘の果てに魔王を倒した…ッ！）
       `,
@@ -44,7 +44,7 @@ const structAchievement = createStruct('Achievement', [
       ja: '実績の説明文',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         実績に画面に表示する説明文（2行程度）
       `,
     },
@@ -54,7 +54,7 @@ const structAchievement = createStruct('Achievement', [
       ja: '実績のアイコンID',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         実績に使用するアイコンの番号。
       `,
     },
@@ -64,7 +64,7 @@ const structAchievement = createStruct('Achievement', [
       ja: '実績獲得のヒント',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         未取得の場合に取得方法を表示できます（2行程度）
         空欄の場合は通常の説明文を表示します
       `,
@@ -75,7 +75,7 @@ const structAchievement = createStruct('Achievement', [
       ja: '秘密実績フラグ',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         この実績の存在を秘密にします。
         未獲得の場合に一覧に表示されなくなります。
       `,
@@ -88,12 +88,12 @@ const structAchievement = createStruct('Achievement', [
     },
     default: false,
   }),
-  createNoteParam('note', {
+  createMultiLineStringParam('note', {
     text: {
       ja: 'メモ',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         メモ欄です。
         ツクールのメモ欄同様に使えます。
       `,
@@ -107,7 +107,7 @@ const structSound = createStruct('Sound', [
       ja: '効果音ファイル名',
     },
     description: {
-      ja: dedent`
+      ja: dd`
         実績獲得ポップアップ表示時に再生する効果音ファイル。
         空っぽの場合は効果音なしになります。
       `,
@@ -128,14 +128,19 @@ const structSound = createStruct('Sound', [
   }),
 ]);
 
-const createBase = (params: { pluginCommandDescription?: string | I18nText }): Partial<TorigoyaPluginConfigSchema> => ({
+const createBase = (options: {
+  pluginCommandDescription?: string | I18nText;
+  addParams?: TorigoyaPluginConfigSchema['params'];
+}): Partial<TorigoyaPluginConfigSchema> => ({
   version: '1.7.0',
   title: {
     ja: '実績プラグイン',
   },
   help: {
-    ja: dedent`
+    ja: dd`
       実績・トロフィー的なシステムを定義します。
+      使用方法の詳細は以下の記事をご確認ください。
+      https://torigoya-plugin.rutan.dev/system/achievement2/
 
       ------------------------------------------------------------
       ■ 設定方法
@@ -149,7 +154,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
       ■ ゲーム中に実績を獲得する
       ------------------------------------------------------------
 
-      ${params.pluginCommandDescription}
+      ${options.pluginCommandDescription}
 
       ------------------------------------------------------------
       ■ その他の使い方・アドオンについて
@@ -192,7 +197,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'ポップアップ表示のON/OFF',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績を獲得した時にポップアップ表示を行うか？
             `,
           },
@@ -209,7 +214,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '表示位置',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップの表示位置
             `,
           },
@@ -224,7 +229,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '表示位置: 上端',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップ表示位置の上端
             `,
           },
@@ -236,9 +241,9 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'アニメーション',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップのアニメーション方法。
-              「なめらか」はTorigoya_FrameTween.jsが必要です。
+              「なめらか」は Torigoya_FrameTween が必要です。
             `,
           },
           options: [
@@ -252,7 +257,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '表示時間',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップの表示時間（秒）
               ※アニメーションの時間は含みません
             `,
@@ -266,7 +271,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'ポップアップの横幅',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップの横幅（px）
               小さすぎると文字がはみ出します
             `,
@@ -279,7 +284,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'ポップアップの余白',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップの余白サイズ
             `,
           },
@@ -291,7 +296,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '実績名の文字サイズ',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップに表示される
               取得した実績名の文字サイズ
             `,
@@ -304,7 +309,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '実績名の文字の色番号',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績名の文字表示に使用する色
               ※\\c[数字] ←の数字欄に入れる数字
             `,
@@ -317,7 +322,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'メッセージの内容',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップに表示される
               獲得メッセージの内容
             `,
@@ -331,7 +336,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'メッセージの文字サイズ',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップに表示される
               獲得メッセージの文字サイズ
             `,
@@ -345,7 +350,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '効果音',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得時に再生する効果音の設定
             `,
           },
@@ -359,7 +364,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'ウィンドウ画像',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップのウィンドウ画像
             `,
           },
@@ -371,7 +376,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'ウィンドウ背景の透明度',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               ウィンドウ背景の透明度(0～255)
               -1の場合はデフォルトの透明度を使用します。
             `,
@@ -386,7 +391,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
     // タイトル / メニュー画面設定
     ...createParamGroup('titleMenu', {
       text: {
-        ja: 'ポップアップ表示のON/OFF',
+        ja: '■ タイトル / メニュー画面設定',
       },
       children: [
         createBooleanParam('titleMenuUseInTitle', {
@@ -394,7 +399,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'タイトル画面に表示',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               タイトル画面に実績メニューを表示するか？
             `,
           },
@@ -411,7 +416,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'メニュー画面に表示',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               メニュー画面に実績メニューを表示するか？
             `,
           },
@@ -428,7 +433,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '項目名',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               タイトルやメニューに表示する際の
               実績メニューの項目名
             `,
@@ -451,7 +456,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '未獲得実績の表示名',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績画面で未取得の実績の欄に
               表示する名前
             `,
@@ -465,7 +470,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '未獲得実績のアイコンID',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績画面で未取得の実績の欄に
               表示するアイコンのID
             `,
@@ -486,7 +491,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: 'ポップアップのフォント',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               実績獲得ポップアップ表示のフォント名を指定します。
               空欄の場合は他のウィンドウと同じフォントを使用します。
             `,
@@ -498,7 +503,7 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
             ja: '獲得済み実績の再取得',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               既に獲得済みの実績でも再取得できるようにします
             `,
           },
@@ -512,27 +517,48 @@ const createBase = (params: { pluginCommandDescription?: string | I18nText }): P
         }),
       ],
     }),
+
+    ...(options.addParams || []),
   ],
-  structs: [structAchievement, structSound],
+  structs: [structSound, structAchievement],
 });
 
 export const Torigoya_Achievement2: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MV'],
   ...createBase({
-    pluginCommandDescription: dedent`
+    pluginCommandDescription: dd`
       プラグインコマンドに以下のように入力してください
 
       実績 ここに管理ID
 
       ※ここに管理IDの部分に、プラグイン設定画面で登録した管理IDを指定してください
     `,
+    addParams: [
+      {
+        ...createStringParam('achievementMenuCancelMessage', {
+          ...defineLabel({
+            ja: {
+              text: '閉じるボタンのテキスト',
+              description: dd`
+              実績画面を閉じるボタンのテキスト。
+              空欄の場合は閉じるボタンを表示しません。
+            `,
+            },
+          }),
+          default: {
+            ja: '閉じる',
+          },
+        }),
+        parent: 'achievementMenu',
+      },
+    ],
   }),
 };
 
 export const TorigoyaMZ_Achievement2: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
   ...createBase({
-    pluginCommandDescription: dedent`
+    pluginCommandDescription: dd`
       プラグインコマンドから獲得処理を呼び出すことができます。
     `,
   }),
@@ -542,7 +568,7 @@ export const TorigoyaMZ_Achievement2: Partial<TorigoyaPluginConfigSchema> = {
         ja: '実績の獲得',
       },
       description: {
-        ja: dedent`
+        ja: dd`
           指定した実績を獲得します。
         `,
       },
@@ -552,8 +578,31 @@ export const TorigoyaMZ_Achievement2: Partial<TorigoyaPluginConfigSchema> = {
             ja: '実績の管理ID',
           },
           description: {
-            ja: dedent`
+            ja: dd`
               獲得したい実績に設定したIDを指定
+            `,
+          },
+        }),
+      ],
+    }),
+    createCommand('removeAchievement', {
+      text: {
+        ja: '獲得済み実績の削除',
+      },
+      description: {
+        ja: dd`
+          既に獲得済みの実績を未獲得状態にします。
+          未獲得だった場合は何もしません。
+        `,
+      },
+      args: [
+        createStringParam('key', {
+          text: {
+            ja: '実績の管理ID',
+          },
+          description: {
+            ja: dd`
+              削除したい実績に設定したIDを指定
             `,
           },
         }),
@@ -564,7 +613,7 @@ export const TorigoyaMZ_Achievement2: Partial<TorigoyaPluginConfigSchema> = {
         ja: '実績画面の表示',
       },
       description: {
-        ja: dedent`
+        ja: dd`
           獲得済み実績の一覧画面を表示します。
         `,
       },
@@ -575,7 +624,7 @@ export const TorigoyaMZ_Achievement2: Partial<TorigoyaPluginConfigSchema> = {
         ja: '全実績の削除（注意！）',
       },
       description: {
-        ja: dedent`
+        ja: dd`
           すべての実績を獲得前の状態に戻します。
           気をつけて使おう！
         `,
