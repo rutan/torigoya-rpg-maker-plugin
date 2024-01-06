@@ -1,5 +1,5 @@
 import { expect, test } from '@jest/globals';
-import { generateAnnotation, sanitize } from '../src';
+import { generateAnnotation, sanitize } from '../src/index.js';
 import * as sample from './fixture/sample.json';
 
 test('generateAnnotation snapshot', () => {

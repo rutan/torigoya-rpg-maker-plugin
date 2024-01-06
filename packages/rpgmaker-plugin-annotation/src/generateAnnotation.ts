@@ -1,4 +1,4 @@
-import { PluginConfigSchema, PluginParameter } from './schema';
+import { PluginConfigSchema, PluginParameter } from './schema.js';
 
 export interface BuildOptions {
   languages: string[];

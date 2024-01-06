@@ -1,3 +1,3 @@
-export * from './generateAnnotation';
-export * from './schema';
-export * from './sanitize';
+export * from './generateAnnotation.js';
+export * from './schema.js';
+export * from './sanitize.js';

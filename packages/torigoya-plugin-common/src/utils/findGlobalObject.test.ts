@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { findGlobalObject } from './findGlobalObject';
+import { findGlobalObject } from './findGlobalObject.js';
 
 describe('findGlobalObject', () => {
   test('missing', () => {

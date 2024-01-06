@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { unescapeMetaString } from './unescapeMetaString';
+import { unescapeMetaString } from './unescapeMetaString.js';
 
 describe('unescapeMetaString', () => {
   test('<>', () => {

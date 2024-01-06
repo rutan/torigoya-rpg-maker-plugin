@@ -1,3 +1,3 @@
-export * from './comments';
-export * from './getAtsumaru';
-export * from './isAtsumaru';
+export * from './comments.js';
+export * from './getAtsumaru.js';
+export * from './isAtsumaru.js';

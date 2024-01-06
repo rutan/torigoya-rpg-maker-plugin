@@ -5,7 +5,7 @@ import {
   isVersionString,
   parseVersion,
   isGreaterThanOrEqualVersion,
-} from './version';
+} from './version.js';
 
 describe('checkExistPlugin', () => {
   beforeEach(() => {

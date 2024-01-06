@@ -2,8 +2,8 @@
 import { program } from 'commander';
 import * as fs from 'fs';
 import { version } from '../package.json';
-import { generateAnnotation } from './generateAnnotation';
-import { sanitize } from './sanitize';
+import { generateAnnotation } from './generateAnnotation.js';
+import { sanitize } from './sanitize.js';
 
 (() => {
   program.version(`v.${version}`);

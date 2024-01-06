@@ -27,4 +27,4 @@ export {
   PluginCommand,
   PluginNote,
   PluginConfigSchema,
-} from './internal/schemaDefine';
+} from './internal/schemaDefine.js';

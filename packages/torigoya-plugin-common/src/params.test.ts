@@ -11,7 +11,7 @@ import {
   parseStringParam,
   parseStringParamList,
   parseStructObjectParam,
-} from './params';
+} from './params.js';
 
 describe('parseBooleanParam', () => {
   test('boolean', () => {

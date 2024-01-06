@@ -1,5 +1,5 @@
 import { describe, expect, test } from '@jest/globals';
-import { arrayFlat } from './arrayFlat';
+import { arrayFlat } from './arrayFlat.js';
 
 describe('arrayFlat', () => {
   test('use original', () => {

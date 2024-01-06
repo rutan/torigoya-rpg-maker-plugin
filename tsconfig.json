@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
-    "module": "es2020",
+    "module": "node16",
     "target": "es2015",
     "sourceMap": true,
     "declaration": true,
-    "moduleResolution": "bundler",
+    "moduleResolution": "node16",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "strict": true,
