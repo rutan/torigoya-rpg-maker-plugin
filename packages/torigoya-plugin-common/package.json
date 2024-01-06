@@ -9,6 +9,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
+    "test": "jest --runInBand",
     "clean": "rimraf ./lib"
   },
   "volta": {

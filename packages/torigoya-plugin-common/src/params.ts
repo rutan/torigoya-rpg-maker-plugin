@@ -1,11 +1,13 @@
 export function parseBooleanParam(value: string | boolean | undefined, defaultValue: boolean): boolean {
   if (value === undefined) return defaultValue;
-  return String(value) === 'true';
+  return String(value).toLowerCase() === 'true';
 }
 
 export function parseBooleanParamList(value: string | boolean[] | undefined, defaultValue: boolean[]): boolean[] {
   if (value === undefined || value === '') return defaultValue;
-  return (Array.isArray(value) ? value : JSON.parse(String(value))).map((n: unknown) => String(n) === 'true');
+  return (Array.isArray(value) ? value : JSON.parse(String(value))).map(
+    (n: unknown) => String(n).toLowerCase() === 'true',
+  );
 }
 
 export function parseIntegerParam(value: string | number | undefined, defaultValue: number): number {
@@ -17,17 +19,6 @@ export function parseIntegerParam(value: string | number | undefined, defaultVal
 export function parseIntegerParamList(value: string | number[] | undefined, defaultValue: number[]): number[] {
   if (value === undefined || value === '') return defaultValue;
   return (Array.isArray(value) ? value : JSON.parse(String(value))).map((n: unknown) => Number.parseInt(String(n), 10));
-}
-
-export function parseNoteStringParam(value: string | undefined, defaultValue: string): string {
-  if (value === undefined) return defaultValue;
-  const str = String(value);
-  return str.startsWith('"') ? JSON.parse(str) : str;
-}
-
-export function parseNoteStringParamList(value: string | undefined, defaultValue: string[]): string[] {
-  if (value === undefined || value === '') return defaultValue;
-  return (Array.isArray(value) ? value : JSON.parse(String(value))).map((n: unknown) => String(n));
 }
 
 export function parseNumberParam(value: string | number | undefined, defaultValue: number): number {
@@ -49,6 +40,19 @@ export function parseStringParam(value: string | undefined, defaultValue: string
 export function parseStringParamList(value: string | string[] | undefined, defaultValue: string[]): string[] {
   if (value === undefined || value === '') return defaultValue;
   return (Array.isArray(value) ? value : JSON.parse(String(value))).map((n: unknown) => String(n));
+}
+
+export function parseNoteStringParam(value: string | undefined, defaultValue: string): string {
+  if (value === undefined) return defaultValue;
+  const str = String(value);
+  return str.startsWith('"') ? JSON.parse(str) : str;
+}
+
+export function parseNoteStringParamList(value: string | undefined, defaultValue: string[]): string[] {
+  if (value === undefined || value === '') return defaultValue;
+  return (Array.isArray(value) ? value : JSON.parse(String(value))).map((n: unknown) =>
+    parseNoteStringParam(String(n), ''),
+  );
 }
 
 export function parseStructObjectParam<T>(value: string | T | undefined, defaultValue: T): T {

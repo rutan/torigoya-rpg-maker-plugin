@@ -1,3 +1,4 @@
+import { expect, test } from '@jest/globals';
 import { generateAnnotation, sanitize } from '../src';
 import * as sample from './fixture/sample.json';
 

@@ -23,21 +23,31 @@ export function checkPluginVersion(
   requireVersion: VersionString,
   errorMessage: string,
 ) {
-  if (typeof version === 'string' && isGreaterThanOrEqualVersion(requireVersion, version)) return;
+  if (isVersionString(version) && isGreaterThanOrEqualVersion(requireVersion, version)) return;
   alert(errorMessage);
   throw new Error(errorMessage);
+}
+
+/**
+ * x.y.z 形式のバージョン文字列かどうか判定する
+ * @param version
+ */
+export function isVersionString(version: unknown): version is VersionString {
+  if (typeof version !== 'string') return false;
+  return /^\d+\.\d+\.\d+$/.test(version);
 }
 
 /**
  * x.y.z 形式のバージョン文字列を分解する
  * @param version
  */
-function parseVersion(version: VersionString): Version {
+export function parseVersion(version: VersionString): Version {
+  if (!isVersionString(version)) throw new Error(`invalid version: ${version}`);
   return version.split('.', 3).map((n) => parseInt(n || '0', 10)) as Version;
 }
 
 /**
- * a のバージョンが b 以上であるか判定する
+ * b のバージョンが a 以上であるか判定する（a <= b）
  * @param a
  * @param b
  */
