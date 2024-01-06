@@ -33,6 +33,9 @@ questions:
   "dependencies": {
     "@rutan/torigoya-plugin-common": "workspace:*",
     "@rutan/torigoya-plugin-config": "workspace:*"
+  },
+  "volta": {
+    "extends": "../../package.json"
   }
 }
 ```

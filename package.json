@@ -4,9 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "run-s build:*",
-    "build:turbo": "turbo build",
-    "clean": "turbo clean",
+    "build": "turbo build",
+    "build-force": "turbo build --force",
+    "test": "turbo test",
+    "clean": "rimraf ./_dist && turbo clean",
     "copy": "node ./scripts/copy-to-projects.js",
     "copy:watch": "node ./scripts/copy-to-projects.js -w",
     "format": "prettier -w ./",
@@ -47,5 +48,13 @@
     "@babel/preset-env": "^7.23.6",
     "@rutan/frame-tween": "0.6.1"
   },
-  "packageManager": "pnpm@8.10.0"
+  "packageManager": "pnpm@8.14.0",
+  "engines": {
+    "node": "20.10.0",
+    "pnpm": "8.14.0"
+  },
+  "volta": {
+    "node": "20.10.0",
+    "pnpm": "8.14.0"
+  }
 }

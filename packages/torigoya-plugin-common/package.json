@@ -10,5 +10,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "clean": "rimraf ./lib"
+  },
+  "volta": {
+    "extends": "../../package.json"
   }
 }

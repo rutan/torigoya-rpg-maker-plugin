@@ -1,7 +1,8 @@
 /.idea
 /_dist
 /packages/**/lib
-/src/entries/**/_build
+/plugins/**/_build
 /node_modules
 /projects
 /pnpm-lock.yaml
+__snapshots__/**/*

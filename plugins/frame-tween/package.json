@@ -12,5 +12,8 @@
     "@rutan/frame-tween": "0.6.1",
     "@rutan/torigoya-plugin-common": "workspace:*",
     "@rutan/torigoya-plugin-config": "workspace:*"
+  },
+  "volta": {
+    "extends": "../../package.json"
   }
 }

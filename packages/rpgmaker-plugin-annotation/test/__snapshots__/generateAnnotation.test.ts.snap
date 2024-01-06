@@ -75,6 +75,7 @@ exports[`generateAnnotation snapshot 1`] = `
  * @type number
  * @min 100
  * @max 100000
+ * @decimals 0
  * @default 0
  *
  * @param numberParameter
@@ -185,6 +186,7 @@ exports[`generateAnnotation snapshot 1`] = `
  * @text MyStruct Parameter 1
  * @desc This is a number
  * @type number
+ * @decimals 0
  * @default 12345
  *
  * @param structParam2
@@ -211,6 +213,7 @@ exports[`generateAnnotation snapshot 1`] = `
  * @text MyStruct Parameter 1
  * @desc This is a number
  * @type number
+ * @decimals 0
  * @default 12345
  */
 
@@ -288,6 +291,7 @@ exports[`generateAnnotation snapshot 1`] = `
  * @type number
  * @min 100
  * @max 100000
+ * @decimals 0
  * @default 0
  *
  * @param numberParameter
@@ -398,6 +402,7 @@ exports[`generateAnnotation snapshot 1`] = `
  * @text MyStruct Parameter 1
  * @desc This is a number
  * @type number
+ * @decimals 0
  * @default 12345
  *
  * @param structParam2
@@ -424,6 +429,7 @@ exports[`generateAnnotation snapshot 1`] = `
  * @text MyStruct Parameter 1
  * @desc This is a number
  * @type number
+ * @decimals 0
  * @default 12345
  */"
 `;

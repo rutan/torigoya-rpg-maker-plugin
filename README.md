@@ -9,7 +9,7 @@
 
 ## How to build
 
-require node and pnpm
+require node and pnpm with [volta](https://volta.sh/)
 
 ```bash
 $ pnpm install

@@ -15,7 +15,7 @@ function formatJSTDate(date: Date) {
     day: '2-digit',
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit'
+    second: '2-digit',
   });
 }
 
@@ -30,10 +30,10 @@ async function buildConfig(config: string, buildDir: string) {
 
         return [
           writeAnnotation(config, `${buildDir}/${key}_header.js`),
-          writeParameterReader(config, `${buildDir}/${key}_parameter.js`)
+          writeParameterReader(config, `${buildDir}/${key}_parameter.js`),
         ];
       })
-      .flat()
+      .flat(),
   );
 
   return configData;
@@ -69,18 +69,18 @@ export default async function pluginRPGMakerConfig(options: {
             version: configData[name]?.version || '',
             date: formatJSTDate(new Date()),
             help,
-            code
+            code,
           }),
           {
             parser: 'babel',
             printWidth: 120,
             tabWidth: 4,
-            singleQuote: true
-          }
+            singleQuote: true,
+          },
         );
       } else {
         return code;
       }
-    }
+    },
   };
 }

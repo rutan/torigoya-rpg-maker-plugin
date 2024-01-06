@@ -51,5 +51,8 @@
     "*.{js,ts}": [
       "prettier --write"
     ]
+  },
+  "volta": {
+    "extends": "../../package.json"
   }
 }
