@@ -1,6 +1,6 @@
-import { getAtsumaru } from './getAtsumaru';
+import { getAtsumaru } from './getAtsumaru.js';
 
-export function pushCommentContextFactor(str) {
+export function pushCommentContextFactor(str: string) {
   const client = getAtsumaru();
   if (!client) return;
   try {
