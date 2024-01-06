@@ -7,15 +7,29 @@
 - release files
   - https://github.com/rutan/torigoya-rpg-maker-plugin/tree/gh-pages
 
-## How to build
+## Setup
 
-require node and pnpm with [volta](https://volta.sh/)
+- [volta](https://volta.sh/)
+  - set `VOLTA_FEATURE_PNPM=1` to enable pnpm ( https://docs.volta.sh/advanced/pnpm )
 
 ```bash
 $ pnpm install
-$ pnpm build
+```
+
+## Task
+
+```bash
+# build
+$ pnpm run build
+$ pnpm run copy
+
+# test
+$ pnpm run test
+
+# create new plugin
+$ pnpm run scaffold
 ```
 
 ## License
 
-see LICENSE.txt
+[Unlicense](https://unlicense.org/)
