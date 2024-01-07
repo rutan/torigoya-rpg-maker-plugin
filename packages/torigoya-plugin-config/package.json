@@ -7,14 +7,18 @@
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "run-s clean build:*",
+    "build:ts": "tsc",
     "watch": "tsc -w",
+    "test": "vitest run",
+    "update-snapshot": "vitest run --update",
     "clean": "rimraf ./lib"
   },
   "dependencies": {
     "@qnighy/dedent": "^0.1.1",
     "@rutan/rpgmaker-plugin-annotation": "workspace:*",
     "@rutan/torigoya-plugin-common": "workspace:*",
+    "consola": "3.2.3",
     "jiti": "^1.21.0"
   },
   "devDependencies": {

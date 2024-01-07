@@ -305,10 +305,12 @@ export function generateAnnotation(config: PluginConfigSchema, { languages, defa
             else push(lines, 'default', JSON.stringify(param.default));
             break;
           case 'combo':
+          case 'combo[]':
             param.options.forEach((option) => {
               push(lines, 'option', pickString(option));
             });
-            push(lines, 'default', param.default);
+            if (param.type === 'combo') push(lines, 'default', param.default);
+            else push(lines, 'default', JSON.stringify(param.default));
             break;
           case 'actor':
           case 'class':

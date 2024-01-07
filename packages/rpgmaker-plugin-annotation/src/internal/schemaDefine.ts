@@ -114,6 +114,13 @@ export const pluginParameterCombo = pluginParameterBase.extend({
 });
 export type PluginParameterCombo = z.infer<typeof pluginParameterCombo>;
 
+export const pluginParameterComboArray = pluginParameterBase.extend({
+  type: z.literal('combo[]'),
+  options: z.array(z.string()),
+  default: z.array(z.string()).default([]),
+});
+export type PluginParameterComboArray = z.infer<typeof pluginParameterComboArray>;
+
 export const pluginParameterDatabase = pluginParameterBase.extend({
   type: z.union([
     z.literal('actor'),
@@ -191,6 +198,7 @@ export const pluginParameter = z.union([
   pluginParameterSelect,
   pluginParameterSelectArray,
   pluginParameterCombo,
+  pluginParameterComboArray,
   pluginParameterDatabase,
   pluginParameterDatabaseArray,
   pluginParameterStruct,

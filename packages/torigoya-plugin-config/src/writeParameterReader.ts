@@ -1,9 +1,18 @@
 import { writeFile } from 'fs/promises';
 import { consola } from 'consola';
-import { TorigoyaPluginConfigSchema } from './types.js';
 import { PluginParameter } from '@rutan/rpgmaker-plugin-annotation';
+import { TorigoyaPluginConfigSchema } from './types.js';
+import { format } from './format.js';
 
 export async function writeParameterReader(config: TorigoyaPluginConfigSchema, outputPath: string) {
+  const code = await generateParameterReaderCode(config);
+
+  return writeFile(outputPath, code, { encoding: 'utf8' }).then(() => {
+    consola.info(`write parameterReader: ${outputPath}`);
+  });
+}
+
+export async function generateParameterReaderCode(config: TorigoyaPluginConfigSchema) {
   const pickFuncList = Array.from(
     new Set([
       ...config.params.map((param) => detectFuncNameFromType(param)),
@@ -19,14 +28,15 @@ export async function writeParameterReader(config: TorigoyaPluginConfigSchema, o
 export function readStruct${struct.name}(parameters) {
   parameters = typeof parameters === 'string' ? JSON.parse(parameters) : parameters;
   return {
-    ${struct.params.map(generateParameterReaderCode).join(',\n    ')}
+    ${struct.params.map(generateParameterItemCode).join(',\n    ')}
   };
 }
     `.trim();
     })
     .join('\n\n');
 
-  const code = `
+  return format(
+    `
 import {
   getPluginName,
   ${pickFuncList.join(',\n  ')}
@@ -38,17 +48,14 @@ export function readParameter() {
   const parameters = PluginManager.parameters(getPluginName());
   return {
     version: ${JSON.stringify(config.version)},
-    ${config.params.map(generateParameterReaderCode).join(',\n    ')}
+    ${config.params.map(generateParameterItemCode).join(',\n    ')}
   };
 }
-`.trim();
-
-  return writeFile(outputPath, code, { encoding: 'utf8' }).then(() => {
-    consola.info(`write parameterReader: ${outputPath}`);
-  });
+`.trim(),
+  );
 }
 
-function generateParameterReaderCode(param: PluginParameter) {
+function generateParameterItemCode(param: PluginParameter) {
   const defaultValue = readDefaultValue(param.default);
 
   if (param.type === 'struct') {
@@ -143,6 +150,7 @@ function detectFuncNameFromType(param: PluginParameter) {
     case 'file':
       return 'parseStringParam';
     case 'select[]':
+    case 'combo[]':
     case 'string[]':
     case 'multiline_string[]':
     case 'file[]':

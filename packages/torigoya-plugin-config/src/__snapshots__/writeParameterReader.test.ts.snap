@@ -1,0 +1,98 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`generateParameterReaderCode > simple config > snapshot 1`] = `
+"import { getPluginName } from '@rutan/torigoya-plugin-common';
+
+export function readParameter() {
+    const parameters = PluginManager.parameters(getPluginName());
+    return {
+        version: '1.0.0',
+    };
+}
+"
+`;
+
+exports[`generateParameterReaderCode > some config > snapshot 1`] = `
+"import {
+    getPluginName,
+    parseBooleanParam,
+    parseBooleanParamList,
+    parseIntegerParam,
+    parseIntegerParamList,
+    parseNoteStringParam,
+    parseNoteStringParamList,
+    parseNumberParam,
+    parseNumberParamList,
+    parseStringParam,
+    parseStringParamList,
+    parseStructObjectParam,
+} from '@rutan/torigoya-plugin-common';
+
+export function readStructSample(parameters) {
+    parameters = typeof parameters === 'string' ? JSON.parse(parameters) : parameters;
+    return {
+        id: parseIntegerParam(parameters['id'], 0),
+        name: parseStringParam(parameters['name'], ''),
+        child: readStructChild(parseStructObjectParam(parameters['child'], { childId: 0, childName: '' })),
+        children: parseStructObjectParam(parameters['children'], []).map(readStructChild),
+    };
+}
+
+export function readStructChild(parameters) {
+    parameters = typeof parameters === 'string' ? JSON.parse(parameters) : parameters;
+    return {
+        childId: parseIntegerParam(parameters['childId'], 0),
+        childName: parseStringParam(parameters['childName'], ''),
+    };
+}
+
+export function readParameter() {
+    const parameters = PluginManager.parameters(getPluginName());
+    return {
+        version: '1.0.0',
+        paramString: parseStringParam(parameters['paramString'], 'test'),
+        paramStringArray: parseStringParamList(parameters['paramStringArray'], ['test1', 'test2']),
+        paramNote: parseNoteStringParam(parameters['paramNote'], 'testNote1\\ntestNote2'),
+        paramNoteArray: parseNoteStringParamList(parameters['paramNoteArray'], [
+            'testNoteA1\\ntestNoteA2',
+            'testNoteB1\\ntestNoteB2',
+        ]),
+        paramMultilineString: parseStringParam(parameters['paramMultilineString'], 'test1\\ntest2'),
+        paramMultilineStringArray: parseStringParamList(parameters['paramMultilineStringArray'], [
+            'testA1\\ntestA2',
+            'testB1\\ntestB2',
+        ]),
+        paramFile: parseStringParam(parameters['paramFile'], 'test'),
+        paramFileArray: parseStringParamList(parameters['paramFileArray'], ['test1', 'test2']),
+        paramNumber: parseIntegerParam(parameters['paramNumber'], 123),
+        paramNumberArray: parseIntegerParamList(parameters['paramNumberArray'], [1, 2, 3]),
+        paramNumberFloat: parseNumberParam(parameters['paramNumberFloat'], 123.456),
+        paramNumberFloatArray: parseNumberParamList(parameters['paramNumberFloatArray'], [1.234, 2.345, 3.456]),
+        paramBoolean: parseBooleanParam(parameters['paramBoolean'], true),
+        paramBooleanArray: parseBooleanParamList(parameters['paramBooleanArray'], [true, false]),
+        paramSelect: parseStringParam(parameters['paramSelect'], 'A'),
+        paramSelectArray: parseStringParamList(parameters['paramSelectArray'], ['A', 'B', 'C']),
+        paramCombo: parseStringParam(parameters['paramCombo'], 'A'),
+        paramComboArray: parseStringParamList(parameters['paramComboArray'], ['A', 'B', 'C']),
+        paramActor: parseIntegerParam(parameters['paramActor'], 10),
+        paramActorArray: parseIntegerParamList(parameters['paramActorArray'], [10, 20]),
+        paramStruct: readStructSample(
+            parseStructObjectParam(parameters['paramStruct'], {
+                id: 123,
+                name: 'test',
+                child: { childId: 456, childName: 'test2' },
+                children: [{ childId: 789, childName: 'test3' }],
+            }),
+        ),
+        paramStructArray: parseStructObjectParam(parameters['paramStructArray'], [
+            {
+                id: 123,
+                name: 'test',
+                child: { childId: 456, childName: 'test2' },
+                children: [{ childId: 789, childName: 'test3' }],
+            },
+        ]).map(readStructSample),
+    };
+}
+"
+`;

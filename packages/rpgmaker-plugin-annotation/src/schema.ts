@@ -18,6 +18,7 @@ export {
   PluginParameterSelect,
   PluginParameterSelectArray,
   PluginParameterCombo,
+  PluginParameterComboArray,
   PluginParameterDatabase,
   PluginParameterDatabaseArray,
   PluginParameterStruct,

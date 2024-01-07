@@ -3,11 +3,11 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["lib/**", "_dist/**", "src/_build/**"]
+      "outputs": ["lib/**", "_dist/**", "src/_build/**", "tmp/**"]
     },
     "test": {
       "dependsOn": ["^build"],
-      "outputs": ["lib/**", "_dist/**", "src/_build/**"]
+      "outputs": ["lib/**", "_dist/**", "src/_build/**", "tmp/**"]
     },
     "clean": {
       "cache": false

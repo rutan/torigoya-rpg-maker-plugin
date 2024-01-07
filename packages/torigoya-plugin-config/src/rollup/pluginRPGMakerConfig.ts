@@ -6,7 +6,7 @@ import { writeAnnotation } from '../writeAnnotation.js';
 import { writeParameterReader } from '../writeParameterReader.js';
 import { Plugin } from 'rollup';
 import { mkdirp } from 'mkdirp';
-import { format } from 'prettier';
+import { format } from '../format.js';
 
 function formatJSTDate(date: Date) {
   return date.toLocaleString('ja-JP', {
@@ -71,12 +71,6 @@ export default async function pluginRPGMakerConfig(options: {
             help,
             code,
           }),
-          {
-            parser: 'babel',
-            printWidth: 120,
-            tabWidth: 4,
-            singleQuote: true,
-          },
         );
       } else {
         return code;
