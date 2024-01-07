@@ -1,0 +1,127 @@
+base: &base
+  version: '1.3.1'
+  title:
+    ja: 'ニコニ広告通知バー風表示プラグイン'
+  help:
+    ja: |
+      ※このプラグインはRPGアツマール用の非公式プラグインです
+
+      RPGアツマール上でゲームにニコニ広告された場合に、
+      昔のニコ生っぽい広告バーを画面に表示をします。
+  params:
+    - name: test
+      type: string
+      text: ■ テストプレイ設定
+    - name: testUseDebugMode
+      type: boolean
+      text: テストモード
+      description: |-
+        テストプレイ時にダミーの広告を表示するか？
+        テストプレイ以外では強制的にオフになります。
+      parent: test
+      on: 使用する
+      off: 使用しない
+      default: false
+    - name: base
+      type: string
+      text: ■ 基本設定
+    - name: baseTitle
+      type: string
+      text: タイトル
+      description: タイトル部分に表示する文字列
+      parent: base
+      default: ニコニ広告
+    - name: baseMessage
+      type: string
+      text: メッセージ
+      description: メッセージの最後につける感謝の言葉
+      parent: base
+      default: '広告ありがとうございます！'
+    - name: baseBackgroundColor
+      type: string
+      text: 背景色
+      description: |-
+        背景の色
+        （※CSSと同様の指定方法です）
+      parent: base
+      default: rgba(255, 229, 0, .8)
+    - name: baseTextColor
+      type: string
+      text: 文字色
+      description: |-
+        文字の色
+        （※CSSと同様の指定方法です）
+      parent: base
+      default: '#000000'
+    - name: baseFontFamily
+      type: string
+      text: フォント
+      description: |-
+        文字のフォント
+        （※CSSと同様の指定方法です）
+      parent: base
+      default: sans-serif
+    - name: baseScrollSpeed
+      type: number
+      text: 流れる速度
+      description: |-
+        文字が流れる速度を指定します
+        （1秒間に何px分文字を流すか）
+      parent: base
+      default: 100
+    - name: baseScrollTimeMax
+      type: number
+      text: 最大表示時間
+      description: |-
+        文字が流れる時間の最大時間を指定します。
+        この時間以上になる場合は流す速度を加速します。
+      parent: base
+      default: 10
+    - name: advanced
+      type: string
+      text: ■ 上級者設定
+    - name: advancedAutoStart
+      type: boolean
+      text: 自動開始
+      description: ゲーム開始と同時に表示を始めるか？
+      parent: advanced
+      on: 始める
+      off: 始めない
+      default: true
+    - name: advancedExpiration
+      type: number
+      text: 対象時間
+      description: 何秒前の広告までを対象にするか？
+      parent: advanced
+      default: 604800
+    - name: advancedFetchInterval
+      type: number
+      text: 自動取得間隔
+      description: |-
+        ニコニ広告情報の自動取得の間隔（分）
+        0の場合は再取得しません
+      parent: advanced
+      default: 5
+
+Torigoya_NiconikoBar:
+  <<: *base
+  target:
+    - MV
+
+TorigoyaMZ_NiconikoBar:
+  <<: *base
+  target:
+    - MZ
+  commands:
+    - name: start
+      text: ニコニ広告情報の取得開始
+      description: |
+        ニコニ広告情報の取得を開始します。
+        取得した場合自動的にバーを表示します。
+      args: []
+    - name: stop
+      text: ニコニ広告情報の取得停止
+      description: |
+        ニコニ広告情報の取得を停止します。
+        停止中はバーが表示されません。
+      args: []

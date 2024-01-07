@@ -1,0 +1,19 @@
+{
+  "name": "@rutan/torigoya-plugin-frame-tween",
+  "version": "2.2.1",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c",
+    "watch": "rollup -c -w",
+    "clean": "rimraf ./_dist && rimraf ./src/_build"
+  },
+  "dependencies": {
+    "@rutan/frame-tween": "0.6.1",
+    "@rutan/torigoya-plugin-common": "workspace:*",
+    "@rutan/torigoya-plugin-config": "workspace:*"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

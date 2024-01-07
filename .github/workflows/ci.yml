@@ -4,14 +4,22 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch: {}
 jobs:
   ci:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@d882d12c64e032187b2edb46d3a0d003b7a43598 # v.2.4.0
         with:
-          node-version: '18.x'
-          cache: 'yarn'
-      - run: yarn --frozen-lockfile
-      - run: yarn build
+          run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: 'package.json'
+          cache: 'pnpm'
+
+      - run: pnpm install
+      - run: pnpm run build
+      - run: pnpm run test

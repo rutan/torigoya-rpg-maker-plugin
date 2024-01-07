@@ -1,5 +1,7 @@
 /_dist
+/packages/**/lib
 /src/entries/**/_build
 /public
 /projects
 
+.turbo

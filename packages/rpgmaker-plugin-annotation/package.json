@@ -1,0 +1,41 @@
+{
+  "name": "@rutan/rpgmaker-plugin-annotation",
+  "type": "module",
+  "version": "0.4.0",
+  "author": "ru_shalm",
+  "email": "ru_shalm@hazimu.com",
+  "license": "Unlicense",
+  "homepage": "https://github.com/rutan/rpgmaker-plugin-annotation",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bin": {
+    "rmpab": "lib/src/cli.js",
+    "rpgmaker-plugin-annotation-builder": "lib/src/cli.js"
+  },
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
+  "module": "lib/src/index.js",
+  "files": [
+    "src/",
+    "lib/"
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build": "run-s clean build:*",
+    "build:ts": "tsc",
+    "test": "vitest run",
+    "update-snapshot": "vitest run --update",
+    "clean": "rimraf ./lib",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "zod": "^3.22.4"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

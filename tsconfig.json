@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "node16",
+    "target": "es2015",
+    "sourceMap": true,
+    "declaration": true,
+    "moduleResolution": "node16",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "allowJs": true,
+    "types": ["node"]
+  },
+  "exclude": ["**/*.test.ts"]
+}

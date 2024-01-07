@@ -1,0 +1,19 @@
+{
+  "name": "@rutan/torigoya-plugin-common",
+  "version": "0.0.1",
+  "type": "module",
+  "private": true,
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "run-s clean build:*",
+    "build:ts": "tsc",
+    "watch": "tsc -w",
+    "test": "vitest run",
+    "clean": "rimraf ./lib"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

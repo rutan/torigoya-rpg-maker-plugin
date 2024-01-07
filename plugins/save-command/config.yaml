@@ -1,0 +1,93 @@
+TorigoyaMZ_SaveCommand2:
+  version: 2.1.1
+  title:
+    ja: セーブコマンド追加プラグイン（オートセーブ）
+  target:
+    - MZ
+  commands:
+    - name: saveWithId
+      text: 【セーブ】スロットIDを指定してセーブ
+      description: |
+        指定のスロットIDにセーブを実行します。
+        0は「オートセーブ」用スロットです。
+      args:
+        - name: slotId
+          type: number
+          text: スロットID
+          description: セーブするスロットのID
+          min: 0
+          default: 1
+        - name: skipUpdateTimestamp
+          type: boolean
+          text: セーブ日時の更新をスキップ
+          description: |-
+            ロード時のカーソル位置移動防止のため
+            セーブ日時の更新処理をスキップします
+          on: スキップする
+          off: スキップしない（標準）
+          default: false
+    - name: saveWithVariable
+      text: 【セーブ】変数でスロットIDを指定してセーブ
+      description: |
+        指定した変数の値のスロットIDにセーブを実行します
+      args:
+        - name: slotVariableId
+          type: variable
+          text: スロットIDが入った変数
+          description: セーブするスロットのIDを指定する変数
+        - name: skipUpdateTimestamp
+          type: boolean
+          text: セーブ日時の更新をスキップ
+          description: |-
+            ロード時のカーソル位置移動防止のため
+            セーブ日時の更新処理をスキップします
+          on: スキップする
+          off: スキップしない（標準）
+          default: false
+    - name: saveLastSlot
+      text: 【セーブ】最後にセーブしたスロットに上書き
+      description: |
+        最後にセーブしたスロットに上書きセーブします
+      args:
+        - name: skipUpdateTimestamp
+          type: boolean
+          text: セーブ日時の更新をスキップ
+          description: |-
+            ロード時のカーソル位置移動防止のため
+            セーブ日時の更新処理をスキップします
+          on: スキップする
+          off: スキップしない（標準）
+          default: false
+    - name: deleteWithId
+      text: 【削除】スロットIDを指定してセーブ削除
+      description: |
+        【！取り扱い注意！】
+        指定のスロットIDのセーブデータを削除します
+      args:
+        - name: slotId
+          type: number
+          text: スロットID
+          description: セーブを削除するスロットのID
+          min: 0
+          default: 1
+    - name: deleteWithVariable
+      text: 【削除】変数でスロットIDを指定してセーブ削除
+      description: |
+        【！取り扱い注意！】
+        指定した変数の値のスロットIDのセーブデータを削除します
+      args:
+        - name: slotVariableId
+          type: variable
+          text: スロットIDが入った変数
+          description: セーブを削除するスロットのIDを指定する変数
+    - name: deleteLastSlot
+      text: 【削除】最後にセーブしたスロットを削除
+      description: |
+        【！取り扱い注意！】
+        最後にセーブしたスロットのセーブデータを削除します
+      args: []
+  params: []
+  help:
+    ja: |
+      イベントコマンドの「プラグインコマンド」を使って、
+      イベント中に自動的にセーブを実行できるようになります。

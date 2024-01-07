@@ -1,0 +1,400 @@
+{
+  "target": ["MZ"],
+  "title": {
+    "en": "SamplePlugin",
+    "ja": "サンプルプラグイン"
+  },
+  "version": "1.2.3",
+  "author": "Name",
+  "help": "This is a sample plugin.\nGood luck :)",
+  "url": "https://example.com",
+  "license": "Public domain",
+  "params": [
+    {
+      "type": "string",
+      "name": "stringParameter",
+      "text": {
+        "en": "String Parameter",
+        "ja": "文字列パラメータ"
+      },
+      "description": "this is a string",
+      "default": {
+        "en": "hello, world",
+        "ja": "こんにちは、世界"
+      }
+    },
+    {
+      "type": "string",
+      "name": "stringParameterWithEmptyDefault",
+      "text": {
+        "en": "String Parameter with Empty Default Value",
+        "ja": "文字列パラメータ（デフォルト値空欄）"
+      },
+      "description": "this is a string",
+      "default": ""
+    },
+    {
+      "type": "string[]",
+      "name": "stringArrayParameter",
+      "text": {
+        "en": "String Array Parameter",
+        "ja": "文字列配列パラメータ"
+      },
+      "description": "this is a string array",
+      "default": ["hello", "world"]
+    },
+    {
+      "type": "multiline_string",
+      "name": "multilineStringParameter",
+      "text": {
+        "en": "MultilineString Parameter",
+        "ja": "複数行文字列パラメータ"
+      },
+      "description": "this is a multiline string",
+      "default": "hello\nworld"
+    },
+    {
+      "type": "multiline_string[]",
+      "name": "multilineStringArrayParameter",
+      "text": {
+        "en": "MultilineString Array Parameter",
+        "ja": "複数行文字列配列パラメータ"
+      },
+      "description": "this is a multiline string array",
+      "default": ["hello\nworld", "happy\nworld"]
+    },
+    {
+      "type": "note",
+      "name": "noteParameter",
+      "text": {
+        "en": "Note Parameter",
+        "ja": "メモ欄パラメータ"
+      },
+      "description": "this is a note",
+      "default": "<Hello:World>"
+    },
+    {
+      "type": "note[]",
+      "name": "noteArrayParameter",
+      "text": {
+        "en": "Note Array Parameter",
+        "ja": "メモ欄配列パラメータ"
+      },
+      "description": "this is a note array",
+      "default": ["<Hello:World>", "<Happy:World>"]
+    },
+    {
+      "type": "number",
+      "name": "numberParameter",
+      "text": {
+        "en": "Number Parameter",
+        "ja": "数値パラメータ"
+      },
+      "description": "this is a number",
+      "min": 100,
+      "max": 100000,
+      "decimals": 0,
+      "default": 0
+    },
+    {
+      "type": "number[]",
+      "name": "numberParameter",
+      "text": {
+        "en": "Number Array Parameter",
+        "ja": "数値配列パラメータ"
+      },
+      "description": "this is a number array",
+      "min": -100,
+      "max": 1000,
+      "decimals": 2,
+      "default": [123.45, 456.67]
+    },
+    {
+      "type": "boolean",
+      "name": "booleanParameter",
+      "text": {
+        "en": "Boolean Parameter",
+        "ja": "真偽値パラメータ"
+      },
+      "description": "this is a boolean",
+      "on": {
+        "en": "ON",
+        "ja": "オン"
+      },
+      "off": {
+        "en": "OFF",
+        "ja": "オフ"
+      },
+      "default": false
+    },
+    {
+      "type": "boolean[]",
+      "name": "booleanParameter",
+      "text": {
+        "en": "Boolean Array Parameter",
+        "ja": "真偽値配列パラメータ"
+      },
+      "description": "this is a boolean array",
+      "on": "TRUE",
+      "off": "FALSE",
+      "default": [false, true]
+    },
+    {
+      "type": "file",
+      "name": "fileParameter",
+      "text": {
+        "en": "File Parameter",
+        "ja": "ファイルパラメータ"
+      },
+      "description": "this is a file",
+      "dir": "img/pictures",
+      "default": "Actor_01"
+    },
+    {
+      "type": "file[]",
+      "name": "fileArrayParameter",
+      "text": {
+        "en": "File Array Parameter",
+        "ja": "ファイル配列パラメータ"
+      },
+      "description": "this is a file array",
+      "dir": "img/pictures",
+      "default": ["Actor_01", "Actor_02"]
+    },
+    {
+      "type": "actor",
+      "name": "actorParameter",
+      "text": {
+        "en": "Actor Parameter",
+        "ja": "アクターパラメータ"
+      },
+      "description": "this is a actor",
+      "default": 1
+    },
+    {
+      "type": "actor[]",
+      "name": "actorArrayParameter",
+      "text": {
+        "en": "Actor Array Parameter",
+        "ja": "アクター配列パラメータ"
+      },
+      "description": "this is a actor array",
+      "default": [1, 2, 3, 4]
+    },
+    {
+      "type": "select",
+      "name": "selectParameter",
+      "text": {
+        "en": "Select Parameter",
+        "ja": "セレクトパラメータ"
+      },
+      "description": "this is a select parameter",
+      "options": [
+        {
+          "name": {
+            "en": "Option 1",
+            "ja": "オプション1"
+          },
+          "value": "A"
+        },
+        {
+          "name": "Option-2",
+          "value": "B"
+        }
+      ],
+      "default": "A"
+    },
+    {
+      "type": "select[]",
+      "name": "selectArrayParameter",
+      "text": {
+        "en": "Select Array Parameter",
+        "ja": "セレクト配列パラメータ"
+      },
+      "description": "this is a select parameter array",
+      "options": [
+        {
+          "name": {
+            "en": "Option 1",
+            "ja": "オプション1"
+          },
+          "value": "A"
+        },
+        {
+          "name": "Option-2",
+          "value": "B"
+        }
+      ],
+      "default": ["A", "B"]
+    },
+    {
+      "type": "struct",
+      "struct": "MyStructParent",
+      "name": "structParameter",
+      "text": {
+        "en": "Struct Parameter",
+        "ja": "構造体パラメータ"
+      },
+      "description": "this is a struct parameter",
+      "default": {
+        "en": {
+          "structParam1": 10,
+          "structParam2": "This is a string!",
+          "structParam3": {
+            "structParam1": 20
+          }
+        },
+        "ja": {
+          "structParam1": 10,
+          "structParam2": "これは文字列だ！",
+          "structParam3": {
+            "structParam1": 20
+          }
+        }
+      }
+    },
+    {
+      "type": "struct[]",
+      "struct": "MyStructParent",
+      "name": "structParameterArray1",
+      "text": {
+        "en": "Struct Parameter Array",
+        "ja": "構造体パラメータ配列"
+      },
+      "description": "this is struct parameters",
+      "default": [
+        {
+          "structParam1": 100,
+          "structParam2": "This is a string! / これは文字列です！",
+          "structParam3": {
+            "structParam1": 200
+          }
+        }
+      ]
+    },
+    {
+      "type": "struct[]",
+      "struct": "MyStructParent",
+      "name": "structParameterArray2",
+      "text": {
+        "en": "Struct Parameter Array (locale)",
+        "ja": "構造体パラメータ配列（言語設定）"
+      },
+      "description": "this is struct parameters",
+      "default": {
+        "en": [
+          {
+            "structParam1": 123,
+            "structParam2": "This is a english string!",
+            "structParam3": {
+              "structParam1": 234
+            }
+          }
+        ],
+        "ja": [
+          {
+            "structParam1": 321,
+            "structParam2": "これは日本語の文字列です！",
+            "structParam3": {
+              "structParam1": 432
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "structs": [
+    {
+      "name": "MyStructParent",
+      "params": [
+        {
+          "name": "structParam1",
+          "text": "MyStruct Parameter 1",
+          "description": "This is a number",
+          "type": "number",
+          "default": 12345
+        },
+        {
+          "name": "structParam2",
+          "text": "MyStruct Parameter 2",
+          "description": "This is a string",
+          "type": "string",
+          "default": {
+            "en": "this is a string",
+            "ja": "これは文字列"
+          }
+        },
+        {
+          "name": "structParam3",
+          "text": "MyStruct Parameter 3",
+          "description": "This is a struct",
+          "type": "struct",
+          "struct": "MyStructChild",
+          "default": {
+            "structParam1": 20
+          }
+        },
+        {
+          "name": "structParam4",
+          "text": "MyStruct Parameter 4",
+          "description": "This is a struct array",
+          "type": "struct[]",
+          "struct": "MyStructChild",
+          "default": [
+            {
+              "structParam1": 1
+            },
+            {
+              "structParam1": 2
+            },
+            {
+              "structParam1": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "MyStructChild",
+      "params": [
+        {
+          "name": "structParam1",
+          "text": "MyStruct Parameter 1",
+          "description": "This is a number",
+          "type": "number",
+          "default": 12345
+        }
+      ]
+    }
+  ],
+  "commands": [
+    {
+      "name": "MyCommand",
+      "text": "My Original Command",
+      "description": "This is a super command.\nThis command is very useful.",
+      "args": [
+        {
+          "name": "commandParam1",
+          "text": "Command Parameter 1",
+          "description": "This is a boolean",
+          "type": "boolean",
+          "on": "TRUE",
+          "off": "FALSE",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "base": ["ParentPlugin", "ParentPluginEx"],
+  "orderAfter": ["ChildPlugin", "ChildPluginEx"],
+  "orderBefore": ["ParentPlugin2", "ParentPlugin2Ex"],
+  "requiredAssets": ["img/pictures/image_1", "img/system/image_2"],
+  "requiredNoteAssets": [
+    {
+      "name": "name",
+      "dir": "img/pictures",
+      "type": "file",
+      "data": "actors"
+    }
+  ]
+}
