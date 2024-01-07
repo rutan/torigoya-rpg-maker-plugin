@@ -13,5 +13,6 @@
     "skipLibCheck": true,
     "allowJs": true,
     "types": ["node"]
-  }
+  },
+  "exclude": ["**/*.test.ts"]
 }

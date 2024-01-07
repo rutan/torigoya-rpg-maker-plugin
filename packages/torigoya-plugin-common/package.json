@@ -10,7 +10,7 @@
     "build": "run-s clean build:*",
     "build:ts": "tsc",
     "watch": "tsc -w",
-    "test": "jest --runInBand",
+    "test": "vitest run",
     "clean": "rimraf ./lib"
   },
   "volta": {

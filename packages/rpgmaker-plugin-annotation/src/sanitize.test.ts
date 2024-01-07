@@ -1,6 +1,6 @@
-import { expect, test } from '@jest/globals';
-import { sanitize } from '../src/index.js';
-import * as sample from './fixture/sample.json';
+import { expect, test } from 'vitest';
+import { sanitize } from './sanitize.js';
+import * as sample from '../fixture/sample.json';
 
 test('sanitize', () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

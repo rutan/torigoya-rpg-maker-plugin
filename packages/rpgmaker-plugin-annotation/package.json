@@ -26,8 +26,8 @@
   "scripts": {
     "build": "run-s clean build:*",
     "build:ts": "tsc",
-    "test": "jest --runInBand",
-    "update-snapshot": "jest --runInBand --updateSnapshot",
+    "test": "vitest run",
+    "update-snapshot": "vitest run --update",
     "clean": "rimraf ./lib",
     "prepublish": "npm run build"
   },

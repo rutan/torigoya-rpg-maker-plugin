@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test, jest } from '@jest/globals';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import {
   checkExistPlugin,
   checkPluginVersion,
@@ -9,7 +9,7 @@ import {
 
 describe('checkExistPlugin', () => {
   beforeEach(() => {
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
+    vi.spyOn(window, 'alert').mockImplementation(() => {});
   });
 
   test('exist', () => {
@@ -23,7 +23,7 @@ describe('checkExistPlugin', () => {
 
 describe('checkPluginVersion', () => {
   beforeEach(() => {
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
+    vi.spyOn(window, 'alert').mockImplementation(() => {});
   });
 
   test('valid', () => {
