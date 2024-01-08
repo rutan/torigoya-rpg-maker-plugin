@@ -383,7 +383,10 @@ Torigoya.NotifyMessage = {
       const stack = {
         notifyItem,
         window,
-        y: window.y + this.itemMargin(),
+        y: 0,
+        appearAnimation: null,
+        waitAnimation: null,
+        exitAnimation: null,
       };
       this._stacks.unshift(stack);
 
@@ -405,22 +408,72 @@ Torigoya.NotifyMessage = {
      * @param stack
      */
     startAppearAndExitAnimation(stack) {
-      const appearTime = Torigoya.NotifyMessage.parameter.baseAppearTime;
       const viewTime = Torigoya.NotifyMessage.parameter.baseViewTime;
-      const animation = Torigoya.FrameTween.create(stack.notifyItem).group(this._group);
+      const animationDirection = Torigoya.NotifyMessage.parameter.baseAnimationDirection;
+      const topPadding = Torigoya.NotifyMessage.parameter.advancedUiPaddingTop;
+      const bottomPadding = Torigoya.NotifyMessage.parameter.advancedUiPaddingBottom;
+
+      // スタックの状態を初期化
+      stack.y =
+        animationDirection === 'topToBottom' ? -stack.window.height + topPadding : Graphics.height - bottomPadding;
+
+      // ウィンドウの初期状態を設定
+      stack.window.x = 0;
+      stack.window.y = stack.y;
+      stack.window.contentsOpacity = 0;
 
       // 登場アニメーション
-      animation.to({ openness: 255 }, appearTime, Torigoya.FrameTween.Easing.easeInOutQuad);
+      stack.appearAnimation = this.createAppearAnimation(stack).call(() =>
+        stack.waitAnimation ? stack.waitAnimation.start() : null,
+      );
 
-      // 停止→退場アニメーション
-      if (viewTime > 0) {
-        animation
-          .wait(viewTime)
-          .to({ openness: 0 }, appearTime, Torigoya.FrameTween.Easing.easeInOutQuad)
-          .call(() => this._destroyStack(stack));
-      }
+      // 停止アニメーション
+      stack.waitAnimation =
+        viewTime > 0
+          ? this.createWaitAnimation(stack).call(() => (stack.exitAnimation ? stack.exitAnimation.start() : null))
+          : null;
 
-      animation.start();
+      // 退場アニメーション
+      stack.exitAnimation = this.createExitAnimation(stack).call(() => this._destroyStack(stack));
+
+      stack.appearAnimation.start();
+    }
+
+    /**
+     * 登場時のTweenアニメーションの作成
+     * @param stack
+     * @return {Tween}
+     */
+    createAppearAnimation(stack) {
+      const appearTime = Torigoya.NotifyMessage.parameter.baseAppearTime;
+
+      return Torigoya.FrameTween.create(stack.notifyItem)
+        .group(this._group)
+        .to({ openness: 255 }, appearTime, Torigoya.FrameTween.Easing.easeInOutQuad);
+    }
+
+    /**
+     * 待機時のTweenアニメーションの作成
+     * @param stack
+     * @return {Tween}
+     */
+    createWaitAnimation(stack) {
+      const viewTime = Torigoya.NotifyMessage.parameter.baseViewTime;
+
+      return Torigoya.FrameTween.create(stack.notifyItem).group(this._group).wait(viewTime);
+    }
+
+    /**
+     * 終了時のTweenアニメーションの作成
+     * @param stack
+     * @return {Tween}
+     */
+    createExitAnimation(stack) {
+      const appearTime = Torigoya.NotifyMessage.parameter.baseAppearTime;
+
+      return Torigoya.FrameTween.create(stack.notifyItem)
+        .group(this._group)
+        .to({ openness: 0 }, appearTime, Torigoya.FrameTween.Easing.easeInOutQuad);
     }
 
     /**
@@ -428,11 +481,58 @@ Torigoya.NotifyMessage = {
      * @param newWindowHeight
      */
     startScrollAnimation(newWindowHeight) {
-      const appearTime = Torigoya.NotifyMessage.parameter.baseAppearTime;
+      const animationDirection = Torigoya.NotifyMessage.parameter.baseAnimationDirection;
 
       // 既に動作中のアニメーションがある場合は破棄
       this._scrollAnimations.forEach((a) => a.abort());
       this._scrollAnimations.length = 0;
+
+      if (animationDirection === 'topToBottom') {
+        this.applyScrollAnimationForTopToBottom(newWindowHeight);
+      } else {
+        this.applyScrollAnimationForBottomToTop(newWindowHeight);
+      }
+    }
+
+    /**
+     * 上から下に移動するアニメーションを反映
+     * @param newWindowHeight
+     */
+    applyScrollAnimationForTopToBottom(newWindowHeight) {
+      const appearTime = Torigoya.NotifyMessage.parameter.baseAppearTime;
+      const bottomPadding = Torigoya.NotifyMessage.parameter.advancedUiPaddingBottom;
+
+      let i = 0;
+      while (i < this._stacks.length) {
+        const stack = this._stacks[i];
+
+        if (stack.y > Graphics.height) {
+          this._destroyStack(stack);
+          continue;
+        }
+
+        if (stack.y + stack.window.height > Graphics.height - bottomPadding) {
+          this.forceStartExitAnimation(stack);
+        }
+
+        stack.y += newWindowHeight + this.itemMargin();
+        const animation = Torigoya.FrameTween.create(stack.window)
+          .group(this._group)
+          .to({ y: stack.y }, appearTime, Torigoya.FrameTween.Easing.easeInOutQuad)
+          .start();
+        this._scrollAnimations.push(animation);
+
+        ++i;
+      }
+    }
+
+    /**
+     * 下から上に移動するアニメーションを反映
+     * @param newWindowHeight
+     */
+    applyScrollAnimationForBottomToTop(newWindowHeight) {
+      const appearTime = Torigoya.NotifyMessage.parameter.baseAppearTime;
+      const topPadding = Torigoya.NotifyMessage.parameter.advancedUiPaddingTop;
 
       let i = 0;
       while (i < this._stacks.length) {
@@ -441,6 +541,10 @@ Torigoya.NotifyMessage = {
         if (stack.y + stack.window.height < 0) {
           this._destroyStack(stack);
           continue;
+        }
+
+        if (stack.y < topPadding) {
+          this.forceStartExitAnimation(stack);
         }
 
         stack.y -= newWindowHeight + this.itemMargin();
@@ -455,18 +559,31 @@ Torigoya.NotifyMessage = {
     }
 
     /**
+     * 指定スタックの登場/待機アニメーションを強制終了して終了アニメーションを開始
+     * @param stack
+     */
+    forceStartExitAnimation(stack) {
+      if (!stack.appearAnimation.finished) {
+        stack.appearAnimation.abort();
+        if (stack.waitAnimation) stack.waitAnimation.abort();
+        stack.exitAnimation.start();
+      } else if (stack.waitAnimation && !stack.waitAnimation.finished) {
+        stack.waitAnimation.abort();
+        stack.exitAnimation.start();
+      }
+    }
+
+    /**
      * 通知メッセージをもとにウィンドウを初期化
      * @param notifyItem
      * @returns {Window|Window_NotifyMessage}
      * @private
      */
     _setupWindow(notifyItem) {
-      const bottom = Torigoya.NotifyMessage.parameter.advancedUiPaddingBottom;
-
       const window = this._createOrGetFromPoolWindow();
       window.setup(notifyItem);
       window.x = 0;
-      window.y = Graphics.height - bottom;
+      window.y = 0;
       window.contentsOpacity = 0;
       return window;
     }
@@ -515,6 +632,9 @@ Torigoya.NotifyMessage = {
       if (index === -1) return;
       this._stacks.splice(index, 1);
       if (stack.window) this._releaseWindow(stack.window);
+      stack.appearAnimation = null;
+      stack.waitAnimation = null;
+      stack.exitAnimation = null;
     }
   }
 

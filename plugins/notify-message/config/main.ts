@@ -6,6 +6,7 @@ import {
   createNumberParam,
   createNoteParam,
   createParamGroup,
+  createSelectParam,
   createStringParam,
   createStructParam,
   defineLabel,
@@ -16,7 +17,7 @@ import { structSound } from './_share.js';
 
 export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
-  version: '1.3.0',
+  version: '1.4.0',
   title: {
     ja: '通知メッセージプラグイン',
   },
@@ -33,6 +34,18 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
 
       ▼ 表示時の効果音を無しにする
       <noSound>
+
+      ------------------------------------------------------------
+      ■ 上級者設定：UIエリア余白
+      ------------------------------------------------------------
+      通知メッセージの表示位置を調整するための設定です。
+      指定した値の分だけ、上下に余白を追加することができます。
+
+      例えば、上端に100、下端に100のような値を設定すると、
+      画面の真ん中の部分だけに通知が表示されるようになります。
+
+      なお、上端と下端の合計値が画面の高さを超えてしまうと、
+      通知が正常に表示されなくなってしまうためご注意ください。
     `,
   },
   base: ['TorigoyaMZ_FrameTween'],
@@ -43,6 +56,21 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
         ja: '■ 基本設定',
       },
       children: [
+        createSelectParam('baseAnimationDirection', {
+          ...defineLabel({
+            ja: {
+              text: '通知の表示方向',
+              description: dd`
+                通知の表示方向を指定します。
+              `,
+            },
+          }),
+          options: [
+            { value: 'bottomToTop', name: { ja: '下から上へ' } },
+            { value: 'topToBottom', name: { ja: '上から下へ' } },
+          ],
+          default: 'bottomToTop',
+        }),
         createNumberParam('baseAppearTime', {
           ...defineLabel({
             ja: {
@@ -188,6 +216,17 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
             },
           }),
           default: 'rgba(0, 32, 64, 0)',
+        }),
+        createNumberParam('advancedUiPaddingTop', {
+          ...defineLabel({
+            ja: {
+              text: 'UIエリア余白: 上端',
+              description: dd`
+                通知メッセージ表示位置の上側の余白を指定します。
+              `,
+            },
+          }),
+          default: 5,
         }),
         createNumberParam('advancedUiPaddingBottom', {
           ...defineLabel({
