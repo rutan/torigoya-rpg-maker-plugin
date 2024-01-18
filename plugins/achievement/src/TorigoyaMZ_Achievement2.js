@@ -199,9 +199,14 @@ class Window_AchievementList extends Window_Selectable {
     this.resetTextColor();
     this.changePaintOpacity(!!achievementItem);
 
+    const name =
+      typeof PluginManagerEx !== 'undefined' && PluginManagerEx.convertEscapeCharacters
+        ? PluginManagerEx.convertEscapeCharacters(item.name)
+        : item.name;
+
     const iconWidth = ImageManager.iconWidth + 8;
     this.drawIcon(item.iconIndex, rect.x, rect.y + (rect.height - ImageManager.iconHeight) / 2);
-    this.drawText(item.name, rect.x + iconWidth, rect.y, rect.width - iconWidth, 'left');
+    this.drawText(name, rect.x + iconWidth, rect.y, rect.width - iconWidth, 'left');
   }
 
   refresh() {
