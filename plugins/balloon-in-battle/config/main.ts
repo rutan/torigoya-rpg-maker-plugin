@@ -575,7 +575,7 @@ const structTalkSet = createStruct('TalkSet', [
 
 export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
-  version: '1.6.0',
+  version: '1.7.0',
   title: {
     ja: '戦闘中セリフ表示プラグイン',
   },
@@ -724,13 +724,20 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
 
       ----------
 
-      ● 吹き出しの位置(高さ)を調整する
+      ● 吹き出しの位置(横/高さ)を調整する
       アクターやエネミーのメモ欄に以下のように記述することで
       吹き出しの位置を変えることができます。
 
+      ■ 横方向に動かす場合
+      <セリフ位置X: 50>
+
+      マイナスの値を指定すると左方向に動きます。
+
+      ■ 縦方向に動かす場合
       <セリフ位置Y: -50>
 
       マイナスの値を指定すると上方向に動きます。
+
       なお、画面外にはみ出す場合は自動的に調整されます。
 
       ----------
@@ -840,9 +847,23 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           max: 10000,
           default: 4,
         }),
+        createNumberParam('balloonActorX', {
+          text: {
+            ja: '味方吹き出しの位置調整（横）',
+          },
+          description: {
+            ja: dd`
+              味方側の吹き出しの表示位置(横)を調整します。
+              マイナスにすると左、プラスにすると右に移動します。
+            `,
+          },
+          min: -10000,
+          max: 10000,
+          default: 0,
+        }),
         createNumberParam('balloonActorY', {
           text: {
-            ja: '味方吹き出しの位置調整',
+            ja: '味方吹き出しの位置調整（高さ）',
           },
           description: {
             ja: dd`
@@ -854,9 +875,23 @@ export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = 
           max: 10000,
           default: 0,
         }),
+        createNumberParam('balloonEnemyX', {
+          text: {
+            ja: '敵の吹き出しの位置調整（横）',
+          },
+          description: {
+            ja: dd`
+              敵側の吹き出しの表示位置(横)を調整します。
+              マイナスにすると左、プラスにすると右に移動します。
+            `,
+          },
+          min: -10000,
+          max: 10000,
+          default: 0,
+        }),
         createNumberParam('balloonEnemyY', {
           text: {
-            ja: '敵の吹き出しの位置調整',
+            ja: '敵の吹き出しの位置調整（高さ）',
           },
           description: {
             ja: dd`
