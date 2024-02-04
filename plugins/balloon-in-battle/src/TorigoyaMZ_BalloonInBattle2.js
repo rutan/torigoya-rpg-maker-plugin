@@ -18,6 +18,11 @@ function readTalkSetIdFromMeta(obj) {
   return (obj.meta['TalkSet'] || obj.meta['セリフセット'] || '').trim();
 }
 
+function readBalloonXFromMeta(obj) {
+  const n = parseInt(obj.meta['BalloonX'] || obj.meta['セリフ位置X'] || 0, 10);
+  return isNaN(n) ? 0 : n;
+}
+
 function readBalloonYFromMeta(obj) {
   const n = parseInt(obj.meta['BalloonY'] || obj.meta['セリフ位置Y'] || 0, 10);
   return isNaN(n) ? 0 : n;
@@ -128,12 +133,22 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   // --------------------------------------------------------------------------
   // Sprite_Battler
 
+  Sprite_Battler.prototype.torigoyaBalloonInBattle_balloonX = function () {
+    return 0;
+  };
+
   Sprite_Battler.prototype.torigoyaBalloonInBattle_balloonY = function () {
     return 0;
   };
 
   // --------------------------------------------------------------------------
   // Sprite_Actor
+
+  Sprite_Actor.prototype.torigoyaBalloonInBattle_balloonX = function () {
+    const actor = this._actor ? this._actor.actor() : null;
+    const x = actor ? readBalloonXFromMeta(actor) : 0;
+    return x + Torigoya.BalloonInBattle.parameter.balloonActorX;
+  };
 
   Sprite_Actor.prototype.torigoyaBalloonInBattle_balloonY = function () {
     const bitmapHeight = this._frame.height * this.scale.y;
@@ -144,6 +159,12 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
 
   // --------------------------------------------------------------------------
   // Sprite_Enemy
+
+  Sprite_Enemy.prototype.torigoyaBalloonInBattle_balloonX = function () {
+    const enemy = this._enemy ? this._enemy.enemy() : null;
+    const x = enemy ? readBalloonXFromMeta(enemy) : 0;
+    return x + Torigoya.BalloonInBattle.parameter.balloonEnemyX;
+  };
 
   Sprite_Enemy.prototype.torigoyaBalloonInBattle_balloonY = function () {
     const bitmapHeight = (this.bitmap ? this.bitmap.height : 0) * this.scale.y;

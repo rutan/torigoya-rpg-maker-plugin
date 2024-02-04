@@ -123,7 +123,7 @@ export class Window_BattleBalloon extends Window_Base {
     if (!this._battlerSprite) return;
 
     this._battlerSprite.getGlobalPosition(this._battlerPosition);
-    const battlerX = this._battlerPosition.x;
+    const battlerX = this._battlerPosition.x + this._battlerSprite.torigoyaBalloonInBattle_balloonX();
     const battlerY = this._battlerPosition.y + this._battlerSprite.torigoyaBalloonInBattle_balloonY();
 
     this.x = battlerX - this.width / 2;
