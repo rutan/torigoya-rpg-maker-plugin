@@ -447,7 +447,7 @@ const structEnemyCutinSet = createStruct('EnemyCutinSet', [
 ] as const);
 
 const common: Partial<TorigoyaPluginConfigSchema> = {
-  version: '1.3.2',
+  version: '1.4.0',
   title: {
     ja: 'スキル発動前カットイン表示プラグイン',
   },
@@ -753,6 +753,36 @@ const common: Partial<TorigoyaPluginConfigSchema> = {
             `,
           },
           default: 10,
+        }),
+        createNumberParam('cutInBottomBaseSizeRatio', {
+          text: {
+            ja: 'カットインの底辺の幅の割合',
+          },
+          description: {
+            ja: dd`
+              カットインの根本側の幅の割合を指定します。
+              0.01～1.00の範囲で指定してください。
+            `,
+          },
+          max: 1,
+          min: 0.01,
+          decimals: 2,
+          default: 0.25,
+        }),
+        createNumberParam('cutInTopBaseSizeRatio', {
+          text: {
+            ja: 'カットインの上底の幅の割合',
+          },
+          description: {
+            ja: dd`
+              カットインの開いた先側の幅の割合を指定します。
+              0.01～1.00の範囲で指定してください。
+            `,
+          },
+          max: 1,
+          min: 0.01,
+          decimals: 2,
+          default: 0.5,
         }),
       ],
     }),

@@ -3,18 +3,18 @@ import { Sprite_CutInBase } from './Sprite_CutInBase';
 import { easingBounce } from './easingBounce';
 
 export class Sprite_CutInWoss extends Sprite_CutInBase {
-  getMainSmallHeight() {
-    if (!this._mainSmallHeightCache) {
-      this._mainSmallHeightCache = this.getMainWidth() / 4;
+  getMainBottomBaseSize() {
+    if (!this._getMainBottomBaseSizeCache) {
+      this._getMainBottomBaseSizeCache = this.getMainWidth() * Torigoya.SkillCutIn.parameter.cutInBottomBaseSizeRatio;
     }
-    return this._mainSmallHeightCache;
+    return this._getMainBottomBaseSizeCache;
   }
 
-  getMainLargeHeight() {
-    if (!this._mainLargeHeightCache) {
-      this._mainLargeHeightCache = this.getMainWidth() / 2;
+  getMainTopBaseSize() {
+    if (!this._getMainTopBaseSizeCache) {
+      this._getMainTopBaseSizeCache = this.getMainWidth() * Torigoya.SkillCutIn.parameter.cutInTopBaseSizeRatio;
     }
-    return this._mainLargeHeightCache;
+    return this._getMainTopBaseSizeCache;
   }
 
   getBorderSpeed() {
@@ -40,18 +40,25 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
 
   _createMask() {
     const w = this.getMainWidth();
-    const h1 = this.getMainSmallHeight();
-    const h2 = this.getMainLargeHeight();
+    const h1 = this.getMainBottomBaseSize();
+    const h2 = this.getMainTopBaseSize();
 
     this._maskShape = new PIXI.Graphics();
     this._maskShape.clear();
     this._maskShape.beginFill(0xffffff);
-    this._maskShape.moveTo(0, (h2 - h1) / 2);
-    this._maskShape.lineTo(w, 0);
-    this._maskShape.lineTo(w, h2);
-    this._maskShape.lineTo(0, h2 - (h2 - h1) / 2);
+    if (h1 < h2) {
+      this._maskShape.moveTo(0, (h2 - h1) / 2);
+      this._maskShape.lineTo(w, 0);
+      this._maskShape.lineTo(w, h2);
+      this._maskShape.lineTo(0, h2 - (h2 - h1) / 2);
+    } else {
+      this._maskShape.moveTo(0, 0);
+      this._maskShape.lineTo(w, (h1 - h2) / 2);
+      this._maskShape.lineTo(w, h1 - (h1 - h2) / 2);
+      this._maskShape.lineTo(0, h1);
+    }
     this._maskShape.endFill();
-    this._maskShape.pivot = new PIXI.Point(w / 2, h2 / 2);
+    this._maskShape.pivot = new PIXI.Point(w / 2, Math.max(h1, h2) / 2);
     this._maskShape.scale.y = 0;
 
     this._maskShape.rotation = this.getMainRotation();
@@ -73,8 +80,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
   _createGlobalBackEffectSprite() {
     const size = this.getMainWidth();
     const bitmap = ImageManager.loadPicture(this.getCutInBackImageName1());
-    const shapeHeight = (this.getMainLargeHeight() - this.getMainSmallHeight()) / 2;
-    const r = Math.atan2(shapeHeight, this.getMainWidth());
+    const { shapeHeight, r } = this._calcShapeSizeAndRotation();
     const colorTone = this.getBackTone();
 
     this._globalBackEffectSprites = new Array(2).fill(0).map((_, i) => {
@@ -110,7 +116,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
 
   _createMainBackSprite() {
     const width = this.getMainWidth();
-    const height = this.getMainLargeHeight();
+    const height = Math.max(this.getMainBottomBaseSize(), this.getMainTopBaseSize());
 
     const color1 = this.getBackColor1();
     const color2 = this.getBackColor2();
@@ -394,11 +400,7 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
   }
 
   _onUpdateBorders() {
-    const shapeHeight = ((this.getMainLargeHeight() - this.getMainSmallHeight()) / 2) * this._maskShape.scale.y;
-    const length =
-      ((this.getMainSmallHeight() + (this.getMainLargeHeight() - this.getMainSmallHeight()) / 2) / 2) *
-      this._maskShape.scale.y;
-    const r = Math.atan2(shapeHeight, this.getMainWidth());
+    const { length, r } = this._calcShapeSizeAndRotation();
 
     this._borderSprites.forEach((sprite, i) => {
       const wrapperSprite = sprite.parent;
@@ -425,5 +427,18 @@ export class Sprite_CutInWoss extends Sprite_CutInBase {
       this._mainBackSprite.bitmap.resize(1, 1);
     }
     this._mainBackSprite.bitmap = null;
+  }
+
+  _calcShapeSizeAndRotation() {
+    const min = Math.min(this.getMainBottomBaseSize(), this.getMainTopBaseSize());
+    const max = Math.max(this.getMainBottomBaseSize(), this.getMainTopBaseSize());
+    const shapeHeight = ((max - min) / 2) * this._maskShape.scale.y;
+    const length = ((min + (max - min) / 2) / 2) * this._maskShape.scale.y;
+    const r = Math.atan2(
+      shapeHeight * (this.getMainBottomBaseSize() < this.getMainTopBaseSize() ? 1 : -1),
+      this.getMainWidth(),
+    );
+
+    return { shapeHeight, length, r };
   }
 }
