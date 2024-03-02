@@ -17,7 +17,7 @@ import { structSound } from './_share.js';
 
 export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
-  version: '1.4.0',
+  version: '1.5.0',
   title: {
     ja: '通知メッセージプラグイン',
   },
@@ -345,6 +345,17 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
           }),
         }),
       ],
+    }),
+    createCommand('forceExitNotifications', {
+      ...defineLabel({
+        ja: {
+          text: '表示中の全通知を強制終了',
+          description: dd`
+            現在表示中の全通知を強制終了します。
+          `,
+        },
+      }),
+      args: [],
     }),
   ],
 };

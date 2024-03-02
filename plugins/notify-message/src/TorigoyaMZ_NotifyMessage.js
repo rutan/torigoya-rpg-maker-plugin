@@ -21,6 +21,10 @@ Torigoya.NotifyMessage = {
   // NotifyItem
 
   class NotifyItem {
+    /**
+     * 初期化
+     * @param {{ message?: string; icon: number; note?: string; }} params
+     */
     constructor(params) {
       this.initialize(params);
     }
@@ -34,10 +38,16 @@ Torigoya.NotifyMessage = {
       DataManager.extractMetadata(this);
     }
 
+    /**
+     * @return {number}
+     */
     get openness() {
       return this._openness;
     }
 
+    /**
+     * @param {number} value
+     */
     set openness(value) {
       if (value < 0) value = 0;
       if (value > 255) value = 255;
@@ -54,6 +64,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 表示時の効果音を再生
+     * @return {{volume: number, name: string, pitch: number, pan: number}}
      */
     getDisplaySe() {
       return Torigoya.NotifyMessage.parameter.baseSound;
@@ -77,10 +88,16 @@ Torigoya.NotifyMessage = {
       this.createBackCoverSprite();
     }
 
+    /**
+     * @return {number}
+     */
     get contentsOpacity() {
       return super.contentsOpacity;
     }
 
+    /**
+     * @param {number} value
+     */
     set contentsOpacity(value) {
       super.contentsOpacity = value;
       this._backCoverSprite.opacity = value;
@@ -186,6 +203,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 左側の空きスペースのサイズ
+     * @return {number}
      */
     leftPadding() {
       return Torigoya.NotifyMessage.parameter.baseLeftPadding;
@@ -193,6 +211,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 右側の空きスペースのサイズ
+     * @return {number}
      */
     rightPadding() {
       return Torigoya.NotifyMessage.parameter.baseRightPadding;
@@ -266,7 +285,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 通知登録
-     * @param handler
+     * @param {(notifyItem: NotifyItem) => void} handler
      */
     on(handler) {
       this._handlers.push(handler);
@@ -274,7 +293,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 通知登録の解除
-     * @param handler
+     * @param {(notifyItem: NotifyItem) => void} handler
      */
     off(handler) {
       const index = this._handlers.indexOf(handler);
@@ -318,7 +337,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 表示先シーンの設定
-     * @param scene
+     * @param {Scene_Base} scene
      */
     setScene(scene) {
       if (this._currentScene === scene) return;
@@ -342,6 +361,15 @@ Torigoya.NotifyMessage = {
     }
 
     /**
+     * すべての通知を強制終了
+     */
+    forceExitNotifications() {
+      this._stacks.forEach((stack) => {
+        this.forceStartExitAnimation(stack);
+      });
+    }
+
+    /**
      * 通知メッセージごとのマージン
      * @returns {number}
      */
@@ -361,6 +389,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 表示中であるか？
+     * @return {boolean}
      */
     isVisible() {
       const switchId = Torigoya.NotifyMessage.parameter.advancedVisibleSwitch;
@@ -405,7 +434,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 通知メッセージの登場/退場アニメーション
-     * @param stack
+     * @param {*} stack
      */
     startAppearAndExitAnimation(stack) {
       const viewTime = Torigoya.NotifyMessage.parameter.baseViewTime;
@@ -478,7 +507,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 通知メッセージリストのスクロールアニメーション
-     * @param newWindowHeight
+     * @param {number} newWindowHeight
      */
     startScrollAnimation(newWindowHeight) {
       const animationDirection = Torigoya.NotifyMessage.parameter.baseAnimationDirection;
@@ -496,7 +525,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 上から下に移動するアニメーションを反映
-     * @param newWindowHeight
+     * @param {number} newWindowHeight
      */
     applyScrollAnimationForTopToBottom(newWindowHeight) {
       const appearTime = Torigoya.NotifyMessage.parameter.baseAppearTime;
@@ -528,7 +557,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 下から上に移動するアニメーションを反映
-     * @param newWindowHeight
+     * @param {number} newWindowHeight
      */
     applyScrollAnimationForBottomToTop(newWindowHeight) {
       const appearTime = Torigoya.NotifyMessage.parameter.baseAppearTime;
@@ -560,7 +589,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 指定スタックの登場/待機アニメーションを強制終了して終了アニメーションを開始
-     * @param stack
+     * @param {*} stack
      */
     forceStartExitAnimation(stack) {
       if (!stack.appearAnimation.finished) {
@@ -575,8 +604,8 @@ Torigoya.NotifyMessage = {
 
     /**
      * 通知メッセージをもとにウィンドウを初期化
-     * @param notifyItem
-     * @returns {Window|Window_NotifyMessage}
+     * @param {NotifyItem} notifyItem
+     * @returns {Window_NotifyMessage}
      * @private
      */
     _setupWindow(notifyItem) {
@@ -590,7 +619,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * ウィンドウをプールから取得、ない場合は生成する
-     * @returns {Window_NotifyMessage|*}
+     * @returns {Window_NotifyMessage}
      * @private
      */
     _createOrGetFromPoolWindow() {
@@ -602,7 +631,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * 使用済みウィンドウをプールに戻す
-     * @param window
+     * @param {Window_NotifyMessage} window
      * @private
      */
     _releaseWindow(window) {
@@ -613,7 +642,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * シーンへのaddChild
-     * @param window
+     * @param {Window_NotifyMessage} window
      * @private
      */
     _appendToScene(window) {
@@ -624,7 +653,7 @@ Torigoya.NotifyMessage = {
 
     /**
      * スタックから指定の通知を削除
-     * @param stack
+     * @param {*} stack
      * @private
      */
     _destroyStack(stack) {
@@ -680,6 +709,11 @@ Torigoya.NotifyMessage = {
     NotifyManager.notify(item);
   }
 
+  function commandForceExitNotifications() {
+    NotifyManager.forceExitNotifications();
+  }
+
   PluginManager.registerCommand(Torigoya.NotifyMessage.name, 'notify', commandNotify);
   PluginManager.registerCommand(Torigoya.NotifyMessage.name, 'notifyWithVariableIcon', commandNotifyWithVariableIcon);
+  PluginManager.registerCommand(Torigoya.NotifyMessage.name, 'forceExitNotifications', commandForceExitNotifications);
 })();
