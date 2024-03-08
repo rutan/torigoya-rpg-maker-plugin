@@ -202,6 +202,23 @@ Torigoya.NotifyMessage = {
     }
 
     /**
+     * テキストの高さを計算
+     * @note ツクールMZのコアスクリプトはフォントサイズの変更に対応していないため、自前で計算する
+     * @param textState
+     * @return {number}
+     */
+    calcTextHeight(textState) {
+      const lastFontSize = this.contents.fontSize;
+
+      const lineSpacing = this.lineHeight() - this.baseFontSize();
+      const firstLine = textState.text.slice(textState.index).split('\n')[0];
+      const textHeight = this.maxFontSizeInLine(firstLine) + lineSpacing;
+
+      this.contents.fontSize = lastFontSize;
+      return textHeight;
+    }
+
+    /**
      * 左側の空きスペースのサイズ
      * @return {number}
      */
@@ -245,7 +262,7 @@ Torigoya.NotifyMessage = {
      */
     resetFontSettings() {
       super.resetFontSettings();
-      this.contents.fontSize = Torigoya.NotifyMessage.parameter.baseFontSize;
+      this.contents.fontSize = this.baseFontSize();
     }
 
     /**
@@ -262,6 +279,14 @@ Torigoya.NotifyMessage = {
      */
     itemPadding() {
       return Torigoya.NotifyMessage.parameter.baseItemPadding;
+    }
+
+    /**
+     * テキストのサイズを取得
+     * @return {number}
+     */
+    baseFontSize() {
+      return Torigoya.NotifyMessage.parameter.baseFontSize;
     }
   }
 
