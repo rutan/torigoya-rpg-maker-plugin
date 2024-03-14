@@ -12,7 +12,11 @@
     "@rutan/torigoya-plugin-common": "workspace:*",
     "@rutan/torigoya-plugin-config": "workspace:*"
   },
-  "volta": {
-    "extends": "../../package.json"
+  "packageManager": "pnpm@8.15.4",
+  "engines": {
+    "node": "20.11.1",
+    "pnpm": "8.15.4",
+    "npm": "not_supported",
+    "yarn": "not_supported"
   }
 }

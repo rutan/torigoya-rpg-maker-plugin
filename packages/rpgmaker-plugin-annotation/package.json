@@ -35,7 +35,11 @@
     "commander": "^11.1.0",
     "zod": "^3.22.4"
   },
-  "volta": {
-    "extends": "../../package.json"
+  "packageManager": "pnpm@8.15.4",
+  "engines": {
+    "node": "20.11.1",
+    "pnpm": "8.15.4",
+    "npm": "not_supported",
+    "yarn": "not_supported"
   }
 }

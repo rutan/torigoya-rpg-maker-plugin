@@ -9,10 +9,8 @@
 
 ## Setup
 
-- [volta](https://volta.sh/)
-  - set `VOLTA_FEATURE_PNPM=1` to enable pnpm ( https://docs.volta.sh/advanced/pnpm )
-
 ```bash
+$ corepack enable pnpm
 $ pnpm install
 ```
 
