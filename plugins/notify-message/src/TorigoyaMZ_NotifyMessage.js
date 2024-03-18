@@ -417,6 +417,8 @@ Torigoya.NotifyMessage = {
      * @return {boolean}
      */
     isVisible() {
+      if (!this._currentScene) return false;
+
       const switchId = Torigoya.NotifyMessage.parameter.advancedVisibleSwitch;
       if (!switchId) return true;
 
