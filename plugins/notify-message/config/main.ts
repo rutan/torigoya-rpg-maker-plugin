@@ -12,12 +12,13 @@ import {
   defineLabel,
   dd,
   TorigoyaPluginConfigSchema,
+  createStringParamArray,
 } from '@rutan/torigoya-plugin-config';
 import { structSound } from './_share.js';
 
 export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
-  version: '1.5.1',
+  version: '1.6.0',
   title: {
     ja: '通知メッセージプラグイン',
   },
@@ -238,6 +239,17 @@ export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
             },
           }),
           default: 5,
+        }),
+        createStringParamArray('advancedAppendScenes', {
+          ...defineLabel({
+            ja: {
+              text: '通知を表示するシーンを追加',
+              description: dd`
+                マップ以外のシーンを通知表示シーンの対象にします。シーン名を指定してください（例： Scene_Battle ）
+              `,
+            },
+          }),
+          default: [],
         }),
         createBooleanParam('advancedKeepMessage', {
           ...defineLabel({

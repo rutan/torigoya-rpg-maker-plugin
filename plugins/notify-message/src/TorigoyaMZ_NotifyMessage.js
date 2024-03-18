@@ -1,4 +1,10 @@
-import { Torigoya, getPluginName, checkExistPlugin, checkPluginVersion } from '@rutan/torigoya-plugin-common';
+import {
+  Torigoya,
+  getPluginName,
+  checkExistPlugin,
+  checkPluginVersion,
+  findGlobalObject,
+} from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/TorigoyaMZ_NotifyMessage_parameter';
 
 checkExistPlugin(
@@ -417,6 +423,8 @@ Torigoya.NotifyMessage = {
      * @return {boolean}
      */
     isVisible() {
+      if (!this._currentScene) return false;
+
       const switchId = Torigoya.NotifyMessage.parameter.advancedVisibleSwitch;
       if (!switchId) return true;
 
@@ -709,6 +717,27 @@ Torigoya.NotifyMessage = {
     upstream_Scene_Map_update.apply(this);
     NotifyManager.update();
   };
+
+  // -------------------------------------------------------------------------
+  // Add Scenes
+
+  if (Torigoya.NotifyMessage.parameter.advancedAppendScenes) {
+    Torigoya.NotifyMessage.parameter.advancedAppendScenes.forEach((sceneName) => {
+      const targetClass = findGlobalObject(sceneName);
+      const upstreamSceneCreateWindowLayer = targetClass.prototype.createWindowLayer;
+      const upstreamSceneUpdate = targetClass.prototype.update;
+
+      targetClass.prototype.createWindowLayer = function () {
+        NotifyManager.setScene(this);
+        upstreamSceneCreateWindowLayer.apply(this);
+      };
+
+      targetClass.prototype.update = function () {
+        upstreamSceneUpdate.apply(this);
+        NotifyManager.update();
+      };
+    });
+  }
 
   // -------------------------------------------------------------------------
   // SceneManager
