@@ -53,7 +53,7 @@ const structCustomSound = createStruct('CustomSound', [
 
 export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
-  version: '1.2.0',
+  version: '1.3.0',
   title: {
     ja: '通知メッセージアドオン: アイテム獲得表示',
   },
@@ -68,10 +68,27 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
       ・防具の増減
 
       ------------------------------------------------------------
-      ■ 表示したくない場合
+      ■ お金の場合は表示したくない場合
       ------------------------------------------------------------
-      例えばお金の入手メッセージはいらない！という場合は、
+      お金の入手メッセージはいらない！という場合は、
       お金の入手メッセージの内容を空欄にしてください。
+
+      ------------------------------------------------------------
+      ■ 一部アイテムだけ表示したくない場合
+      ------------------------------------------------------------
+      アイテムのメモ欄に以下のタグを記述することで、
+      通知メッセージを表示しないようにできます。
+
+      <獲得通知非表示>
+
+      または
+
+      <GainNotifyHidden>
+
+      ------------------------------------------------------------
+      ■ 一部の場面で表示したくない場合
+      ------------------------------------------------------------
+      上級者設定の「有効スイッチ」を設定しよう！
     `,
   },
   base: ['TorigoyaMZ_NotifyMessage'],
@@ -150,6 +167,23 @@ export const TorigoyaMZ_NotifyMessage_AddonGetItem: Partial<TorigoyaPluginConfig
               `,
             },
           }),
+        }),
+        createBooleanParam('advancedShowHiddenItem', {
+          ...defineLabel({
+            ja: {
+              text: '隠しアイテム表示',
+              description: dd`
+                「アイテムタイプ：隠しアイテム」の場合に通知を表示するか指定します。
+              `,
+            },
+          }),
+          on: {
+            ja: '表示する',
+          },
+          off: {
+            ja: '表示しない',
+          },
+          default: true,
         }),
         createStructParam('advancedGainItemSound', {
           struct: structCustomSound,

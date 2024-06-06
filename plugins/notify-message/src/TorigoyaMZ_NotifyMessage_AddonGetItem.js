@@ -23,6 +23,10 @@ Torigoya.NotifyMessage.Addons.GetItem = {
     return $gameSwitches.value(switchId);
   };
 
+  Torigoya.NotifyMessage.Addons.GetItem.isShowHiddenItem = function () {
+    return !!Torigoya.NotifyMessage.Addons.GetItem.parameter.advancedShowHiddenItem;
+  };
+
   Torigoya.NotifyMessage.Addons.GetItem.notifyGainMoney = function (value) {
     if (!this.isEnabled()) return;
 
@@ -39,6 +43,7 @@ Torigoya.NotifyMessage.Addons.GetItem = {
 
   Torigoya.NotifyMessage.Addons.GetItem.notifyGainItem = function (item, count) {
     if (!this.isEnabled()) return;
+    if (!this.isNotifyItem(item)) return;
 
     const template =
       count === 1
@@ -52,6 +57,13 @@ Torigoya.NotifyMessage.Addons.GetItem = {
       note: '<type:gainItem>',
     });
     Torigoya.NotifyMessage.Manager.notify(notifyItem);
+  };
+
+  Torigoya.NotifyMessage.Addons.GetItem.isNotifyItem = function (item) {
+    if (!this.isShowHiddenItem() && (item.itypeId === 3 || item.itypeId === 4)) return false;
+    if (item.meta && (item.meta['GainNotifyHidden'] || item.meta['獲得通知非表示'])) return false;
+
+    return true;
   };
 
   // -------------------------------------------------------------------------
