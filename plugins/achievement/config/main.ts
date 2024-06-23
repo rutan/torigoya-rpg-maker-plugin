@@ -132,7 +132,7 @@ const createBase = (options: {
   pluginCommandDescription?: string | I18nText;
   addParams?: TorigoyaPluginConfigSchema['params'];
 }): Partial<TorigoyaPluginConfigSchema> => ({
-  version: '1.8.0',
+  version: '1.8.1',
   title: {
     ja: '実績プラグイン',
   },

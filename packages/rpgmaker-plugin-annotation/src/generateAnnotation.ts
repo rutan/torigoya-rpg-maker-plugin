@@ -236,11 +236,7 @@ export function generateAnnotation(config: PluginConfigSchema, { languages, defa
             push(lines, 'type', `struct<${param.struct}>[]`);
             break;
           default:
-            if (config.target.includes('MV') && param.type.startsWith('multiline_string')) {
-              push(lines, 'type', param.type.replace('multiline_string', 'note'));
-            } else {
-              push(lines, 'type', param.type);
-            }
+            push(lines, 'type', param.type);
         }
 
         switch (param.type) {
@@ -251,20 +247,10 @@ export function generateAnnotation(config: PluginConfigSchema, { languages, defa
             push(lines, 'default', JSON.stringify(param.default.map((n) => pickString(n))));
             break;
           case 'multiline_string':
-            if (param.default) {
-              if (config.target.includes('MV')) {
-                push(lines, 'default', JSON.stringify(pickString(param.default)));
-              } else {
-                push(lines, 'default', pickString(param.default));
-              }
-            }
+            if (param.default) push(lines, 'default', pickString(param.default));
             break;
           case 'multiline_string[]':
-            if (config.target.includes('MV')) {
-              push(lines, 'default', JSON.stringify(param.default.map((n) => JSON.stringify(pickString(n)))));
-            } else {
-              push(lines, 'default', JSON.stringify(param.default.map((n) => pickString(n))));
-            }
+            push(lines, 'default', JSON.stringify(param.default.map((n) => pickString(n))));
             break;
           case 'note':
             if (param.default) push(lines, 'default', JSON.stringify(pickString(param.default)));
