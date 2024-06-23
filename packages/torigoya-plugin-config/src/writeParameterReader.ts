@@ -3,9 +3,10 @@ import { consola } from 'consola';
 import { PluginParameter } from '@rutan/rpgmaker-plugin-annotation';
 import { TorigoyaPluginConfigSchema } from './types.js';
 import { format } from './format.js';
+import { convertForSupportVersion } from './convertForSupportVersion.js';
 
 export async function writeParameterReader(config: TorigoyaPluginConfigSchema, outputPath: string) {
-  const code = await generateParameterReaderCode(config);
+  const code = await generateParameterReaderCode(convertForSupportVersion(config));
 
   return writeFile(outputPath, code, { encoding: 'utf8' }).then(() => {
     consola.info(`write parameterReader: ${outputPath}`);
