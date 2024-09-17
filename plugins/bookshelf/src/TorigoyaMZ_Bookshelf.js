@@ -487,6 +487,7 @@ class Scene_Bookshelf extends Scene_MenuBase {
 
   onBookContentCancel() {
     this._bookContentWindow.close();
+    this._bookContentWindow.deactivate();
     this._booksListWindow.activate();
   }
 

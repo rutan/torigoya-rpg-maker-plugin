@@ -80,7 +80,7 @@ const structMenuItem = createStruct('MenuItem', [
 ]);
 
 const base: Partial<TorigoyaPluginConfigSchema> = {
-  version: '1.2.1',
+  version: '1.2.2',
   title: {
     ja: 'テキスト本棚プラグイン',
   },
