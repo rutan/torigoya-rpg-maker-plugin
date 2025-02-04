@@ -1,4 +1,4 @@
-import { Torigoya, getPluginName, arrayShuffle } from '@rutan/torigoya-plugin-common';
+import { Torigoya, getPluginName, arrayShuffle, wrap } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/TorigoyaMZ_BalloonInBattle2_parameter';
 import { Window_BattleBalloon } from './modules/Window_BattleBalloon';
 import { TalkSet } from './modules/TalkSet';
@@ -97,12 +97,11 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   };
 
   // 戦闘不能時
-  const upstream_Game_Battler_performCollapse = Game_Battler.prototype.performCollapse;
-  Game_Battler.prototype.performCollapse = function () {
-    upstream_Game_Battler_performCollapse.apply(this);
+  wrap(Game_Battler.prototype, 'performCollapse', function (self, originalFunc) {
+    originalFunc();
 
     this.torigoyaBalloonInBattle_requestMessage('dead', {});
-  };
+  });
 
   // --------------------------------------------------------------------------
   // Game_Actor
@@ -176,15 +175,14 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   // --------------------------------------------------------------------------
   // Window_BattleLog
 
-  const upstream_Window_BattleLog_displayActionResults = Window_BattleLog.prototype.displayActionResults;
-  Window_BattleLog.prototype.displayActionResults = function (subject, target) {
-    upstream_Window_BattleLog_displayActionResults.apply(this, arguments);
+  wrap(Window_BattleLog.prototype, 'displayActionResults', function (self, originalFunc, subject, target) {
+    originalFunc(subject, target);
 
     const result = target.result();
     if (result.used && subject !== target) {
-      this.torigoyaBalloonInBattle_checkTalk(subject, target, result);
+      self.torigoyaBalloonInBattle_checkTalk(subject, target, result);
     }
-  };
+  });
 
   Window_BattleLog.prototype.torigoyaBalloonInBattle_checkTalk = function (subject, target, result) {
     if (this.torigoyaBalloonInBattle_checkTalkForMissed(subject, target, result)) return true;
@@ -273,52 +271,48 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   // BattleManager
 
   // 行動選択: 開始
-  const upstream_BattleManager_startActorInput = BattleManager.startActorInput;
-  BattleManager.startActorInput = function () {
-    upstream_BattleManager_startActorInput.apply(this);
+  wrap(BattleManager, 'startActorInput', function (self, originalFunc) {
+    originalFunc();
 
     if (this._currentActor) {
       this._currentActor.torigoyaBalloonInBattle_requestMessage('input', {
         lifeTime: Torigoya.BalloonInBattle.parameter.advancedInputLifeTime,
       });
     }
-  };
+  });
 
   // 行動選択: 終了
-  const upstream_BattleManager_changeCurrentActor = BattleManager.changeCurrentActor;
-  BattleManager.changeCurrentActor = function (forward) {
+  wrap(BattleManager, 'changeCurrentActor', function (self, originalFunc, forward) {
     if (this._currentActor) {
       this._currentActor.torigoyaBalloonInBattle_closeMessage();
     }
-    upstream_BattleManager_changeCurrentActor.apply(this, arguments);
-  };
+    originalFunc(forward);
+  });
 
   // スキル・アイテム
-  const upstream_BattleManager_startAction = BattleManager.startAction;
-  BattleManager.startAction = function () {
-    const subject = this._subject;
+  wrap(BattleManager, 'startAction', function (self, originalFunc) {
+    const subject = self._subject;
     const action = subject.currentAction();
-    upstream_BattleManager_startAction.apply(this);
+    originalFunc();
 
     if (action.isSkill()) {
       subject.torigoyaBalloonInBattle_requestMessage('useSkill', {
-        targets: this._targets,
+        targets: self._targets,
         from: subject,
         usingItem: action.item(),
       });
     } else if (action.isItem()) {
       subject.torigoyaBalloonInBattle_requestMessage('useItem', {
-        targets: this._targets,
+        targets: self._targets,
         from: subject,
         usingItem: action.item(),
       });
     }
-  };
+  });
 
   // 身代わり
-  const upstream_BattleManager_applySubstitute = BattleManager.applySubstitute;
-  BattleManager.applySubstitute = function (target) {
-    const realTarget = upstream_BattleManager_applySubstitute.apply(this, arguments);
+  wrap(BattleManager, 'applySubstitute', function (_self, originalFunc, target) {
+    const realTarget = originalFunc(target);
 
     if (target !== realTarget) {
       if (target.canMove())
@@ -334,12 +328,11 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
     }
 
     return realTarget;
-  };
+  });
 
   // カウンター
-  const upstream_BattleManager_invokeCounterAttack = BattleManager.invokeCounterAttack;
-  BattleManager.invokeCounterAttack = function (subject, target) {
-    upstream_BattleManager_invokeCounterAttack.apply(this, arguments);
+  wrap(BattleManager, 'invokeCounterAttack', function (_self, originalFunc, subject, target) {
+    originalFunc(subject, target);
 
     if (target.canMove()) {
       target.torigoyaBalloonInBattle_requestMessage('counter', {
@@ -347,12 +340,11 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
         priority: 1,
       });
     }
-  };
+  });
 
   // 魔法反射
-  const upstream_BattleManager_invokeMagicReflection = BattleManager.invokeMagicReflection;
-  BattleManager.invokeMagicReflection = function (subject, target) {
-    upstream_BattleManager_invokeMagicReflection.apply(this, arguments);
+  wrap(BattleManager, 'invokeMagicReflection', function (_self, originalFunc, subject, target) {
+    originalFunc(subject, target);
 
     if (subject.canMove()) {
       subject.torigoyaBalloonInBattle_requestMessage('counter', {
@@ -360,14 +352,13 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
         priority: 1,
       });
     }
-  };
+  });
 
-  const upstream_BattleManager_startBattle = BattleManager.startBattle;
-  BattleManager.startBattle = function () {
-    this.torigoyaBalloonInBattle_talkStartBattleParty();
-    this.torigoyaBalloonInBattle_talkStartBattleTroop();
-    upstream_BattleManager_startBattle.apply(this);
-  };
+  wrap(BattleManager, 'startBattle', function (self, originalFunc) {
+    self.torigoyaBalloonInBattle_talkStartBattleParty();
+    self.torigoyaBalloonInBattle_talkStartBattleTroop();
+    originalFunc();
+  });
 
   BattleManager.torigoyaBalloonInBattle_talkStartBattleParty = function () {
     const actors = shuffleActiveMember($gameParty.battleMembers());
@@ -383,11 +374,10 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
     }
   };
 
-  const upstream_BattleManager_processVictory = BattleManager.processVictory;
-  BattleManager.processVictory = function () {
-    this.torigoyaBalloonInBattle_talkVictory();
-    upstream_BattleManager_processVictory.apply(this);
-  };
+  wrap(BattleManager, 'processVictory', function (self, originalFunc) {
+    self.torigoyaBalloonInBattle_talkVictory();
+    originalFunc();
+  });
 
   BattleManager.torigoyaBalloonInBattle_talkVictory = function () {
     const actors = shuffleActiveMember($gameParty.members());
@@ -401,11 +391,10 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
     }
   };
 
-  const upstream_BattleManager_processDefeat = BattleManager.processDefeat;
-  BattleManager.processDefeat = function () {
-    this.torigoyaBalloonInBattle_talkDefeat();
-    upstream_BattleManager_processDefeat.apply(this);
-  };
+  wrap(BattleManager, 'processDefeat', function (self, originalFunc) {
+    self.torigoyaBalloonInBattle_talkDefeat();
+    originalFunc();
+  });
 
   BattleManager.torigoyaBalloonInBattle_talkDefeat = function () {
     const enemies = shuffleActiveMember($gameTroop.members());
@@ -419,44 +408,40 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
     }
   };
 
-  const upstream_BattleManager_endAction = BattleManager.endAction;
-  BattleManager.endAction = function () {
-    this.torigoyaBalloonInBattle_lastActionSubject = this._subject;
-    upstream_BattleManager_endAction.apply(this);
-  };
+  wrap(BattleManager, 'endAction', function (self, originalFunc) {
+    self.torigoyaBalloonInBattle_lastActionSubject = self._subject;
+    originalFunc();
+  });
 
-  const upstream_BattleManager_endTurn = BattleManager.endTurn;
-  BattleManager.endTurn = function () {
-    delete this.torigoyaBalloonInBattle_lastActionSubject;
-    upstream_BattleManager_endTurn.apply(this);
-  };
+  wrap(BattleManager, 'endTurn', function (self, originalFunc) {
+    delete self.torigoyaBalloonInBattle_lastActionSubject;
+    originalFunc();
+  });
 
-  const upstream_BattleManager_endBattle = BattleManager.endBattle;
-  BattleManager.endBattle = function (result) {
-    delete this.torigoyaBalloonInBattle_lastActionSubject;
-    upstream_BattleManager_endBattle.apply(this, arguments);
-  };
+  wrap(BattleManager, 'endBattle', function (self, originalFunc) {
+    delete self.torigoyaBalloonInBattle_lastActionSubject;
+    originalFunc();
+  });
 
   // --------------------------------------------------------------------------
   // Scene_Battle
 
-  const upstream_Scene_Battle_createWindowLayer = Scene_Battle.prototype.createWindowLayer;
   switch (Torigoya.BalloonInBattle.parameter.advancedLayerPosition) {
     case 'overlayWindow': {
-      Scene_Battle.prototype.createWindowLayer = function () {
-        upstream_Scene_Battle_createWindowLayer.apply(this);
-        this.torigoyaBalloonInBattle_createActorBalloons();
-        this.torigoyaBalloonInBattle_createEnemyBalloons();
-      };
+      wrap(Scene_Battle.prototype, 'createWindowLayer', function (self, originalFunc) {
+        originalFunc();
+        self.torigoyaBalloonInBattle_createActorBalloons();
+        self.torigoyaBalloonInBattle_createEnemyBalloons();
+      });
       break;
     }
     case 'default':
     default: {
-      Scene_Battle.prototype.createWindowLayer = function () {
-        this.torigoyaBalloonInBattle_createActorBalloons();
-        this.torigoyaBalloonInBattle_createEnemyBalloons();
-        upstream_Scene_Battle_createWindowLayer.apply(this);
-      };
+      wrap(Scene_Battle.prototype, 'createWindowLayer', function (self, originalFunc) {
+        self.torigoyaBalloonInBattle_createActorBalloons();
+        self.torigoyaBalloonInBattle_createEnemyBalloons();
+        originalFunc();
+      });
     }
   }
 
@@ -485,35 +470,31 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
   // --------------------------------------------------------------------------
   // Scene_Boot
 
-  const upstream_Scene_Boot_loadSystemImages = Scene_Boot.prototype.loadSystemImages;
-  Scene_Boot.prototype.loadSystemImages = function () {
-    upstream_Scene_Boot_loadSystemImages.apply(this);
+  wrap(Scene_Boot.prototype, 'loadSystemImages', function (self, originalFunc) {
+    originalFunc();
     ImageManager.loadSystem(Torigoya.BalloonInBattle.parameter.balloonImage);
-  };
+  });
 
   // --------------------------------------------------------------------------
   // DataManager
 
   const SAVE_KEY = 'torigoyaBalloonInBattle_actorTalkSetId';
 
-  const upstream_DataManager_createGameObjects = DataManager.createGameObjects;
-  DataManager.createGameObjects = function () {
-    upstream_DataManager_createGameObjects.apply(this);
+  wrap(DataManager, 'createGameObjects', function (self, originalFunc) {
+    originalFunc();
     Torigoya.BalloonInBattle.actorTalkSetId = [];
-  };
+  });
 
-  const upstream_DataManager_makeSaveContents = DataManager.makeSaveContents;
-  DataManager.makeSaveContents = function () {
-    const contents = upstream_DataManager_makeSaveContents.apply(this);
+  wrap(DataManager, 'makeSaveContents', function (self, originalFunc) {
+    const contents = originalFunc();
     contents[SAVE_KEY] = Torigoya.BalloonInBattle.actorTalkSetId;
     return contents;
-  };
+  });
 
-  const upstream_DataManager_extractSaveContents = DataManager.extractSaveContents;
-  DataManager.extractSaveContents = function (contents) {
-    upstream_DataManager_extractSaveContents.apply(this, arguments);
+  wrap(DataManager, 'extractSaveContents', function (self, originalFunc, contents) {
+    originalFunc(contents);
     Torigoya.BalloonInBattle.actorTalkSetId = contents[SAVE_KEY] || [];
-  };
+  });
 
   // --------------------------------------------------------------------------
   // プラグインコマンド
