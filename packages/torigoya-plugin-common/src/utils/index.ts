@@ -6,3 +6,4 @@ export * from './findGlobalObject.js';
 export * from './isThenable.js';
 export * from './unescapeMetaString.js';
 export * from './version.js';
+export * from './wrap.js';

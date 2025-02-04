@@ -4,6 +4,7 @@ import {
   checkExistPlugin,
   checkPluginVersion,
   findGlobalObject,
+  wrap,
 } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/TorigoyaMZ_NotifyMessage_parameter';
 
@@ -706,17 +707,15 @@ Torigoya.NotifyMessage = {
   // -------------------------------------------------------------------------
   // Scene_Map
 
-  const upstream_Scene_Map_createWindowLayer = Scene_Map.prototype.createWindowLayer;
-  Scene_Map.prototype.createWindowLayer = function () {
-    NotifyManager.setScene(this);
-    upstream_Scene_Map_createWindowLayer.apply(this);
-  };
+  wrap(Scene_Map.prototype, 'createAllWindows', function (self, originalFunc) {
+    NotifyManager.setScene(self);
+    originalFunc();
+  });
 
-  const upstream_Scene_Map_update = Scene_Map.prototype.update;
-  Scene_Map.prototype.update = function () {
-    upstream_Scene_Map_update.apply(this);
+  wrap(Scene_Map.prototype, 'update', function (self, originalFunc) {
+    originalFunc();
     NotifyManager.update();
-  };
+  });
 
   // -------------------------------------------------------------------------
   // Add Scenes
@@ -724,29 +723,26 @@ Torigoya.NotifyMessage = {
   if (Torigoya.NotifyMessage.parameter.advancedAppendScenes) {
     Torigoya.NotifyMessage.parameter.advancedAppendScenes.forEach((sceneName) => {
       const targetClass = findGlobalObject(sceneName);
-      const upstreamSceneCreateWindowLayer = targetClass.prototype.createWindowLayer;
-      const upstreamSceneUpdate = targetClass.prototype.update;
 
-      targetClass.prototype.createWindowLayer = function () {
-        NotifyManager.setScene(this);
-        upstreamSceneCreateWindowLayer.apply(this);
-      };
+      wrap(targetClass.prototype, 'createWindowLayer', function (self, originalFunc) {
+        NotifyManager.setScene(self);
+        originalFunc();
+      });
 
-      targetClass.prototype.update = function () {
-        upstreamSceneUpdate.apply(this);
+      wrap(targetClass.prototype, 'update', function (self, originalFunc) {
+        originalFunc();
         NotifyManager.update();
-      };
+      });
     });
   }
 
   // -------------------------------------------------------------------------
   // SceneManager
 
-  const upstream_SceneManager_onSceneTerminate = SceneManager.onSceneTerminate;
-  SceneManager.onSceneTerminate = function () {
-    NotifyManager.clear();
-    upstream_SceneManager_onSceneTerminate.apply(this);
-  };
+  wrap(SceneManager, 'onSceneTerminate', function (_self, originalFunc) {
+    NotifyManager.update();
+    originalFunc();
+  });
 
   // -------------------------------------------------------------------------
   // プラグインコマンド
