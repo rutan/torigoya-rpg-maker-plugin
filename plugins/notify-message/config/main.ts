@@ -18,7 +18,7 @@ import { structSound } from './_share.js';
 
 export const TorigoyaMZ_NotifyMessage: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
-  version: '1.6.1',
+  version: '1.6.2',
   title: {
     ja: '通知メッセージプラグイン',
   },

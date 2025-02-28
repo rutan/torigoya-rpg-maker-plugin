@@ -740,7 +740,7 @@ Torigoya.NotifyMessage = {
   // SceneManager
 
   wrap(SceneManager, 'onSceneTerminate', function (_self, originalFunc) {
-    NotifyManager.update();
+    NotifyManager.clear();
     originalFunc();
   });
 
