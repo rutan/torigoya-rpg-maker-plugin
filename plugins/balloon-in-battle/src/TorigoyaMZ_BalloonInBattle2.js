@@ -418,9 +418,9 @@ Torigoya.BalloonInBattle.TalkBuilder = new TalkBuilder();
     originalFunc();
   });
 
-  wrap(BattleManager, 'endBattle', function (self, originalFunc) {
+  wrap(BattleManager, 'endBattle', function (self, originalFunc, result) {
     delete self.torigoyaBalloonInBattle_lastActionSubject;
-    originalFunc();
+    originalFunc(result);
   });
 
   // --------------------------------------------------------------------------

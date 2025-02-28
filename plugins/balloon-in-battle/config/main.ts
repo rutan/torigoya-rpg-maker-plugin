@@ -575,7 +575,7 @@ const structTalkSet = createStruct('TalkSet', [
 
 export const TorigoyaMZ_BalloonInBattle2: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],
-  version: '1.7.1',
+  version: '1.7.2',
   title: {
     ja: '戦闘中セリフ表示プラグイン',
   },
