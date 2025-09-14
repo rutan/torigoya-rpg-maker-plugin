@@ -198,6 +198,7 @@ export class AchievementManager {
   remove(key) {
     key = `${key}`;
     this.unlockInfo.delete(key);
+    this.save();
   }
 
   /**
