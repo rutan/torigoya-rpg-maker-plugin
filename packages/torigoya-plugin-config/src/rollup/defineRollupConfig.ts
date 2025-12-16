@@ -1,5 +1,5 @@
 import { basename } from 'node:path';
-import { glob } from 'glob';
+import { globSync } from 'node:fs';
 import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
@@ -18,7 +18,7 @@ export function defineRollupConfig({
   build: string;
   template: string;
 }) {
-  return glob.sync(`${inputDir}/Torigoya*.js`).map((input) => {
+  return globSync(`${inputDir}/Torigoya*.js`).map((input) => {
     const isMZ = input.includes('TorigoyaMZ');
 
     return {

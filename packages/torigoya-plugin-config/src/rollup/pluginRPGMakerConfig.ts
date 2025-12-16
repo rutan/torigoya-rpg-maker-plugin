@@ -1,11 +1,10 @@
-import { readFileSync } from 'fs';
-import * as path from 'path';
+import { mkdir, readFile } from 'node:fs/promises';
+import * as path from 'node:path';
 import ejs from 'ejs';
+import { type Plugin } from 'rollup';
 import { loadConfig } from '../loadConfig.js';
 import { writeAnnotation } from '../writeAnnotation.js';
 import { writeParameterReader } from '../writeParameterReader.js';
-import { Plugin } from 'rollup';
-import { mkdirp } from 'mkdirp';
 import { format } from '../format.js';
 
 function formatJSTDate(date: Date) {
@@ -21,7 +20,7 @@ function formatJSTDate(date: Date) {
 
 async function buildConfig(config: string, buildDir: string) {
   const configData = await loadConfig(config);
-  mkdirp.sync(buildDir);
+  await mkdir(buildDir, { recursive: true });
 
   await Promise.all(
     Object.keys(configData)
@@ -44,7 +43,7 @@ export default async function pluginRPGMakerConfig(options: {
   config: string;
   buildDir: string;
 }): Promise<Plugin> {
-  const template = ejs.compile(readFileSync(options.template, 'utf-8'), {});
+  const template = ejs.compile(await readFile(options.template, 'utf-8'), {});
   const configFilePath = path.resolve(options.config);
   let configData = await buildConfig(configFilePath, options.buildDir);
 
@@ -61,7 +60,7 @@ export default async function pluginRPGMakerConfig(options: {
     async renderChunk(code, chunk, _options, _meta) {
       if (chunk.facadeModuleId) {
         const name = path.basename(chunk.facadeModuleId, '.js');
-        const help = readFileSync(path.resolve(chunk.facadeModuleId, '..', '_build', `${name}_header.js`), 'utf-8');
+        const help = await readFile(path.resolve(chunk.facadeModuleId, '..', '_build', `${name}_header.js`), 'utf-8');
 
         return format(
           template({
