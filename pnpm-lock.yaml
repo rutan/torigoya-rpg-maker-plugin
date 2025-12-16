@@ -48,9 +48,6 @@ importers:
       glob:
         specifier: ^10.3.10
         version: 10.5.0
-      husky:
-        specifier: ^8.0.3
-        version: 8.0.3
       jsdom:
         specifier: ^23.1.0
         version: 23.2.0
@@ -2098,11 +2095,6 @@ packages:
   human-signals@5.0.0:
     resolution: {integrity: sha512-AXcZb6vzzrFAUE61HnN4mpLqd/cSIwNQjtNWR0euPm6y0iqx3G4gOXaIDdtdDwZmhwe82LA6+zinmW4UBWVePQ==}
     engines: {node: '>=16.17.0'}
-
-  husky@8.0.3:
-    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
-    engines: {node: '>=14'}
-    hasBin: true
 
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
@@ -5522,8 +5514,6 @@ snapshots:
       - supports-color
 
   human-signals@5.0.0: {}
-
-  husky@8.0.3: {}
 
   iconv-lite@0.6.3:
     dependencies:

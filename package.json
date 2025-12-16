@@ -11,14 +11,7 @@
     "copy": "node ./scripts/copy-to-projects.js",
     "copy:watch": "node ./scripts/copy-to-projects.js -w",
     "format": "prettier -w ./",
-    "scaffold": "scaffdog generate plugin",
-    "prepare": "husky install",
-    "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{js,json,yml}": [
-      "prettier --write"
-    ]
+    "scaffold": "scaffdog generate plugin"
   },
   "devDependencies": {
     "@babel/core": "^7.23.6",
@@ -32,7 +25,6 @@
     "cross-env": "^7.0.3",
     "ejs": "^3.1.9",
     "glob": "^10.3.10",
-    "husky": "^8.0.3",
     "jsdom": "^23.1.0",
     "lint-staged": "^15.2.0",
     "mkdirp": "^3.0.1",
