@@ -1,11 +1,11 @@
 import {
+  TorigoyaPluginConfigSchema,
   createFileParamArray,
   createParamGroup,
   createStringParam,
   createStruct,
   createStructParamArray,
   dd,
-  TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
 
 const structRewardPicture = createStruct('rewardPicture', [

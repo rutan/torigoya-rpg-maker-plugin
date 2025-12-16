@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
-import { sanitize } from './sanitize.js';
 import * as sample from '../fixture/sample.json';
+import { sanitize } from './sanitize.js';
 
 test('sanitize', () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

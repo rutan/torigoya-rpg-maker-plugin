@@ -1,8 +1,8 @@
 import {
+  TorigoyaPluginConfigSchema,
   createParamGroup,
   createStringParamArray,
   dd,
-  TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
 
 export const TorigoyaMZ_SmoothValueGauge: Partial<TorigoyaPluginConfigSchema> = {

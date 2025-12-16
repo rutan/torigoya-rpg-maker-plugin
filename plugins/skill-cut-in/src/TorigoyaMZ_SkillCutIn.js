@@ -3,12 +3,12 @@ import { readParameter } from './_build/TorigoyaMZ_SkillCutIn_parameter';
 import { CutInManager } from './modules/CutInManager';
 import { Sprite_CutInBase } from './modules/Sprite_CutInBase';
 import { Sprite_CutInWoss } from './modules/Sprite_CutInWoss';
-import { applyPluginToSpritesetBattle } from './modules/applyPluginToSpritesetBattle';
 import { applyPluginToBattleManager } from './modules/applyPluginToBattleManager';
 import { applyPluginToGameInterpreter } from './modules/applyPluginToGameInterpreter';
+import { applyPluginToSpritesetBattle } from './modules/applyPluginToSpritesetBattle';
 import { createAndPlayCutInSprite } from './modules/createAndPlayCutInSprite';
-import { commandShowActorCutIn, commandShowEnemyCutIn } from './modules/pluginCommands';
 import { createCutInContainer } from './modules/createCutInContainer';
+import { commandShowActorCutIn, commandShowEnemyCutIn } from './modules/pluginCommands';
 
 Torigoya.SkillCutIn = {
   name: getPluginName(),

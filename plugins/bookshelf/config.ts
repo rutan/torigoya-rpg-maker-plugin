@@ -1,4 +1,5 @@
 import {
+  TorigoyaPluginConfigSchema,
   createBooleanParam,
   createCommand,
   createDatabaseParam,
@@ -9,7 +10,6 @@ import {
   createStruct,
   createStructParamArray,
   dd,
-  TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
 
 const paramFileName = createStringParam('fileName', {

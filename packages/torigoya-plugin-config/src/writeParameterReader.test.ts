@@ -1,11 +1,11 @@
 import { mkdirSync } from 'node:fs';
 import { writeFile } from 'node:fs/promises';
-import { join, dirname } from 'node:path';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { rimraf } from 'rimraf';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
-import { generateParameterReaderCode } from './writeParameterReader.js';
 import { type TorigoyaPluginConfigSchema } from './types.js';
+import { generateParameterReaderCode } from './writeParameterReader.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

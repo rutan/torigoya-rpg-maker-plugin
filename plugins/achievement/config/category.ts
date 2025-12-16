@@ -1,14 +1,14 @@
 import {
+  TorigoyaPluginConfigSchema,
+  createCommand,
   createNumberParam,
   createParamGroup,
   createSelectParam,
   createStringParam,
   createStruct,
   createStructParamArray,
-  defineLabel,
   dd,
-  TorigoyaPluginConfigSchema,
-  createCommand,
+  defineLabel,
 } from '@rutan/torigoya-plugin-config';
 
 const structCategory = createStruct('Category', [

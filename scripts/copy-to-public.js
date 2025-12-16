@@ -1,7 +1,7 @@
 import * as fs from 'fs';
+import { fileURLToPath } from 'node:url';
 import * as path from 'path';
 import { glob } from 'glob';
-import { fileURLToPath } from 'node:url';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 

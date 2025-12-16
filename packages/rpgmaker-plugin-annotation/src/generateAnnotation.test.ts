@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
+import * as sample from '../fixture/sample.json';
 import { generateAnnotation } from './generateAnnotation.js';
 import { sanitize } from './sanitize.js';
-import * as sample from '../fixture/sample.json';
 
 test('generateAnnotation snapshot', () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

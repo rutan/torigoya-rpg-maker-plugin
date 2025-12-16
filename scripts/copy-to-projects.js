@@ -1,10 +1,10 @@
 import * as fs from 'fs';
-import * as path from 'path';
-import cpx from 'cpx2';
-import { glob } from 'glob';
 import { fileURLToPath } from 'node:url';
+import * as path from 'path';
 import { watch } from 'chokidar';
 import { consola } from 'consola';
+import cpx from 'cpx2';
+import { glob } from 'glob';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.join(dirname, '..');

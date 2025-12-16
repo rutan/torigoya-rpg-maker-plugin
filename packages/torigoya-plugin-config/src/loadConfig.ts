@@ -1,11 +1,11 @@
-import { fileURLToPath, pathToFileURL } from 'url';
 import { readFile } from 'fs/promises';
-import YAML from 'yaml';
-import { sanitize } from '@rutan/rpgmaker-plugin-annotation';
-import { TorigoyaPluginConfigSchema } from './types.js';
-import createJITI, { JITI } from 'jiti';
 import { resolve } from 'path';
+import { fileURLToPath, pathToFileURL } from 'url';
+import { sanitize } from '@rutan/rpgmaker-plugin-annotation';
+import createJITI, { JITI } from 'jiti';
+import YAML from 'yaml';
 import { I18nText } from './defineConfig.js';
+import { TorigoyaPluginConfigSchema } from './types.js';
 
 const BASE_CONFIG = {
   author: {

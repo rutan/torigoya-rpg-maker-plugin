@@ -1,4 +1,5 @@
 import {
+  TorigoyaPluginConfigSchema,
   createBooleanParam,
   createCommand,
   createDatabaseParam,
@@ -11,7 +12,6 @@ import {
   createStructParamArray,
   dd,
   defineLabel,
-  TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
 
 const structEventLog = createStruct('EventLog', [

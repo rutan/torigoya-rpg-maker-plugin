@@ -1,9 +1,9 @@
 import { writeFile } from 'fs/promises';
-import { consola } from 'consola';
 import { PluginParameter } from '@rutan/rpgmaker-plugin-annotation';
-import { TorigoyaPluginConfigSchema } from './types.js';
-import { format } from './format.js';
+import { consola } from 'consola';
 import { convertForSupportVersion } from './convertForSupportVersion.js';
+import { format } from './format.js';
+import { TorigoyaPluginConfigSchema } from './types.js';
 
 export async function writeParameterReader(config: TorigoyaPluginConfigSchema, outputPath: string) {
   const code = await generateParameterReaderCode(convertForSupportVersion(config));

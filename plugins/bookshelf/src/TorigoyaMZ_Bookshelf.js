@@ -1,4 +1,4 @@
-import { Torigoya, getPluginName, customFetch, pushCommentContextFactor } from '@rutan/torigoya-plugin-common';
+import { Torigoya, customFetch, getPluginName, pushCommentContextFactor } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/TorigoyaMZ_Bookshelf_parameter';
 import { TextParser } from './modules/TextParser';
 

@@ -1,4 +1,4 @@
-import { createNumberParam, createParamGroup, dd, TorigoyaPluginConfigSchema } from '@rutan/torigoya-plugin-config';
+import { TorigoyaPluginConfigSchema, createNumberParam, createParamGroup, dd } from '@rutan/torigoya-plugin-config';
 
 const base: Partial<TorigoyaPluginConfigSchema> = {
   version: '1.2.1',

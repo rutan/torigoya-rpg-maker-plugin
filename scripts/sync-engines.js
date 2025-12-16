@@ -1,5 +1,5 @@
-import { readFile, writeFile } from 'node:fs/promises';
 import { globSync } from 'node:fs';
+import { readFile, writeFile } from 'node:fs/promises';
 
 (async () => {
   const rootJson = JSON.parse(await readFile('./package.json', 'utf8'));

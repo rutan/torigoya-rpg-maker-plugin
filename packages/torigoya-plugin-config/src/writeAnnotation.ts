@@ -1,5 +1,5 @@
-import { generateAnnotation, PluginConfigSchema } from '@rutan/rpgmaker-plugin-annotation';
 import { writeFile } from 'fs/promises';
+import { PluginConfigSchema, generateAnnotation } from '@rutan/rpgmaker-plugin-annotation';
 import { consola } from 'consola';
 import { convertForSupportVersion } from './convertForSupportVersion.js';
 

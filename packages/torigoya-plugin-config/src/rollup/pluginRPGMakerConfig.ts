@@ -2,10 +2,10 @@ import { mkdir, readFile } from 'node:fs/promises';
 import * as path from 'node:path';
 import ejs from 'ejs';
 import { type Plugin } from 'rollup';
+import { format } from '../format.js';
 import { loadConfig } from '../loadConfig.js';
 import { writeAnnotation } from '../writeAnnotation.js';
 import { writeParameterReader } from '../writeParameterReader.js';
-import { format } from '../format.js';
 
 function formatJSTDate(date: Date) {
   return date.toLocaleString('ja-JP', {

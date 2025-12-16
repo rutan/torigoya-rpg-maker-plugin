@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-import { program } from 'commander';
 import * as fs from 'fs';
+import { program } from 'commander';
 import packageJson from '../package.json' with { type: 'json' };
 import { generateAnnotation } from './generateAnnotation.js';
 import { sanitize } from './sanitize.js';

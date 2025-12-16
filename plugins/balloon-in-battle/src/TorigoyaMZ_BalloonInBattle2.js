@@ -1,8 +1,8 @@
-import { Torigoya, getPluginName, arrayShuffle, wrap } from '@rutan/torigoya-plugin-common';
+import { Torigoya, arrayShuffle, getPluginName, wrap } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/TorigoyaMZ_BalloonInBattle2_parameter';
-import { Window_BattleBalloon } from './modules/Window_BattleBalloon';
-import { TalkSet } from './modules/TalkSet';
 import { TalkBuilder } from './modules/TalkBuilder';
+import { TalkSet } from './modules/TalkSet';
+import { Window_BattleBalloon } from './modules/Window_BattleBalloon';
 
 Torigoya.BalloonInBattle = {
   name: getPluginName(),

@@ -1,6 +1,6 @@
 import { Torigoya, unescapeMetaString } from '@rutan/torigoya-plugin-common';
-import { evalCondition } from './evalCondition';
 import { Sprite_CutInWoss } from './Sprite_CutInWoss';
+import { evalCondition } from './evalCondition';
 
 class CutInManagerClass {
   constructor() {

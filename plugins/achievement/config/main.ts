@@ -1,4 +1,6 @@
 import {
+  I18nText,
+  TorigoyaPluginConfigSchema,
   createBooleanParam,
   createCommand,
   createFileParam,
@@ -8,11 +10,9 @@ import {
   createSelectParam,
   createStringParam,
   createStruct,
-  createStructParamArray,
   createStructParam,
-  I18nText,
+  createStructParamArray,
   dd,
-  TorigoyaPluginConfigSchema,
   defineLabel,
 } from '@rutan/torigoya-plugin-config';
 

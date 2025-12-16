@@ -21,6 +21,7 @@
     "@rollup/plugin-babel": "^6.1.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-replace": "^6.0.3",
+    "@trivago/prettier-plugin-sort-imports": "^6.0.0",
     "@types/node": "^25.0.2",
     "chokidar": "^5.0.0",
     "consola": "^3.4.2",

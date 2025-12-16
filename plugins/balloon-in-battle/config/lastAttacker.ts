@@ -1,4 +1,4 @@
-import { dd, TorigoyaPluginConfigSchema } from '@rutan/torigoya-plugin-config';
+import { TorigoyaPluginConfigSchema, dd } from '@rutan/torigoya-plugin-config';
 
 export const TorigoyaMZ_BalloonInBattle2_AddonLastAttacker: Partial<TorigoyaPluginConfigSchema> = {
   target: ['MZ'],

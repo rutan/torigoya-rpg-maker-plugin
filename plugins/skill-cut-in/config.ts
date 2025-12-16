@@ -1,18 +1,18 @@
 import {
-  createParamGroup,
+  TorigoyaPluginConfigSchema,
   createBooleanParam,
-  createNumberParam,
-  createStringParam,
-  createFileParam,
-  createSelectParam,
+  createCommand,
   createDatabaseParam,
+  createFileParam,
+  createMultiLineStringParam,
+  createNumberParam,
+  createParamGroup,
+  createSelectParam,
+  createStringParam,
   createStruct,
   createStructParam,
   createStructParamArray,
-  createCommand,
   dd,
-  TorigoyaPluginConfigSchema,
-  createMultiLineStringParam,
 } from '@rutan/torigoya-plugin-config';
 
 const structColor = createStruct('Color', [

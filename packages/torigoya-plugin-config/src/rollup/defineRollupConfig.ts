@@ -1,5 +1,5 @@
-import { basename } from 'node:path';
 import { globSync } from 'node:fs';
+import { basename } from 'node:path';
 import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';

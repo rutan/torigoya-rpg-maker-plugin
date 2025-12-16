@@ -1,4 +1,4 @@
-import { Torigoya, getPluginName, findGlobalObject } from '@rutan/torigoya-plugin-common';
+import { Torigoya, findGlobalObject, getPluginName } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/TorigoyaMZ_SmoothValueGauge_parameter';
 
 Torigoya.SmoothValueGauge = {

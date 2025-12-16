@@ -1,4 +1,4 @@
-import { Torigoya, getPluginName, checkExistPlugin, checkPluginVersion } from '@rutan/torigoya-plugin-common';
+import { Torigoya, checkExistPlugin, checkPluginVersion, getPluginName } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/Torigoya_Achievement2_AddonRewardEvent_parameter.js';
 
 checkExistPlugin(
