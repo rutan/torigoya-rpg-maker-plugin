@@ -1,7 +1,7 @@
 import { Torigoya, getPluginName } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/Torigoya_EasyStaffRoll_parameter';
-import { StaffRollManager } from './module/StaffRollManager';
 import { Sprite_StaffRoll } from './module/Sprite_StaffRoll';
+import { StaffRollManager } from './module/StaffRollManager';
 
 Torigoya.EasyStaffRoll = {
   name: getPluginName(),

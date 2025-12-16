@@ -2,9 +2,9 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import {
   checkExistPlugin,
   checkPluginVersion,
+  isGreaterThanOrEqualVersion,
   isVersionString,
   parseVersion,
-  isGreaterThanOrEqualVersion,
 } from './version.js';
 
 describe('checkExistPlugin', () => {

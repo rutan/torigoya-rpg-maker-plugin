@@ -1,5 +1,5 @@
+import { globSync } from 'node:fs';
 import { basename } from 'node:path';
-import { glob } from 'glob';
 import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
@@ -18,7 +18,7 @@ export function defineRollupConfig({
   build: string;
   template: string;
 }) {
-  return glob.sync(`${inputDir}/Torigoya*.js`).map((input) => {
+  return globSync(`${inputDir}/Torigoya*.js`).map((input) => {
     const isMZ = input.includes('TorigoyaMZ');
 
     return {
@@ -34,7 +34,7 @@ export function defineRollupConfig({
         isMZ ? null : babel({ babelHelpers: 'bundled' }),
         // @ts-ignore
         replace({
-          'process.env.FILE_NAME': JSON.stringify(basename(input).replace(/\.[^\.]+$/, '')),
+          'process.env.FILE_NAME': JSON.stringify(basename(input).replace(/\.[^.]+$/, '')),
           preventAssignment: false,
         }),
         pluginRPGMakerConfig({

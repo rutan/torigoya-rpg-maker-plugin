@@ -10,14 +10,11 @@
     "build": "run-s clean build:*",
     "build:ts": "tsc",
     "watch": "tsc -w",
+    "lint": "run-s lint:*",
+    "lint:oxlint": "oxlint --type-aware ./src",
+    "lint:tsc": "tsc --noEmit",
     "test": "vitest run",
     "clean": "rimraf ./lib"
   },
-  "packageManager": "pnpm@8.15.4",
-  "engines": {
-    "node": "20.11.1",
-    "pnpm": "8.15.4",
-    "npm": "not_supported",
-    "yarn": "not_supported"
-  }
+  "packageManager": "pnpm@10.26.0"
 }

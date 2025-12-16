@@ -349,7 +349,7 @@ export function generateAnnotation(config: PluginConfigSchema, { languages, defa
           }
           default: {
             const badParameter: never = param;
-            throw new Error(`unknown parameter: ${badParameter}`);
+            throw new Error(`unknown parameter: ${badParameter as string}`);
           }
         }
       }

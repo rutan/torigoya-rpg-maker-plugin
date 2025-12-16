@@ -1,9 +1,9 @@
 import {
   Torigoya,
-  getPluginName,
   checkExistPlugin,
   checkPluginVersion,
   findGlobalObject,
+  getPluginName,
   wrap,
 } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/TorigoyaMZ_NotifyMessage_parameter';

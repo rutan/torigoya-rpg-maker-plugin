@@ -1,4 +1,4 @@
-import { dd, TorigoyaPluginConfigSchema } from '@rutan/torigoya-plugin-config';
+import { TorigoyaPluginConfigSchema, dd } from '@rutan/torigoya-plugin-config';
 
 const base: Partial<TorigoyaPluginConfigSchema> = {
   version: '1.0.0',

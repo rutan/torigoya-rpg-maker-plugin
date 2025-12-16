@@ -1,4 +1,4 @@
-import { Torigoya, getPluginName, checkExistPlugin } from '@rutan/torigoya-plugin-common';
+import { Torigoya, checkExistPlugin, getPluginName } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/TorigoyaMZ_BalloonInBattle2_AddonLastAttacker_parameter';
 
 checkExistPlugin(

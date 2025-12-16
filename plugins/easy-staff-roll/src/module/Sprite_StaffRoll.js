@@ -1,4 +1,4 @@
-import { Torigoya, loadBitmapListPromise, arrayFlat } from '@rutan/torigoya-plugin-common';
+import { Torigoya, arrayFlat, loadBitmapListPromise } from '@rutan/torigoya-plugin-common';
 
 export class Sprite_StaffRoll extends Sprite {
   constructor() {

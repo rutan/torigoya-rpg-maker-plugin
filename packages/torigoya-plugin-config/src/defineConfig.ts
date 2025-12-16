@@ -1,27 +1,27 @@
+import { dedent } from '@qnighy/dedent';
 import {
+  PluginCommand,
   PluginParameter,
-  PluginParameterString,
-  PluginParameterStringArray,
-  PluginParameterMultilineString,
-  PluginParameterMultilineStringArray,
   PluginParameterBoolean,
   PluginParameterBooleanArray,
+  PluginParameterCombo,
+  PluginParameterDatabase,
+  PluginParameterDatabaseArray,
   PluginParameterFile,
   PluginParameterFileArray,
+  PluginParameterMultilineString,
+  PluginParameterMultilineStringArray,
   PluginParameterNote,
   PluginParameterNumber,
   PluginParameterNumberArray,
   PluginParameterSelect,
   PluginParameterSelectArray,
-  PluginParameterCombo,
-  PluginParameterDatabase,
-  PluginParameterDatabaseArray,
+  PluginParameterString,
+  PluginParameterStringArray,
   PluginParameterStruct,
   PluginParameterStructArray,
   PluginStruct,
-  PluginCommand,
 } from '@rutan/rpgmaker-plugin-annotation';
-import { dedent } from '@qnighy/dedent';
 
 export function dd(str: TemplateStringsArray, ...substitutions: unknown[]) {
   return dedent(str, ...substitutions).trim();

@@ -1,7 +1,10 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "./lib"
+    "module": "nodenext",
+    "moduleResolution": "node16",
+    "outDir": "./lib",
+    "noEmit": false
   },
   "include": ["./src/**/*"]
 }

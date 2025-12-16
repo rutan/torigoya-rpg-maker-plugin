@@ -1,17 +1,17 @@
 import {
+  TorigoyaPluginConfigSchema,
+  createBooleanParam,
   createCommand,
   createDatabaseParam,
   createFileParam,
   createMultiLineStringParam,
   createNumberParam,
   createParamGroup,
+  createSelectParam,
   createStringParam,
   createStruct,
-  createStructParamArray,
   createStructParam,
-  TorigoyaPluginConfigSchema,
-  createBooleanParam,
-  createSelectParam,
+  createStructParamArray,
   dd,
 } from '@rutan/torigoya-plugin-config';
 

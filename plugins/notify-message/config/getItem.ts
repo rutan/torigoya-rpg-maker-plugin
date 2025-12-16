@@ -1,4 +1,5 @@
 import {
+  TorigoyaPluginConfigSchema,
   createBooleanParam,
   createDatabaseParam,
   createNumberParam,
@@ -6,9 +7,8 @@ import {
   createStringParam,
   createStruct,
   createStructParam,
-  defineLabel,
   dd,
-  TorigoyaPluginConfigSchema,
+  defineLabel,
 } from '@rutan/torigoya-plugin-config';
 import { structSound } from './_share.js';
 

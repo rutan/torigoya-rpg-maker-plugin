@@ -1,7 +1,7 @@
 import { Torigoya, getPluginName } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/TorigoyaMZ_NiconikoBar_parameter';
-import { Timer } from './modules/Timer';
 import { NiconikoApiClient } from './modules/NiconikoApiClient';
+import { Timer } from './modules/Timer';
 import { ViewBuilder } from './modules/ViewBuilder';
 import { generateMessage } from './modules/generateMessage';
 

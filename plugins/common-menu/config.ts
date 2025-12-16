@@ -1,4 +1,5 @@
 import {
+  TorigoyaPluginConfigSchema,
   createBooleanParam,
   createDatabaseParam,
   createMultiLineStringParam,
@@ -7,7 +8,6 @@ import {
   createStruct,
   createStructParamArray,
   dd,
-  TorigoyaPluginConfigSchema,
 } from '@rutan/torigoya-plugin-config';
 
 const structMenuItem = createStruct('MenuItem', [

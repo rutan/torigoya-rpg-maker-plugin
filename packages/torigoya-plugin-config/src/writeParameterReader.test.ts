@@ -1,18 +1,18 @@
-import { afterAll, beforeAll, describe, expect, test } from 'vitest';
-import { generateParameterReaderCode } from './writeParameterReader.js';
-import { TorigoyaPluginConfigSchema } from './types.js';
-import { writeFile } from 'fs/promises';
-import { join, dirname } from 'path';
+import { mkdirSync } from 'node:fs';
+import { writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { rimraf } from 'rimraf';
-import { fileURLToPath } from 'url';
-import { mkdirp } from 'mkdirp';
+import { afterAll, beforeAll, describe, expect, test } from 'vitest';
+import { type TorigoyaPluginConfigSchema } from './types.js';
+import { generateParameterReaderCode } from './writeParameterReader.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const currentFilename = fileURLToPath(import.meta.url);
+const currentDirname = dirname(currentFilename);
 
 function createTempDir() {
-  const tmpdir = join(__dirname, '..', 'tmp');
-  mkdirp.sync(tmpdir);
+  const tmpdir = join(currentDirname, '..', 'tmp');
+  mkdirSync(tmpdir, { recursive: true });
   return tmpdir;
 }
 
