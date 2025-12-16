@@ -10,6 +10,7 @@
     "build": "run-s clean build:*",
     "build:ts": "tsc",
     "watch": "tsc -w",
+    "lint": "tsc --noEmit",
     "test": "vitest run",
     "clean": "rimraf ./lib"
   },

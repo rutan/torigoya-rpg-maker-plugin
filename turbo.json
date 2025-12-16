@@ -1,9 +1,12 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "outputs": ["lib/**", "_dist/**", "src/_build/**", "tmp/**"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
     },
     "test": {
       "dependsOn": ["^build"],

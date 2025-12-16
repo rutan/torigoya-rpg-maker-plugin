@@ -26,6 +26,7 @@
   "scripts": {
     "build": "run-s clean build:*",
     "build:ts": "tsc",
+    "lint": "tsc --noEmit",
     "test": "vitest run",
     "update-snapshot": "vitest run --update",
     "clean": "rimraf ./lib",

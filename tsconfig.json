@@ -12,6 +12,7 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "allowJs": true,
+    "noEmit": true,
     "types": ["node"]
   },
   "exclude": ["**/*.test.ts"]
