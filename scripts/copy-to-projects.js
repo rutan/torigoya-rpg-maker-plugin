@@ -1,18 +1,17 @@
-import * as fs from 'fs';
+import { readFileSync, globSync } from 'node:fs';
+import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import * as path from 'path';
 import { watch } from 'chokidar';
 import { consola } from 'consola';
 import cpx from 'cpx2';
-import { glob } from 'glob';
 
-const dirname = path.dirname(fileURLToPath(import.meta.url));
-const rootDir = path.join(dirname, '..');
-const projectsDir = path.join(rootDir, 'projects');
+const curerntDirname = dirname(fileURLToPath(import.meta.url));
+const rootDir = join(curerntDirname, '..');
+const projectsDir = join(rootDir, 'projects');
 
 function isMvProject(projectDir) {
   try {
-    const projectType = fs.readFileSync(path.join(projectDir, 'Game.rpgproject'), 'utf-8');
+    const projectType = readFileSync(join(projectDir, 'Game.rpgproject'), 'utf-8');
     return projectType.startsWith('RPGMV');
   } catch (_) {
     return false;
@@ -21,7 +20,7 @@ function isMvProject(projectDir) {
 
 function isMzProject(projectDir) {
   try {
-    const projectType = fs.readFileSync(path.join(projectDir, 'Game.rmmzproject'), 'utf-8');
+    const projectType = readFileSync(join(projectDir, 'Game.rmmzproject'), 'utf-8');
     return projectType.startsWith('RPGMZ');
   } catch (_) {
     return false;
@@ -29,13 +28,13 @@ function isMzProject(projectDir) {
 }
 
 function copyFile(filePath, projects) {
-  const fileName = path.basename(filePath);
+  const fileName = basename(filePath);
   projects.forEach(({ dir, type }) => {
     if (fileName.startsWith('Torigoya_') && type === 'mv') {
-      cpx.copySync(filePath, path.join(dir, 'js', 'plugins'));
+      cpx.copySync(filePath, join(dir, 'js', 'plugins'));
       consola.success(`Copy ${fileName} to ${dir}`);
     } else if (fileName.startsWith('TorigoyaMZ_') && type === 'mz') {
-      cpx.copySync(filePath, path.join(dir, 'js', 'plugins', 'torigoya'));
+      cpx.copySync(filePath, join(dir, 'js', 'plugins', 'torigoya'));
       consola.success(`Copy ${fileName} to ${dir}`);
     }
   });
@@ -43,8 +42,7 @@ function copyFile(filePath, projects) {
 
 (() => {
   const isWatch = process.argv.some((n) => n === '-w');
-  const projects = glob
-    .sync(path.join(projectsDir, '*'))
+  const projects = globSync(join(projectsDir, '*'))
     .map((projectDir) => {
       if (isMvProject(projectDir)) {
         return { dir: projectDir, type: 'mv' };
@@ -57,10 +55,10 @@ function copyFile(filePath, projects) {
     .filter(Boolean);
 
   if (isWatch) {
-    const watcher = watch(path.join(rootDir, '_dist'));
+    const watcher = watch(join(rootDir, '_dist'));
     watcher.on('add', (filePath) => copyFile(filePath, projects));
     watcher.on('change', (filePath) => copyFile(filePath, projects));
   } else {
-    glob.sync(path.join(rootDir, '_dist', '*.js')).forEach((filePath) => copyFile(filePath, projects));
+    globSync(join(rootDir, '_dist', '*.js')).forEach((filePath) => copyFile(filePath, projects));
   }
 })();
