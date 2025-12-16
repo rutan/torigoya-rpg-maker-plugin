@@ -3,6 +3,7 @@
  * 例： findGlobalObject('Torigoya.Item') // => window.Torigoya.Item
  * @param objName
  */
+// eslint-disable-next-line no-redundant-type-constituents
 export function findGlobalObject(objName: any): any | null {
   if (!objName) return null;
 

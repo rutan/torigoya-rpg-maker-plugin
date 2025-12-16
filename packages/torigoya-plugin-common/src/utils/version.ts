@@ -42,7 +42,7 @@ export function isVersionString(version: unknown): version is VersionString {
  * @param version
  */
 export function parseVersion(version: VersionString): Version {
-  if (!isVersionString(version)) throw new Error(`invalid version: ${version}`);
+  if (!isVersionString(version)) throw new Error(`invalid version: ${version as string}`);
   return version.split('.', 3).map((n) => parseInt(n || '0', 10)) as Version;
 }
 

@@ -21,7 +21,7 @@ export async function generateParameterReaderCode(config: TorigoyaPluginConfigSc
     ]),
   )
     .filter(Boolean)
-    .sort();
+    .sort((a, b) => a.localeCompare(b));
 
   const structCode = config.structs
     .map((struct) => {
@@ -161,7 +161,7 @@ function detectFuncNameFromType(param: PluginParameter) {
       return 'parseStructObjectParam';
     default: {
       const error: never = param;
-      throw `unknown parameter: ${error}`;
+      throw `unknown parameter: ${error as string}`;
     }
   }
 }

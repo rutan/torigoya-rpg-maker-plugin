@@ -7,11 +7,11 @@ import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 import { type TorigoyaPluginConfigSchema } from './types.js';
 import { generateParameterReaderCode } from './writeParameterReader.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const currentFilename = fileURLToPath(import.meta.url);
+const currentDirname = dirname(currentFilename);
 
 function createTempDir() {
-  const tmpdir = join(__dirname, '..', 'tmp');
+  const tmpdir = join(currentDirname, '..', 'tmp');
   mkdirSync(tmpdir, { recursive: true });
   return tmpdir;
 }

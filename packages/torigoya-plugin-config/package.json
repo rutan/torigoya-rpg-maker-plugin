@@ -10,7 +10,9 @@
     "build": "run-s clean build:*",
     "build:ts": "tsc",
     "watch": "tsc -w",
-    "lint": "tsc --noEmit",
+    "lint": "run-s lint:*",
+    "lint:oxlint": "oxlint --type-aware ./src",
+    "lint:tsc": "tsc --noEmit",
     "test": "vitest run",
     "update-snapshot": "vitest run --update",
     "clean": "rimraf ./lib"

@@ -112,10 +112,10 @@ async function parseJSONConfig(inputPath: string) {
 }
 
 async function parseTSConfig(inputPath: string) {
-  const __filename = fileURLToPath(import.meta.url);
+  const filename = fileURLToPath(import.meta.url);
 
   // @ts-ignore
-  const jiti: JITI = createJITI(__filename);
+  const jiti: JITI = createJITI(filename);
   const data = jiti(resolve(inputPath));
 
   return sanitizeConfig(data);
