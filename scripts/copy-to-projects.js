@@ -1,4 +1,4 @@
-import { readFileSync, globSync } from 'node:fs';
+import { readFileSync, readdirSync, globSync } from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { watch } from 'chokidar';
@@ -9,9 +9,15 @@ const curerntDirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(curerntDirname, '..');
 const projectsDir = join(rootDir, 'projects');
 
+function readFileSyncIgnoreCase(dir, fileName) {
+  const actualFileName = readdirSync(dir).find((name) => name.toLowerCase() === fileName.toLowerCase());
+  if (!actualFileName) return null;
+  return readFileSync(join(dir, actualFileName), 'utf-8');
+}
+
 function isMvProject(projectDir) {
   try {
-    const projectType = readFileSync(join(projectDir, 'Game.rpgproject'), 'utf-8');
+    const projectType = readFileSyncIgnoreCase(projectDir, 'game.rpgproject');
     return projectType.startsWith('RPGMV');
   } catch (_) {
     return false;
@@ -20,7 +26,7 @@ function isMvProject(projectDir) {
 
 function isMzProject(projectDir) {
   try {
-    const projectType = readFileSync(join(projectDir, 'Game.rmmzproject'), 'utf-8');
+    const projectType = readFileSyncIgnoreCase(projectDir, 'game.rmmzproject');
     return projectType.startsWith('RPGMZ');
   } catch (_) {
     return false;
