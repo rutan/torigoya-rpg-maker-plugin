@@ -1,4 +1,4 @@
-import { Torigoya, getPluginName } from '@rutan/torigoya-plugin-common';
+import { Torigoya, getPluginName, wrap } from '@rutan/torigoya-plugin-common';
 import { readParameter } from './_build/TorigoyaMZ_QuickSkill_parameter';
 
 Torigoya.QuickSkill = {
@@ -27,26 +27,24 @@ const isQuickSkill = (item) => {
   // -------------------------------------------------------------------------
   // Game_Actor
 
-  const upstream_Game_Actor_forceAction = Game_Actor.prototype.forceAction;
-  Game_Actor.prototype.forceAction = function (skillId, targetIndex) {
+  wrap(Game_Actor.prototype, 'forceAction', function (self, originalFunc, skillId, targetIndex) {
     if (BattleManager._phase === 'torigoya_quickSkill') {
-      Torigoya.QuickSkill.backupActions.set(this, this._actions);
+      Torigoya.QuickSkill.backupActions.set(self, self._actions);
     }
-    upstream_Game_Actor_forceAction.apply(this, arguments);
-  };
+    originalFunc(skillId, targetIndex);
+  });
 
-  const upstream_Game_Actor_removeCurrentAction = Game_Actor.prototype.removeCurrentAction;
-  Game_Actor.prototype.removeCurrentAction = function () {
+  wrap(Game_Actor.prototype, 'removeCurrentAction', function (self, originalFunc) {
     if (Torigoya.QuickSkill.originalSubject) {
-      this.torigoyaQuickSkill_moveActionToLast(0);
+      self.torigoyaQuickSkill_moveActionToLast(0);
     } else if (Torigoya.QuickSkill.isForcedActionInQuickSkill) {
-      const actions = Torigoya.QuickSkill.backupActions.get(this);
-      if (actions) this._actions = actions;
-      Torigoya.QuickSkill.backupActions.delete(this);
+      const actions = Torigoya.QuickSkill.backupActions.get(self);
+      if (actions) self._actions = actions;
+      Torigoya.QuickSkill.backupActions.delete(self);
     } else {
-      upstream_Game_Actor_removeCurrentAction.apply(this);
+      originalFunc();
     }
-  };
+  });
 
   Game_Actor.prototype.torigoyaQuickSkill_moveActionToFirst = function (index) {
     this._actions.unshift(this._actions.splice(index, 1)[0]);
