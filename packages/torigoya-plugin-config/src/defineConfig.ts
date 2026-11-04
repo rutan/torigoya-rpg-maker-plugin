@@ -468,11 +468,13 @@ export type StructDefaultValueType<
     isParamGroupHeader?: boolean;
   },
 > = {
-  [P in T[number] as P extends {
-    isParamGroupHeader: true;
-  }
-    ? never
-    : P['name']]: P['default'];
+  [
+    P in T[number] as P extends {
+      isParamGroupHeader: true;
+    }
+      ? never
+      : P['name']
+  ]: P['default'];
 };
 
 function getStructDefaultValue<T extends PluginStruct>(struct: T): StructDefaultValueType<T['params']> {
