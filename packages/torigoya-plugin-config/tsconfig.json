@@ -4,6 +4,7 @@
     "module": "nodenext",
     "moduleResolution": "node16",
     "outDir": "./lib",
+    "rootDir": "./src",
     "noEmit": false
   },
   "include": ["./src/**/*"]
