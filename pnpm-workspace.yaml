@@ -4,3 +4,6 @@ packages:
 
 onlyBuiltDependencies:
   - esbuild
+
+patchedDependencies:
+  scaffdog@4.1.0: patches/scaffdog@4.1.0.patch

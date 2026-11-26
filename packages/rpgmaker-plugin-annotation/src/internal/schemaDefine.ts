@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const stringOrI18nString = z.union([z.string(), z.record(z.string())]);
+export const stringOrI18nString = z.union([z.string(), z.record(z.string(), z.string())]);
 export type StringOrI18nString = z.infer<typeof stringOrI18nString>;
 
 export const pluginParameterBase = z.object({
@@ -163,7 +163,8 @@ export const pluginParameterDatabaseArray = pluginParameterBase.extend({
 });
 export type PluginParameterDatabaseArray = z.infer<typeof pluginParameterDatabaseArray>;
 
-export const structOrI18nStruct = z.union([z.record(z.any()), z.record(z.record(z.any()))]);
+const struct = z.record(z.string(), z.any());
+export const structOrI18nStruct = z.union([struct, z.record(z.string(), struct)]);
 export type StructOrI18nStruct = z.infer<typeof structOrI18nStruct>;
 
 export const pluginParameterStruct = pluginParameterBase.extend({
@@ -173,7 +174,7 @@ export const pluginParameterStruct = pluginParameterBase.extend({
 });
 export type PluginParameterStruct = z.infer<typeof pluginParameterStruct>;
 
-export const structArrayOrI18nStructArray = z.union([z.array(z.record(z.any())), z.record(z.array(z.record(z.any())))]);
+export const structArrayOrI18nStructArray = z.union([z.array(struct), z.record(z.string(), z.array(struct))]);
 export type StructArrayOrI18nStructArray = z.infer<typeof structArrayOrI18nStructArray>;
 
 export const pluginParameterStructArray = pluginParameterStruct.extend({
