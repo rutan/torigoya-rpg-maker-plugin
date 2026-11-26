@@ -25,7 +25,7 @@
     "@types/node": "^25.9.9",
     "chokidar": "^5.0.0",
     "consola": "^3.4.2",
-    "cpx2": "^8.0.2",
+    "cpx2": "^9.1.0",
     "cross-env": "^10.1.0",
     "ejs": "^3.1.10",
     "jsdom": "^27.4.0",
@@ -51,7 +51,9 @@
   "pnpm": {
     "overrides": {
       "esbuild@<0.28.1": "0.28.2",
-      "minimatch@>=7.0.0 <11.0.1": "11.0.4"
+      "minimatch@>=7.0.0 <11.0.1": "11.0.4",
+      "scaffdog@4.1.0>zod": "4.6.7",
+      "@scaffdog/config@4.1.0>zod": "4.6.7"
     }
   }
 }

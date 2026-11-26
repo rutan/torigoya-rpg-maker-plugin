@@ -1,0 +1,8 @@
+diff --git a/dist/shared/scaffdog.23370b3c.mjs b/dist/shared/scaffdog.23370b3c.mjs
+--- a/dist/shared/scaffdog.23370b3c.mjs
++++ b/dist/shared/scaffdog.23370b3c.mjs
+@@ -542,2 +542,2 @@
+-    const msg = [`${e.errors.length} issues found`];
+-    for (const err of e.errors) {
++    const msg = [`${e.issues.length} issues found`];
++    for (const err of e.issues) {

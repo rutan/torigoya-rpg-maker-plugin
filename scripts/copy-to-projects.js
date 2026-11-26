@@ -3,7 +3,7 @@ import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { watch } from 'chokidar';
 import { consola } from 'consola';
-import cpx from 'cpx2';
+import { copySync } from 'cpx2';
 
 const curerntDirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = join(curerntDirname, '..');
@@ -37,10 +37,10 @@ function copyFile(filePath, projects) {
   const fileName = basename(filePath);
   projects.forEach(({ dir, type }) => {
     if (fileName.startsWith('Torigoya_') && type === 'mv') {
-      cpx.copySync(filePath, join(dir, 'js', 'plugins'));
+      copySync(filePath, join(dir, 'js', 'plugins'));
       consola.success(`Copy ${fileName} to ${dir}`);
     } else if (fileName.startsWith('TorigoyaMZ_') && type === 'mz') {
-      cpx.copySync(filePath, join(dir, 'js', 'plugins', 'torigoya'));
+      copySync(filePath, join(dir, 'js', 'plugins', 'torigoya'));
       consola.success(`Copy ${fileName} to ${dir}`);
     }
   });

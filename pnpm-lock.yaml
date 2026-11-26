@@ -7,6 +7,13 @@ settings:
 overrides:
   esbuild@<0.28.1: 0.28.2
   minimatch@>=7.0.0 <11.0.1: 11.0.4
+  scaffdog@4.1.0>zod: 4.6.7
+  '@scaffdog/config@4.1.0>zod': 4.6.7
+
+patchedDependencies:
+  scaffdog@4.1.0:
+    hash: de321a863d02aa72372a3e862ed9adf5658c888e709a1d8bf1005dae9120415e
+    path: patches/scaffdog@4.1.0.patch
 
 importers:
 
@@ -44,8 +51,8 @@ importers:
         specifier: ^3.4.2
         version: 3.4.2
       cpx2:
-        specifier: ^8.0.2
-        version: 8.0.2
+        specifier: ^9.1.0
+        version: 9.1.0
       cross-env:
         specifier: ^10.1.0
         version: 10.1.0
@@ -78,7 +85,7 @@ importers:
         version: 4.67.5
       scaffdog:
         specifier: ^4.1.0
-        version: 4.1.0(@types/node@25.9.9)
+        version: 4.1.0(patch_hash=de321a863d02aa72372a3e862ed9adf5658c888e709a1d8bf1005dae9120415e)(@types/node@25.9.9)
       turbo:
         specifier: ^2.11.10
         version: 2.11.10
@@ -101,8 +108,8 @@ importers:
         specifier: ^11.1.0
         version: 11.1.0
       zod:
-        specifier: ^3.22.4
-        version: 3.25.76
+        specifier: ^4.6.7
+        version: 4.6.7
 
   packages/torigoya-plugin-common: {}
 
@@ -1841,9 +1848,9 @@ packages:
     resolution: {integrity: sha512-52r6fkXgxv4GLMjmFcMWRx7X9bw071xTTdrDcdyPGRqU2oE+9pCG0bAOMifSBdLw0JRBZKEF0q3B55qPlLuE8g==}
     engines: {node: '>=6.4.0'}
 
-  cpx2@8.0.2:
-    resolution: {integrity: sha512-exLFEIh8XgWthEtrEq8hs+S6jxM5ZHpjQnRH6D7VU+2uAYS3amLSVOUSuirfx3HeN7WBCq+xFygHpt7l+gQtUA==}
-    engines: {node: ^20.0.0 || >=22.0.0, npm: '>=10'}
+  cpx2@9.1.0:
+    resolution: {integrity: sha512-rNV9nWf0X25ddDkUYdvd7+RGxGb9AOQxvXfmHqreiwke0U/synSnuZssokeWH+XAgS8naDv2tutCRMbpOgablg==}
+    engines: {node: ^22.2.0 || >=24.0.0, npm: '>=10'}
     hasBin: true
 
   cross-env@10.1.0:
@@ -1870,9 +1877,9 @@ packages:
   dayjs@1.11.23:
     resolution: {integrity: sha512-QDTCU0M0MxR3hQfnlDJfwekQiaanm1ubOD231u73WBckQ/fsamwRLiE2GBz6D3a/xF1NgfiDLJjXBa1hYOYTtQ==}
 
-  debounce@3.0.0:
-    resolution: {integrity: sha512-64byRbF0/AirwbuHqB3/ZpMG9/nckDa6ZA0yd6UnaQNwbbemCOwvz2sL5sjXLHhZHADyiwLm0M5qMhltUUx+TA==}
-    engines: {node: '>=20'}
+  debounce@4.0.0:
+    resolution: {integrity: sha512-o6nMNFRtqLR6mRlyt0b21cgYPSKAEMZFpROIRS9ZRH6hhSJWvGErqeSCJnWyiwVQYMSw7f/DZLilF5YRDwFz7w==}
+    engines: {node: '>=22.2'}
 
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -2058,10 +2065,6 @@ packages:
   glob2base@0.0.12:
     resolution: {integrity: sha512-ZyqlgowMbfj2NPjxaZZ/EtsXlOch28FRXgMd64vqZWk1bT9+wvSRLYD1om9M7QfQru51zJPAT17qXm4/zd+9QA==}
     engines: {node: '>= 0.10'}
-
-  glob@13.0.6:
-    resolution: {integrity: sha512-Wjlyrolmm8uDpm/ogGyXZXb1Z+Ca2B8NbJwqBVg0axK9GbBeoS7yGV6vjXnYdGm6X53iehEuxxbyiKp8QmN4Vw==}
-    engines: {node: 18 || 20 || >=22}
 
   glob@14.0.3:
     resolution: {integrity: sha512-A1vjIwC3qpdCso45Iw127gnp7sPhqgY8lUQhDrArIs+GbmfaaVPFuoyy7WyLT9EPZCRZ7j7aLdwUhQmHWesEow==}
@@ -2515,10 +2518,6 @@ packages:
 
   path-parse@1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
-
-  path-scurry@2.0.2:
-    resolution: {integrity: sha512-3O/iVVsJAPsOnpwWIeD+d6z/7PmqApyQePUtCndjatj/9I5LylHvt5qluFaBT3I5h3r1ejfR056c+FCv+NnNXg==}
-    engines: {node: 18 || 20 || >=22}
 
   path-scurry@3.0.0:
     resolution: {integrity: sha512-1pTbQqH1wIwMi/eleQ5leFTTCkzFsPcgXNjwOA8YGGW/W4/kHT3dssE7Z6NH+zuqNLOzOB0uaD61yl7cAcVhgg==}
@@ -3134,8 +3133,8 @@ packages:
     resolution: {integrity: sha512-xYqdZFUK/VYazNl/oCDYN+3WloWQwMfZxBoiNt6qNyk+xfOdi598muWE42rNZFp1kNOiqW936q5RhUdnpqElSg==}
     engines: {node: '>=18'}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+  zod@4.6.7:
+    resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
 
 snapshots:
 
@@ -4178,7 +4177,7 @@ snapshots:
     dependencies:
       '@scaffdog/types': 4.1.0
       jiti: 1.21.7
-      zod: 3.25.76
+      zod: 4.6.7
 
   '@scaffdog/core@4.1.0':
     dependencies:
@@ -4534,15 +4533,14 @@ snapshots:
     dependencies:
       browserslist: 4.29.5
 
-  cpx2@8.0.2:
+  cpx2@9.1.0:
     dependencies:
-      debounce: 3.0.0
-      glob: 13.0.6
+      debounce: 4.0.0
+      glob: 14.0.3
       glob2base: 0.0.12
       ignore: 7.0.14
       minimatch: 11.0.4
       p-map: 7.1.1
-      resolve: 1.22.14
       shell-quote: 1.12.0
       subarg: 1.0.0
 
@@ -4576,7 +4574,7 @@ snapshots:
 
   dayjs@1.11.23: {}
 
-  debounce@3.0.0: {}
+  debounce@4.0.0: {}
 
   debug@4.4.3:
     dependencies:
@@ -4736,12 +4734,6 @@ snapshots:
   glob2base@0.0.12:
     dependencies:
       find-index: 0.1.1
-
-  glob@13.0.6:
-    dependencies:
-      minimatch: 11.0.4
-      minipass: 7.1.3
-      path-scurry: 2.0.2
 
   glob@14.0.3:
     dependencies:
@@ -5291,11 +5283,6 @@ snapshots:
 
   path-parse@1.0.7: {}
 
-  path-scurry@2.0.2:
-    dependencies:
-      lru-cache: 11.5.3
-      minipass: 7.1.3
-
   path-scurry@3.0.0:
     dependencies:
       lru-cache: 11.5.3
@@ -5478,7 +5465,7 @@ snapshots:
     dependencies:
       xmlchars: 2.2.0
 
-  scaffdog@4.1.0(@types/node@25.9.9):
+  scaffdog@4.1.0(patch_hash=de321a863d02aa72372a3e862ed9adf5658c888e709a1d8bf1005dae9120415e)(@types/node@25.9.9):
     dependencies:
       '@scaffdog/config': 4.1.0
       '@scaffdog/core': 4.1.0
@@ -5508,7 +5495,7 @@ snapshots:
       valid-filename: 4.0.0
       wrap-ansi: 9.0.2
       yargs: 17.7.3
-      zod: 3.25.76
+      zod: 4.6.7
     transitivePeerDependencies:
       - '@types/node'
       - supports-color
@@ -5883,4 +5870,4 @@ snapshots:
 
   yoctocolors@2.2.0: {}
 
-  zod@3.25.76: {}
+  zod@4.6.7: {}
